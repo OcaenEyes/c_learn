@@ -20,9 +20,13 @@ int main()
     cout << *ip << endl;
     //输出var1的值
     cout << var1 << endl;
+
+    int arr[5] = {1,2,3,4,5};
+    int * ip1 =arr;
+    cout << "*ip1: " << *ip1 << "\n";
     int i = nullpointer();
 
-    system("pause");
+    // system("pause");
     return 0;
 }
 
