@@ -1,3 +1,5 @@
 .DS_Store
-.idea
+.idea/
+.vs/
+c++/.vscode/
 RTC/cmake-build-debug
