@@ -2,4 +2,5 @@
 .idea/
 .vs/
 c++/.vscode/
+c++/.devcontainer/
 RTC/cmake-build-debug
