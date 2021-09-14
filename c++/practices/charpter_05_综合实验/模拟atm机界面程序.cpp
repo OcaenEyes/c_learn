@@ -35,7 +35,33 @@ int main()
     {
     case '1':
         /* code */
+        system("cls");
+        do
+        {
+            /* code */
+            printf(" 请输入密码");
+            scanf("%d", &password);
+            if (password1 != password)
+            {
+                /* code */
+                i++;
+                if (i > 3)
+                {
+                    printf("错误，按任意键退出");
+                    getchar();
+                    exit(0);
+                }
+                else
+                {
+                    puts("错误，请重试");
+                }
+            }
+
+        } while (password1 != password && i <= 3);
+        printf("验证通过，按任意键继续");
+        getchar();
         break;
+
     case '2':
         /* code */
         break;
