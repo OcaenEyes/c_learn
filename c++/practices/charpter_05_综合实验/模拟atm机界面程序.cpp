@@ -20,56 +20,127 @@ int main()
 {
     char Key, CMoney;
     int password, password1 = 123, i = 1, a = 1000;
-    do
-    {
-        system("cls");
-        printf("*******************\n");
-        printf("* 请选择一个菜单 *");
-        printf("* 1.输入密码    *");
-        printf("* 2.取款       *");
-        printf("* 3.退出       *");
 
-    } while (Key != '1' && Key != '2' && Key != '3');
-
-    switch (Key)
+    while (1)
     {
-    case '1':
         /* code */
-        system("cls");
+
         do
         {
+            system("cls");
+            printf("*******************\n");
+            printf("* 请选择一个菜单 *\n");
+            printf("* 1.输入密码    *\n");
+            printf("* 2.取款       *\n");
+            printf("* 3.退出       *\n");
+            printf("*******************\n");
+            Key = getchar();
+        } while (Key != '1' && Key != '2' && Key != '3');
+
+        switch (Key)
+        {
+        case '1':
             /* code */
-            printf(" 请输入密码");
-            scanf("%d", &password);
-            if (password1 != password)
+            system("clear");
+            do
             {
                 /* code */
-                i++;
-                if (i > 3)
+                printf(" 请输入密码 \n");
+                scanf("%d", &password);
+                if (password1 != password)
                 {
-                    printf("错误，按任意键退出");
+                    /* code */
+                    i++;
+                    if (i > 3)
+                    {
+                        printf("错误，按任意键退出 \n");
+                        getchar();
+                        exit(0);
+                    }
+                    else
+                    {
+                        puts("错误，请重试");
+                    }
+                }
+
+            } while (password1 != password && i <= 3);
+            printf("验证通过，按任意键继续\n");
+            getchar();
+
+        case '2':
+            do
+            {
+                system("clear");
+                if (password != password1)
+                {
+                    printf("请验证密码后再试，按任意键继续\n");
                     getchar();
-                    exit(0);
+                    break;
                 }
                 else
                 {
-                    puts("错误，请重试");
+                    printf("*******************\n");
+                    printf("* 请选择要取款的金额 *\n");
+                    printf("* 1.100元    *\n");
+                    printf("* 2.200元       *\n");
+                    printf("* 3.300元      *\n");
+                    printf("* 4.返回      *\n");
+                    printf("*******************\n");
+                    CMoney = getchar();
                 }
+            } while (CMoney != '1' && CMoney != '2' && CMoney != '3' && CMoney != '4');
+
+            switch (CMoney)
+            {
+            case '1':
+                /* code */
+                a = a - 100;
+                printf("*******************\n");
+                printf("* 您已取款100元*\n");
+                printf("* 余额为 %d    *\n", a);
+                printf("* 按任意键返回      *\n");
+                printf("*******************\n");
+                getchar();
+                break;
+
+            case '2':
+                /* code */
+                a = a - 200;
+                printf("*******************\n");
+                printf("* 您已取款200元*\n");
+                printf("* 余额为 %d    *\n", a);
+                printf("* 按任意键返回      *\n");
+                printf("*******************\n");
+                getchar();
+                break;
+            case '3':
+                /* code */
+                a = a - 300;
+                printf("*******************\n");
+                printf("* 您已取款300元*\n");
+                printf("* 余额为 %d    *\n", a);
+                printf("* 按任意键返回      *\n");
+                printf("*******************\n");
+                getchar();
+                break;
+            case '4':
+                /* code */
+                break;
+            default:
+                break;
             }
+            // break;
+        case '3':
+            printf("*******************\n");
+            printf("* 感谢您的使用！*\n");
+            printf("*   拜拜！    *\n");
+            printf("*******************\n");
+            getchar();
+            break;
 
-        } while (password1 != password && i <= 3);
-        printf("验证通过，按任意键继续");
-        getchar();
-        break;
-
-    case '2':
-        /* code */
-        break;
-    case '3':
-        /* code */
-        break;
-
-    default:
+            // default:
+            //     break;
+        }
         break;
     }
     return 0;
