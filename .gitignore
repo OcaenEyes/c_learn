@@ -1,6 +1,6 @@
 .DS_Store
 .idea/
 .vs/
-c++/.vscode/
-c++/.devcontainer/
+**/.vscode/
+**/.devcontainer/
 RTC/cmake-build-debug
