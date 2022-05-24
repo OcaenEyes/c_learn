@@ -2,5 +2,4 @@
 .idea/
 .vs/
 **/.vscode/
-**/.devcontainer/
 RTC/cmake-build-debug
