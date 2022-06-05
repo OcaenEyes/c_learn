@@ -1,5 +1,0 @@
-E:/GitHub/c_learn/qt/ocean_yunpan/tcp_client/build-OceanYunpanTcpClient-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/CMakeFiles/OceanYunpanTcpClient.dir
-E:/GitHub/c_learn/qt/ocean_yunpan/tcp_client/build-OceanYunpanTcpClient-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-E:/GitHub/c_learn/qt/ocean_yunpan/tcp_client/build-OceanYunpanTcpClient-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-E:/GitHub/c_learn/qt/ocean_yunpan/tcp_client/build-OceanYunpanTcpClient-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/CMakeFiles/OceanYunpanTcpClient_autogen_timestamp_deps.dir
-E:/GitHub/c_learn/qt/ocean_yunpan/tcp_client/build-OceanYunpanTcpClient-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/CMakeFiles/OceanYunpanTcpClient_autogen.dir
