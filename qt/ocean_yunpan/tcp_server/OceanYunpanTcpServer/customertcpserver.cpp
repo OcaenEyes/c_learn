@@ -1,6 +1,4 @@
 #include "customertcpserver.h"
-#include <QDebug>
-
 
 CustomerTcpServer::CustomerTcpServer()
 {

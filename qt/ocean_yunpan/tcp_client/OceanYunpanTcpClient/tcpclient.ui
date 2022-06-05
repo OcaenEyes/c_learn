@@ -13,52 +13,135 @@
   <property name="windowTitle">
    <string>TcpClient</string>
   </property>
-  <widget class="QPushButton" name="sendMsg">
+  <widget class="QLabel" name="namelabel">
    <property name="geometry">
     <rect>
-     <x>690</x>
-     <y>530</y>
-     <width>81</width>
-     <height>41</height>
+     <x>210</x>
+     <y>220</y>
+     <width>58</width>
+     <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="text">
-    <string>发送</string>
+    <string>用户名:</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="listWidget">
+  <widget class="QLabel" name="passlabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>761</width>
-     <height>401</height>
+     <x>210</x>
+     <y>290</y>
+     <width>58</width>
+     <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>密码:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="nameinput">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>450</y>
-     <width>761</width>
-     <height>131</height>
+     <x>290</x>
+     <y>200</y>
+     <width>280</width>
+     <height>48</height>
     </rect>
    </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
    </property>
-   <property name="dragEnabled">
-    <bool>false</bool>
+  </widget>
+  <widget class="QLineEdit" name="passinput">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>270</y>
+     <width>280</width>
+     <height>48</height>
+    </rect>
    </property>
-   <property name="clearButtonEnabled">
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="regist">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>340</y>
+     <width>56</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>注册</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="login">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>340</y>
+     <width>140</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="autoFillBackground">
     <bool>true</bool>
    </property>
+   <property name="text">
+    <string>登录</string>
+   </property>
+   <property name="autoDefault">
+    <bool>false</bool>
+   </property>
   </widget>
-  <zorder>lineEdit</zorder>
-  <zorder>sendMsg</zorder>
-  <zorder></zorder>
-  <zorder>listWidget</zorder>
+  <widget class="QPushButton" name="unsubscribe">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>340</y>
+     <width>56</width>
+     <height>48</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>注销</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

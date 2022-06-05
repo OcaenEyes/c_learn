@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/server">
         <file>server.config</file>
+        <file>ocean_yunpan.db</file>
     </qresource>
 </RCC>

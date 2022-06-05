@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include "operatedb.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    OperateDB::getInstance().initDB();
     TcpServer w;
     w.show();
     return a.exec();

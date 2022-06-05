@@ -21,8 +21,11 @@ int main()
     //输出var1的值
     cout << var1 << endl;
 
-    int arr[5] = {1,2,3,4,5};
-    int * ip1 =arr;
+    int arr[5] = {1, 2, 3, 4, 5};
+    int *ip1 = arr;
+    cout << arr << "\n";
+    cout << ip1 << "\n";
+    cout << &arr << "\n";
     cout << "*ip1: " << *ip1 << "\n";
     int i = nullpointer();
 

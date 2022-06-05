@@ -1,5 +1,4 @@
 #include "duetcpsocket.h"
-#include <QDebug>
 #include "protocol.h"
 
 DueTcpSocket::DueTcpSocket(QObject *parent)

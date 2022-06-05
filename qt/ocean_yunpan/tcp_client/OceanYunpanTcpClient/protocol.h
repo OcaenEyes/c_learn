@@ -7,6 +7,14 @@
 
 typedef unsigned int uint;
 
+enum ENUM_MSG_TYPE{
+    ENUM_MSG_TYPE_MIN=0,
+    ENUM_MSG_TYPE_REGISTER_REQUEST,
+    ENUM_MSG_TYPE_REGISTER_RESPONSE,
+
+    ENUM_MSG_TYPE_MAX=0x00ffffff,
+};
+
 struct PDU{
     uint caPDULen; //总的协议数据单元大小
     uint caMsgType; //消息类型

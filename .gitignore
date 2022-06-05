@@ -3,3 +3,4 @@
 .vs/
 **/.vscode/
 RTC/cmake-build-debug
+**/build*/

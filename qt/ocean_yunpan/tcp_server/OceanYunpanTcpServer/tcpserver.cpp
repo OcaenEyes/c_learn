@@ -33,7 +33,8 @@ void TcpServer::loadConfig()
     if(server_conf_file.open(QIODevice::ReadOnly)){
         QByteArray byteData = server_conf_file.readAll();
         QString strData = byteData.toStdString().c_str();
-        QStringList server_conf_list =strData.replace("\r\n"," ").split(" ");
+        qDebug() <<strData;
+        QStringList server_conf_list =strData.replace("\n"," ").split(" ");
         m_Ip = server_conf_list.at(0);
         m_Port = server_conf_list.at(1).toUInt();
     }else{

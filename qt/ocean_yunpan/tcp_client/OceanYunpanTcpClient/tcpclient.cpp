@@ -29,7 +29,7 @@ void TcpClient::loadConfig()
         qDebug() << strData;
         client_conf_file.close();
 
-        strData.replace("\r\n"," ");
+        strData.replace("\n"," ");
 //        qDebug() << strData;
         QStringList conf_list = strData.split(" ");
 //        for(int i=0;i <conf_list.size();i++){
@@ -65,18 +65,36 @@ void TcpClient::connectStatus()
 
 void TcpClient::on_sendMsg_clicked()
 {
-    QString strMsg = ui->lineEdit->text();
-    if (!strMsg.isEmpty()){
-        PDU *pdu = mkPDU(strMsg.size());
-        pdu->caMsgType = 1;
-        memcpy(pdu->caMsg,strMsg.toStdString().c_str(),strMsg.size());
-        qDebug() << pdu->caMsg;
-        m_tcpSocket.write((char*)pdu, pdu->caPDULen);
-        free(pdu);
-        pdu = NULL;
+//    QString strMsg = ui->lineEdit->text();
+//    if (!strMsg.isEmpty()){
+//        PDU *pdu = mkPDU(strMsg.size());
+//        pdu->caMsgType = 1;
+//        memcpy(pdu->caMsg,strMsg.toStdString().c_str(),strMsg.size());
+//        qDebug() << pdu->caMsg;
+//        m_tcpSocket.write((char*)pdu, pdu->caPDULen);
+//        free(pdu);
+//        pdu = NULL;
 
-    }else{
-        QMessageBox::warning(this,"","消息内容未空");
-    }
+//    }else{
+//        QMessageBox::warning(this,"","消息内容未空");
+//    }
+}
+
+
+void TcpClient::on_login_clicked()
+{
+
+}
+
+
+void TcpClient::on_unsubscribe_clicked()
+{
+
+}
+
+
+void TcpClient::on_regist_clicked()
+{
+
 }
 

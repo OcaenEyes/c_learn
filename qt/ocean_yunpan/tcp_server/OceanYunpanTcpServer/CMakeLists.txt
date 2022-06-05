@@ -11,8 +11,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Network)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Network)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools Network Sql)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools Network Sql)
 
 set(TS_FILES OceanYunpanTcpServer_zh_CN.ts)
 
@@ -62,6 +62,7 @@ endif()
 
 target_link_libraries(OceanYunpanTcpServer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(OceanYunpanTcpServer PRIVATE Qt${QT_VERSION_MAJOR}::Network)
+target_link_libraries(OceanYunpanTcpServer PRIVATE Qt${QT_VERSION_MAJOR}::Sql)
 
 set_target_properties(OceanYunpanTcpServer PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

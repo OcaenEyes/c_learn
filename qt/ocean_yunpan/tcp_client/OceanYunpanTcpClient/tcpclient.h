@@ -25,6 +25,12 @@ public slots:
 private slots:
     void on_sendMsg_clicked();
 
+    void on_login_clicked();
+
+    void on_unsubscribe_clicked();
+
+    void on_regist_clicked();
+
 private:
     Ui::TcpClient *ui;
     QString m_Ip;
