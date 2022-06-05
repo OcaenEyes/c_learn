@@ -44,6 +44,7 @@ set(OLD_GLOB
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/customertcpserver.cpp"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/duetcpsocket.cpp"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/main.cpp"
+  "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/operatedb.cpp"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/protocol.cpp"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/tcpserver.cpp"
   )
@@ -66,6 +67,7 @@ file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "E:/GitHub/c_learn/qt/ocean_yu
 set(OLD_GLOB
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/customertcpserver.h"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/duetcpsocket.h"
+  "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/operatedb.h"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/protocol.h"
   "E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/tcpserver.h"
   )

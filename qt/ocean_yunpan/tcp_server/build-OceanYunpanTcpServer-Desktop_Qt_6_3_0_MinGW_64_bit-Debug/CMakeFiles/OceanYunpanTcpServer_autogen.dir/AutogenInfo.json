@@ -318,6 +318,12 @@
 			null
 		],
 		[
+			"E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/operatedb.h",
+			"MU",
+			"EWIEGA46WW/moc_operatedb.cpp",
+			null
+		],
+		[
 			"E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/protocol.h",
 			"MU",
 			"EWIEGA46WW/moc_protocol.cpp",
@@ -415,6 +421,11 @@
 		],
 		[
 			"E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/main.cpp",
+			"MU",
+			null
+		],
+		[
+			"E:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/operatedb.cpp",
 			"MU",
 			null
 		],

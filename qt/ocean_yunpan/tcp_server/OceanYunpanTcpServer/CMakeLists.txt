@@ -28,6 +28,8 @@ set(PROJECT_SOURCES
         duetcpsocket.cpp
         protocol.h
         protocol.cpp
+        operatedb.h
+        operatedb.cpp
         ${TS_FILES}
 )
 

@@ -97,6 +97,14 @@ build CMakeFiles/OceanYunpanTcpServer.dir/protocol.cpp.obj: CXX_COMPILER__OceanY
   OBJECT_DIR = CMakeFiles\OceanYunpanTcpServer.dir
   OBJECT_FILE_DIR = CMakeFiles\OceanYunpanTcpServer.dir
 
+build CMakeFiles/OceanYunpanTcpServer.dir/operatedb.cpp.obj: CXX_COMPILER__OceanYunpanTcpServer_Debug E$:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer/operatedb.cpp || cmake_object_order_depends_target_OceanYunpanTcpServer
+  DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
+  DEP_FILE = CMakeFiles\OceanYunpanTcpServer.dir\operatedb.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IE:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/build-OceanYunpanTcpServer-Desktop_Qt_6_3_0_MinGW_64_bit-Debug -IE:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/OceanYunpanTcpServer -IE:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/build-OceanYunpanTcpServer-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/OceanYunpanTcpServer_autogen/include -isystem C:/Qt/6.3.0/mingw_64/include/QtCore -isystem C:/Qt/6.3.0/mingw_64/include -isystem C:/Qt/6.3.0/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.3.0/mingw_64/include/QtWidgets -isystem C:/Qt/6.3.0/mingw_64/include/QtGui -isystem C:/Qt/6.3.0/mingw_64/include/QtNetwork
+  OBJECT_DIR = CMakeFiles\OceanYunpanTcpServer.dir
+  OBJECT_FILE_DIR = CMakeFiles\OceanYunpanTcpServer.dir
+
 build CMakeFiles/OceanYunpanTcpServer.dir/OceanYunpanTcpServer_autogen/EWIEGA46WW/qrc_conf.cpp.obj: CXX_COMPILER__OceanYunpanTcpServer_Debug E$:/GitHub/c_learn/qt/ocean_yunpan/tcp_server/build-OceanYunpanTcpServer-Desktop_Qt_6_3_0_MinGW_64_bit-Debug/OceanYunpanTcpServer_autogen/EWIEGA46WW/qrc_conf.cpp || cmake_object_order_depends_target_OceanYunpanTcpServer
   DEFINES = -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_NETWORK_LIB -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64
   DEP_FILE = CMakeFiles\OceanYunpanTcpServer.dir\OceanYunpanTcpServer_autogen\EWIEGA46WW\qrc_conf.cpp.obj.d
@@ -113,7 +121,7 @@ build CMakeFiles/OceanYunpanTcpServer.dir/OceanYunpanTcpServer_autogen/EWIEGA46W
 #############################################
 # Link the executable OceanYunpanTcpServer.exe
 
-build OceanYunpanTcpServer.exe: CXX_EXECUTABLE_LINKER__OceanYunpanTcpServer_Debug CMakeFiles/OceanYunpanTcpServer.dir/OceanYunpanTcpServer_autogen/mocs_compilation.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/main.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/tcpserver.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/customertcpserver.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/duetcpsocket.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/protocol.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/OceanYunpanTcpServer_autogen/EWIEGA46WW/qrc_conf.cpp.obj | C$:/Qt/6.3.0/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.3.0/mingw_64/lib/libQt6Network.a C$:/Qt/6.3.0/mingw_64/lib/libQt6Gui.a C$:/Qt/6.3.0/mingw_64/lib/libQt6Core.a C$:/Qt/6.3.0/mingw_64/lib/libQt6EntryPoint.a || OceanYunpanTcpServer_autogen OceanYunpanTcpServer_autogen_timestamp_deps
+build OceanYunpanTcpServer.exe: CXX_EXECUTABLE_LINKER__OceanYunpanTcpServer_Debug CMakeFiles/OceanYunpanTcpServer.dir/OceanYunpanTcpServer_autogen/mocs_compilation.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/main.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/tcpserver.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/customertcpserver.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/duetcpsocket.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/protocol.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/operatedb.cpp.obj CMakeFiles/OceanYunpanTcpServer.dir/OceanYunpanTcpServer_autogen/EWIEGA46WW/qrc_conf.cpp.obj | C$:/Qt/6.3.0/mingw_64/lib/libQt6Widgets.a C$:/Qt/6.3.0/mingw_64/lib/libQt6Network.a C$:/Qt/6.3.0/mingw_64/lib/libQt6Gui.a C$:/Qt/6.3.0/mingw_64/lib/libQt6Core.a C$:/Qt/6.3.0/mingw_64/lib/libQt6EntryPoint.a || OceanYunpanTcpServer_autogen OceanYunpanTcpServer_autogen_timestamp_deps
   FLAGS = -g
   LINK_FLAGS = -mwindows
   LINK_LIBRARIES = C:/Qt/6.3.0/mingw_64/lib/libQt6Widgets.a  C:/Qt/6.3.0/mingw_64/lib/libQt6Network.a  C:/Qt/6.3.0/mingw_64/lib/libQt6Gui.a  -ld3d11  -ldxgi  -ldxguid  C:/Qt/6.3.0/mingw_64/lib/libQt6Core.a  -lmpr  -luserenv  -lmingw32  C:/Qt/6.3.0/mingw_64/lib/libQt6EntryPoint.a  -lshell32  -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
@@ -183,7 +191,7 @@ build OceanYunpanTcpServer_autogen/EWIEGA46WW/qrc_conf.cpp | ${cmake_ninja_workd
 #############################################
 # Phony custom command for CMakeFiles\OceanYunpanTcpServer_autogen_timestamp_deps
 
-build CMakeFiles/OceanYunpanTcpServer_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/OceanYunpanTcpServer_autogen_timestamp_deps: phony C$:/Qt/6.3.0/mingw_64/bin/Qt6Core.dll C$:/Qt/6.3.0/mingw_64/./bin/uic.exe C$:/Qt/6.3.0/mingw_64/./bin/moc.exe C$:/Qt/6.3.0/mingw_64/bin/Qt6Network.dll C$:/Qt/6.3.0/mingw_64/bin/Qt6Widgets.dll
+build CMakeFiles/OceanYunpanTcpServer_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/OceanYunpanTcpServer_autogen_timestamp_deps: phony C$:/Qt/6.3.0/mingw_64/bin/Qt6Core.dll C$:/Qt/6.3.0/mingw_64/./bin/moc.exe C$:/Qt/6.3.0/mingw_64/./bin/uic.exe C$:/Qt/6.3.0/mingw_64/bin/Qt6Network.dll C$:/Qt/6.3.0/mingw_64/bin/Qt6Widgets.dll
 
 
 #############################################
