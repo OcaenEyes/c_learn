@@ -52,19 +52,31 @@ void TcpClient::loadConfig()
 
 void TcpClient::connectServer()
 {
-    connect(&m_tcpSocket,SIGNAL(connected()), this, SLOT(connectStatus()));
     m_tcpSocket.connectToHost(
                 QHostAddress(m_Ip),m_Port);
+    m_tcpSocket.waitForConnected();
+//    qDebug("%d",m_tcpSocket.state());
+    connect(&m_tcpSocket,SIGNAL(connected()), this, SLOT(connectStatus()));
+    qDebug("%d",m_tcpSocket.state()) ;
 }
 
 void TcpClient::connectStatus()
 {
+
     QMessageBox::information(this,"服务器连接状态","服务器连接成功");
+    qDebug("%d",m_tcpSocket.state()) ;
+    if(m_tcpSocket.state() ==QAbstractSocket::ConnectedState){
+        QMessageBox::information(this,"服务器连接状态","服务器连接成功");
+    }else if(m_tcpSocket.state() ==QAbstractSocket::ConnectingState){
+        QMessageBox::information(this,"服务器连接状态","服务器连接中");
+    }else if(m_tcpSocket.state() ==QAbstractSocket::UnconnectedState){
+        QMessageBox::information(this,"服务器连接状态","服务器连接失败");
+    }
 }
 
 
-void TcpClient::on_sendMsg_clicked()
-{
+//void TcpClient::on_sendMsg_clicked()
+//{
 //    QString strMsg = ui->lineEdit->text();
 //    if (!strMsg.isEmpty()){
 //        PDU *pdu = mkPDU(strMsg.size());
@@ -78,7 +90,7 @@ void TcpClient::on_sendMsg_clicked()
 //    }else{
 //        QMessageBox::warning(this,"","消息内容未空");
 //    }
-}
+//}
 
 
 void TcpClient::on_login_clicked()

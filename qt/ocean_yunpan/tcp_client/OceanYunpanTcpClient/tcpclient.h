@@ -23,7 +23,7 @@ public slots:
     void connectStatus();
 
 private slots:
-    void on_sendMsg_clicked();
+//    void on_sendMsg_clicked();
 
     void on_login_clicked();
 
