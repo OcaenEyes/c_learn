@@ -26,6 +26,12 @@ bool CRedisPublisher::init()
     }
     return true;
 }
+bool CRedisPublisher::uninit()
+{
+    _event_base = NULL;
+    sem_destroy(&_event_sem);
+    return true;
+}
 
 bool CRedisPublisher::connect()
 {
@@ -44,6 +50,12 @@ bool CRedisPublisher::connect()
 
     // 将事件绑定到redis context上，使设置给redis的回调跟事件关联
     redisLibeventAttach(_redis_context, _event_base);
+    // 设置连接回调，当异步调用连接后，服务器处理连接请求结束后调用，通知调用者连接的状态
+    redisAsyncSetConnectCallback(_redis_context, CRedisPublisher::connect_callback);
+    // 设置断开连接回调，当服务器断开连接后，通知调用者连接断开，调用者可以利用这个函数实现重连
+    redisAsyncSetDisconnectCallback(_redis_context, CRedisPublisher::disconnect_callback);
+    char redis_user_pass[] = "123456";
+    redisAsyncCommand(_redis_context, NULL, NULL, "AUTH %s", redis_user_pass);
 
     // 创建事件处理线程
     int ret = pthread_create(&_event_thread, 0, &CRedisPublisher::event_thread, this);
@@ -54,24 +66,34 @@ bool CRedisPublisher::connect()
         return false;
     }
 
-    // 设置连接回调，当异步调用连接后，服务器处理连接请求结束后调用，通知调用者连接的状态
-    redisAsyncSetConnectCallback(_redis_context, CRedisPublisher::connect_callback);
-    // 设置断开连接回调，当服务器断开连接后，通知调用者连接断开，调用者可以利用这个函数实现重连
-    redisAsyncSetDisconnectCallback(_redis_context, CRedisPublisher::disconnect_callback);
-    char redis_user_pass[] = "123456";
-    redisAsyncCommand(_redis_context, NULL, NULL, "AUTH %s", redis_user_pass);
-
     // 启动事件线程
     sem_post(&_event_sem);
     return true;
 }
 bool CRedisPublisher::disconnect()
 {
+    if (_redis_context)
+    {
+        redisAsyncDisconnect(_redis_context);
+        redisAsyncFree(_redis_context);
+        _redis_context = NULL;
+    }
+    printf("已断开链接\n");
     return true;
 }
 
 bool CRedisPublisher::publish(const std::string &channel_name, const std::string &message)
 {
+    int ret = redisAsyncCommand(_redis_context,
+                                &CRedisPublisher::command_callback, this, "PUBLISH %s %s",
+                                channel_name.c_str(), message.c_str());
+    printf("发布消息结果:%d\n", ret);
+    printf("发布消息的内容:%s %s\n", channel_name.c_str(), message.c_str());
+    if (REDIS_ERR == ret)
+    {
+        printf("Publish command failed: %d\n", ret);
+        return false;
+    }
     return true;
 }
 
