@@ -1,5 +1,5 @@
-#ifndef SUBSCRIBER_H
-#define SUBSCRIBER_H
+#ifndef REDIS_SUBSCRIBER_H
+#define REDIS_SUBSCRIBER_H
 
 #include <stdlib.h>
 #include <hiredis/async.h>
@@ -11,32 +11,35 @@
 #include <semaphore.h>
 #include <boost/functional.hpp>
 
-using namespace std;
-
 class CRedisSubscriber
 {
 public:
-    typedef function<void(const char *, const char *, int)> NotifyMessageFn;
+    typedef std::function<void (const char *, const char *, int)>         NotifyMessageFn;    // 回调函数对象类型，当接收到消息后调用回调把消息发送出去
+
     CRedisSubscriber();
     ~CRedisSubscriber();
 
-    bool init(const NotifyMessageFn &fn);
+    bool init(const NotifyMessageFn &fn);    // 传入回调对象
     bool uninit();
     bool connect();
     bool disconnect();
 
-    bool subscribe(const string &channel_name);
+    // 可以多次调用，订阅多个频道
+    bool subscribe(const std::string &channel_name);
 
 private:
     // 下面三个回调函数供redis服务调用
     // 连接回调
-    static void connect_callback(const redisAsyncContext *redis_context, int status);
+    static void connect_callback(const redisAsyncContext *redis_context,
+        int status);
 
     // 断开连接的回调
-    static void disconnect_callback(const redisAsyncContext *redis_context, int status);
+    static void disconnect_callback(const redisAsyncContext *redis_context,
+        int status);
 
     // 执行命令回调
-    static void command_callback(redisAsyncContext *redis_context, void *reply, void *privdata);
+    static void command_callback(redisAsyncContext *redis_context,
+        void *reply, void *privdata);
 
     // 事件分发线程函数
     static void *event_thread(void *data);
