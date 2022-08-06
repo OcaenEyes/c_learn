@@ -2,8 +2,8 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-05 23:26:03
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-05 23:38:20
- * @FilePath: /c++/server_develop_practice/webserver_test/src/mysql_conn_pool.h
+ * @LastEditTime: 2022-08-06 15:01:28
+ * @FilePath: /c++/server_develop_practice/webserver_test/src/mysql_conn/mysql_conn_pool.h
  * @Description: 注释信息
  */
 #ifndef MYSQL_CONN_POOL_H
@@ -55,15 +55,15 @@ public:
               int close_log);
 };
 
-class connRAII
+class connectionRAII
 {
 private:
     MYSQL *conRAII;
     mysql_conn_pool *poolRAII;
 
 public:
-    connRAII(MYSQL **con, mysql_conn_pool *conPool);
-    ~connRAII();
+    connectionRAII(MYSQL **con, mysql_conn_pool *conPool);
+    ~connectionRAII();
 };
 
 #endif

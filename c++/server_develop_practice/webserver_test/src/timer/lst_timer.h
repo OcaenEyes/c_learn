@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-06 10:56:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-06 20:59:02
+ * @LastEditTime: 2022-08-06 13:34:47
  * @FilePath: /c++/server_develop_practice/webserver_test/src/timer/lst_timer.h
  * @Description: 注释信息
  */
@@ -42,10 +42,18 @@ struct client_data
 class lst_timer
 {
 private:
-    /* data */
+    void add_timer(util_timer *timer, util_timer *lst_head);
+    util_timer *head;
+    util_timer *tail;
+
 public:
     lst_timer(/* args */);
     ~lst_timer();
+
+    void add_timer(util_timer *timer);
+    void adjust_timer(util_timer *timer);
+    void del_timer(util_timer *timer);
+    void tick();
 };
 
 class util_timer
@@ -68,9 +76,37 @@ class utils
 {
 private:
     /* data */
+
+public:
+    static int *u_pipefd;
+    lst_timer m_timer_lst;
+    static int u_epollfd;
+    int m_TIMESLOT;
+
 public:
     utils(/* args */);
     ~utils();
+
+    void init(int timeslot);
+
+    //对文件描述符设置为非阻塞
+    int setnonblocking(int fd);
+
+    //对内核事件表注册读事件， ET模式，选择开启EPOLLONESHOT
+    void addfd(int epollfd, int fd, bool one_shot, int TRIGMode);
+
+    //信号处理函数
+    static void sig_handler(int sig);
+
+    //设置信号函数
+    void addsig(int sig, void(handler)(int), bool restart = true);
+
+    //定时处理任务，重新定时以不断的触发SIGALRM信号
+    void timer_handler();
+
+    void show_error(int connfd, const char *info);
 };
+
+void cb_func(client_data *user_data);
 
 #endif

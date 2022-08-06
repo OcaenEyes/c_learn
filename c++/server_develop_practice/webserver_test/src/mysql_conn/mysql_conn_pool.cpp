@@ -121,14 +121,14 @@ mysql_conn_pool::~mysql_conn_pool()
     DestroyPool();
 }
 
-connRAII::connRAII(MYSQL **SQL, mysql_conn_pool *conPool)
+connectionRAII::connectionRAII(MYSQL **SQL, mysql_conn_pool *conPool)
 {
     *SQL = conPool->GetConnection();
     conRAII = *SQL;
     poolRAII = conPool;
 }
 
-connRAII::~connRAII()
+connectionRAII::~connectionRAII()
 {
     poolRAII->ReleaseConnection(conRAII);
 }
