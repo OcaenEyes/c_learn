@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-07 14:04:54
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-07 14:21:33
+ * @LastEditTime: 2022-08-08 09:29:13
  * @FilePath: /c++/practices/json_parse_app/test.cpp
  * @Description: 注释信息
  */
@@ -18,6 +18,7 @@ int main()
     writer->KeyValue("age", "28");
     writer->EndObject();
 
+    writer->StartObject();
     writer->Key("path");
     writer->StartArray();
     writer->Value("web");
@@ -31,8 +32,7 @@ int main()
     writer->Value(M_PI);
     writer->EndContainer();
 
-    writer->EndObject(),
-        writer->Value(false);
+    writer->EndObject();
 
     writer->EndArray();
 }

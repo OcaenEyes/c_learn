@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-07 13:50:55
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-07 14:16:51
+ * @LastEditTime: 2022-08-08 09:33:10
  * @FilePath: /c++/practices/json_parse_app/json_write.h
  * @Description: 注释信息
  */
@@ -11,8 +11,9 @@
 #define JSON_WRITE_H
 
 #include <iostream>
-#include <cstring>
+#include <string>
 #include <stack>
+#include<cstdint>
 
 class json_write
 {

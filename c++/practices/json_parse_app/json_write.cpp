@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-07 13:54:40
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-07 14:15:46
+ * @LastEditTime: 2022-08-08 09:39:05
  * @FilePath: /c++/practices/json_parse_app/json_write.cpp
  * @Description: 注释信息
  */
@@ -33,7 +33,7 @@ void json_write::StartChild(bool isKey)
         (container->type == CONTAINERTYPE_ARRAY || (container->type == CONTAINERTYPE_OBJECT && !container->isKey)))
     {
         Write() << ",";
-        if (container->layout == CONTAINER_LAYOUT_MULTI_LINE)
+        if (container->layout == CONTAINER_LAYOUT_SINGLE_LINE)
         {
             Write() << containerPadding;
         }
