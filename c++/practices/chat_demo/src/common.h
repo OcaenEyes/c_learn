@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-09 00:18:16
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-09 00:34:09
+ * @LastEditTime: 2022-08-09 05:56:49
  * @FilePath: /c++/practices/chat_demo/src/common.h
  * @Description: 注释信息
  */
@@ -47,7 +47,7 @@
 #define BUF_SIZE 0xFFFF
 
 // 新用户登录后的欢迎信息
-#define SERVER_MESSAGE "Welcome you join to the saltwater room -from:ocean.gzy!  Your chat ID: Client #%d"
+#define SERVER_WELCOME "Welcome you join to the saltwater room -from:ocean.gzy!  Your chat ID: Client #%d"
 
 // 其他用户收到的信息前缀
 #define SERVER_MESSAGE "ClientID %d say >> %s"

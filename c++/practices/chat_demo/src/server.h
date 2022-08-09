@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-09 00:35:25
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-09 00:41:05
+ * @LastEditTime: 2022-08-09 05:14:18
  * @FilePath: /c++/practices/chat_demo/src/server.h
  * @Description: 注释信息
  */
@@ -11,6 +11,7 @@
 
 #include <cstring>
 #include <iostream>
+#include<list>
 #include "common.h"
 
 class server
@@ -29,20 +30,20 @@ private:
     int epfd;
 
     // 客户端列表
-    list<int> clients_list;
+    std::list<int> clients_list;
 
 public:
     server(/* args */);
     ~server();
 
     // 初始化服务器端设置
-    void init();
+    void init_server();
 
     // 关闭服务
-    void close();
+    void close_server();
 
     // 开启服务
-    void start();
+    void start_server();
 };
 
 #endif
