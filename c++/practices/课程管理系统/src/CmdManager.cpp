@@ -2,18 +2,11 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-13 13:49:53
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-13 15:16:42
+ * @LastEditTime: 2022-08-13 19:22:52
  * @FilePath: /c++/practices/课程管理系统/src/CmdManager.cpp
  * @Description: 注释信息
  */
 #include "CmdManager.h"
-CmdManager::CmdManager(/* args */)
-{
-}
-
-CmdManager::~CmdManager()
-{
-}
 
 void CmdManager::Init()
 {
