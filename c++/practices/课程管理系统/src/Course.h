@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-12 22:48:34
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-13 09:27:02
+ * @LastEditTime: 2022-08-13 13:23:02
  * @FilePath: /c++/practices/课程管理系统/src/Course.h
  * @Description: 注释信息
  */
@@ -10,6 +10,7 @@
 #ifndef COURSE_H
 #define COURSE_H
 
+#include <iostream>
 #include <istream>
 #include <ostream>
 
@@ -23,7 +24,7 @@ class Course
     // 友元函数：读取输入创建新的课程
     friend void read(std::istream &inpuStream, Course &course);
 
-private:
+protected:
     /* data */
     int id;
     static int currentId;
@@ -59,6 +60,10 @@ public:
     friend std::ostream &operator<<(std::ostream &out, const Course &course);
 };
 
+// 课程分为基础课，项目课，评估课三种不同类型
+// 基础课为基础Course类，  而项目课和 评估课均为继承自基础课
+// 项目课：额外增加标签
+
 class ProjectCourse : public Course
 {
 private:
@@ -73,6 +78,24 @@ public:
 
     // 打印课程信息
     virtual void PrintInfo() const override;
+};
+
+// 评估课： 比基础课增加时间限制
+class JudgeCourse : public Course
+{
+
+public:
+    // 设置限时
+    inline void SetTime(int newTime) { time = newTime; };
+
+    // 返回限时
+    inline int GetTime() { return time; };
+
+    // 打印课程信息
+    virtual void PrintInfo() const override;
+
+private:
+    int time;
 };
 
 #endif

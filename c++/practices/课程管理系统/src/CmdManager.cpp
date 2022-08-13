@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-13 13:49:53
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-13 19:22:52
+ * @LastEditTime: 2022-08-13 12:50:26
  * @FilePath: /c++/practices/课程管理系统/src/CmdManager.cpp
  * @Description: 注释信息
  */
@@ -94,3 +94,7 @@ bool CmdManager::HandleCmd(const CourseCmd cmd)
 
     return true;
 }
+
+CmdManager::CmdManager(){};
+
+CmdManager::~CmdManager(){};

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2022-08-13 10:02:33
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2022-08-13 12:57:55
+ * @LastEditTime: 2022-08-13 13:27:09
  * @FilePath: /c++/practices/课程管理系统/src/CourseManager.cpp
  * @Description: 注释信息
  */
@@ -17,6 +17,7 @@ CourseManager::CourseManager(const std::vector<Course> &course)
     }
 }
 
+CourseManager::CourseManager(){}
 CourseManager::~CourseManager()
 {
 }
