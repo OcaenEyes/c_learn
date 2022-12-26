@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon("://favicon.ico"));
+
     setWindowTitle("OCEAN NOTE");
     // 创建菜单栏
     menuBar = new QMenuBar(this);
@@ -122,7 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(action19,SIGNAL(triggered(bool)),this,SLOT(on_actionTextItalic_triggered()));
 
     QAction *action20 = new QAction("左对齐",this);
-    connect(action20,SIGNAL(triggered(bool)),this,SLOT(on_actionLeft_triggered()));
+    connect(action20,SIGNAL(triggered(bool)),this,SLOT(on_actionLift_triggered()));
 
     QAction *action21 = new QAction("中对齐",this);
     connect(action21,SIGNAL(triggered(bool)),this,SLOT(on_actionCenter_triggered()));
@@ -170,7 +171,7 @@ MainWindow::MainWindow(QWidget *parent)
     dockWidget -> setFeatures(QDockWidget::NoDockWidgetFeatures); // 设置铆接不可移动、不可关闭、不可浮动
     dockWidget ->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); // 设置允许左右停靠
 
-    QLabel * titleLabel = new QLabel("行数");
+    QLabel * titleLabel = new QLabel("lines");
     titleLabel->setAlignment(Qt::AlignCenter);
     dockWidget -> setTitleBarWidget(titleLabel);
 
