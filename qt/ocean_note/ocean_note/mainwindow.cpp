@@ -296,7 +296,10 @@ void  MainWindow::on_SaveFile_triggered(){
 } // 保存文件操作
 
 void  MainWindow::on_actionnewfile_triggered(){
-    QMessageBox::StandardButton ok = QMessageBox::warning(this,tr("Waring"),
+    boldcheck = false;
+    underlinecheck =false;
+    italiccheck=false;
+    QMessageBox::StandardButton ok = QMessageBox::warning(this,tr("提示"),
                                                           tr("创建新文件？"),
                                                           QMessageBox::Yes | QMessageBox::Default,
                                                           QMessageBox::No);
@@ -304,6 +307,8 @@ void  MainWindow::on_actionnewfile_triggered(){
     textEdit -> setText(QString());
     if(m_fileName == "" && ok == QMessageBox::StandardButton::Yes){
         m_fileName =  showFileDialog(QFileDialog::AcceptSave);
+        setCurrentFileName(m_fileName);
+
     }
 } //创建新文件操作
 
@@ -337,27 +342,24 @@ void MainWindow::mergeFormat(QTextCharFormat fmt){
 }
 
 void  MainWindow::on_actionTextUnderLine_triggered(){
-    bool underlinecheck = true;
+    underlinecheck = !underlinecheck;
     QTextCharFormat fmt;
     fmt.setFontUnderline(underlinecheck ? true:false);
     mergeFormat(fmt);
-    underlinecheck = !underlinecheck;
 }
 
 void  MainWindow::on_actionTextItalic_triggered(){
-    bool italiccheck = true;
+   italiccheck = !italiccheck;
     QTextCharFormat fmt;
     fmt.setFontItalic(italiccheck ? true:false);
     mergeFormat(fmt);
-    italiccheck = !italiccheck;
 }
 
 void  MainWindow::on_actionTextBold_triggered(){
-    bool boldcheck = true;
+    boldcheck = !boldcheck;
     QTextCharFormat fmt;
     fmt.setFontWeight(boldcheck ? QFont::Bold : QFont::Normal);
     mergeFormat(fmt);
-    boldcheck = !boldcheck;
 }
 
 //对齐

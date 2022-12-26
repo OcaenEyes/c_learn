@@ -37,6 +37,9 @@ private:
     QToolBar *toolBar;
     QFont font;
     QColor color;
+    bool underlinecheck = false;
+    bool italiccheck = false;
+    bool boldcheck = false;
 
 public:
     QString saveCurrentData(QString filePath);
