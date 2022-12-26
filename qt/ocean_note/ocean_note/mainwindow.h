@@ -84,6 +84,8 @@ public slots:
     void on_help();
 
     void on_about();
+
+    void createFile();
 };
 #endif // MAINWINDOW_H
 

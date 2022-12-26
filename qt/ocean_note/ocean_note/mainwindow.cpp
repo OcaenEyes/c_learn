@@ -99,15 +99,36 @@ MainWindow::MainWindow(QWidget *parent)
     toolBar ->setToolButtonStyle(Qt::ToolButtonTextOnly);
 
     // 创建工具项
-    QAction *action13 = new QAction("文件",this);
+    QAction *action13 = new QAction("打开",this);
+    // 槽函数与信号的连接
+    connect(action13,SIGNAL(triggered(bool)),this,SLOT(on_actionopenfile_triggered()));
+
     QAction *action14 = new QAction("保存",this);
+    connect(action14,SIGNAL(triggered(bool)),this,SLOT(on_SaveFile_triggered()));
+
     QAction *action15 = new QAction("撤回",this);
+    connect(action15,SIGNAL(triggered(bool)),this,SLOT(on_actionundo_triggered()));
+
     QAction *action16 = new QAction("剪切",this);
+    connect(action16,SIGNAL(triggered(bool)),this,SLOT(on_actioncut_triggered()));
+
     QAction *action17 = new QAction("粗体",this);
+    connect(action17,SIGNAL(triggered(bool)),this,SLOT(on_actionTextBold_triggered()));
+
     QAction *action18 = new QAction("下划线",this);
-    QAction *action19 = new QAction("左对齐",this);
-    QAction *action20 = new QAction("中对齐",this);
-    QAction *action21 = new QAction("右对齐",this);
+    connect(action18,SIGNAL(triggered(bool)),this,SLOT(on_actionTextUnderLine_triggered()));
+
+    QAction *action19 = new QAction("斜体",this);
+    connect(action19,SIGNAL(triggered(bool)),this,SLOT(on_actionTextItalic_triggered()));
+
+    QAction *action20 = new QAction("左对齐",this);
+    connect(action20,SIGNAL(triggered(bool)),this,SLOT(on_actionLeft_triggered()));
+
+    QAction *action21 = new QAction("中对齐",this);
+    connect(action21,SIGNAL(triggered(bool)),this,SLOT(on_actionCenter_triggered()));
+
+    QAction *action22 = new QAction("右对齐",this);
+    connect(action22,SIGNAL(triggered(bool)),this,SLOT(on_actionRight_triggered()));
 
 
     toolBar ->addAction(action13);
@@ -127,6 +148,8 @@ MainWindow::MainWindow(QWidget *parent)
     toolBar ->addAction(action20);
     toolBar ->addSeparator();
     toolBar ->addAction(action21);
+    toolBar ->addSeparator();
+    toolBar ->addAction(action22);
     toolBar ->addSeparator();
 
 
@@ -157,7 +180,7 @@ MainWindow::MainWindow(QWidget *parent)
     QListWidget *textList = new QListWidget(this);
     for(int i=1; i<=50; i++)
     {
-        QListWidgetItem *item = new QListWidgetItem(QString("%1").arg(i));
+        QListWidgetItem *item = new QListWidgetItem(QString("%1").arg(i+1));
         textList->addItem(item);
         item->setTextAlignment(Qt::AlignRight);
     }
@@ -174,7 +197,7 @@ MainWindow::MainWindow(QWidget *parent)
     textEdit = new QTextEdit(this);
     textEdit -> setText("ocean note 文本编辑");
     textEdit -> setObjectName("文本输入");
-    connect(textEdit,SIGNAL(textChanged()),this,SLOT(creatFile()));
+    connect(textEdit,SIGNAL(textChanged()),this,SLOT(createFile()));
     QFont font = QFont("黑体",18,QFont::Normal,true);
 
     this->setCentralWidget(textEdit);
@@ -240,9 +263,6 @@ QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode){
 
     return ret;
 }
-// 设置光标的选区，使格式作用域选取内的字符
-void MainWindow::mergeFormat(QTextCharFormat fmt){}
-
 
 
 void MainWindow::on_actionexit_triggered(){
@@ -267,43 +287,126 @@ void  MainWindow::on_actionopenfile_triggered(){
 
 } // 打开文件操作
 
-void  MainWindow::on_SaveFile_triggered(){} // 保存文件操作
+void  MainWindow::on_SaveFile_triggered(){
+    QString path = saveCurrentData(m_fileName);
+    if(path != ""){
+        m_fileName =path;
+    }
+} // 保存文件操作
 
-void  MainWindow::on_actionnewfile_triggered(){} //创建新文件操作
+void  MainWindow::on_actionnewfile_triggered(){
+    QMessageBox::StandardButton ok = QMessageBox::warning(this,tr("Waring"),
+                                                          tr("创建新文件？"),
+                                                          QMessageBox::Yes | QMessageBox::Default,
+                                                          QMessageBox::No);
+    m_fileName.clear();
+    textEdit -> setText(QString());
+    if(m_fileName == "" && ok == QMessageBox::StandardButton::Yes){
+        m_fileName =  showFileDialog(QFileDialog::AcceptSave);
+    }
+} //创建新文件操作
 
-void  MainWindow::on_actionundo_triggered(){}//撤回操作
+void  MainWindow::on_actionundo_triggered(){
+    textEdit->undo();
+}//撤回操作
 
-void  MainWindow::on_actionredo_triggered(){}//恢复文件
+void  MainWindow::on_actionredo_triggered(){
+    textEdit->redo();
+}//恢复文件
 
-void  MainWindow::on_actioncut_triggered(){}//剪切文件
+void  MainWindow::on_actioncut_triggered(){
+    textEdit ->cut();
+}//剪切文件
 
-void  MainWindow::on_actioncopy_triggered(){}//复制文件
+void  MainWindow::on_actioncopy_triggered(){
+    textEdit->copy();
+}//复制文件
 
-void  MainWindow::on_actionpatse_triggered(){}//粘贴文件
+void  MainWindow::on_actionpatse_triggered(){
+    textEdit->paste();
+}//粘贴文件
 
-void  MainWindow::on_actionTextUnderLine_triggered(){}
+// 设置光标的选区，使格式作用域选取内的字符
+void MainWindow::mergeFormat(QTextCharFormat fmt){
+    QTextCursor cursor = textEdit->textCursor();
+    if(!cursor.hasSelection()){
+        cursor.select(QTextCursor::WordUnderCursor);
+    }
+    cursor.mergeCharFormat(fmt);
+}
 
-void  MainWindow::on_actionTextItalic_triggered(){}
+void  MainWindow::on_actionTextUnderLine_triggered(){
+    bool underlinecheck = true;
+    QTextCharFormat fmt;
+    fmt.setFontUnderline(underlinecheck ? true:false);
+    mergeFormat(fmt);
+    underlinecheck = !underlinecheck;
+}
 
-void  MainWindow::on_actionTextBold_triggered(){}
+void  MainWindow::on_actionTextItalic_triggered(){
+    bool italiccheck = true;
+    QTextCharFormat fmt;
+    fmt.setFontItalic(italiccheck ? true:false);
+    mergeFormat(fmt);
+    italiccheck = !italiccheck;
+}
+
+void  MainWindow::on_actionTextBold_triggered(){
+    bool boldcheck = true;
+    QTextCharFormat fmt;
+    fmt.setFontWeight(boldcheck ? QFont::Bold : QFont::Normal);
+    mergeFormat(fmt);
+    boldcheck = !boldcheck;
+}
 
 //对齐
-void  MainWindow::on_actionLift_triggered(){}
+void  MainWindow::on_actionLift_triggered(){
+    textEdit->setAlignment(Qt::AlignLeft);
+}
 
-void  MainWindow::on_actionCenter_triggered(){}
+void  MainWindow::on_actionCenter_triggered(){
+     textEdit->setAlignment(Qt::AlignCenter);
+}
 
-void  MainWindow::on_actionRight_triggered(){}
+void  MainWindow::on_actionRight_triggered(){
+     textEdit->setAlignment(Qt::AlignRight);
+}
 
-void  MainWindow::on_actioncolor_triggered(){}//颜色操作
+void  MainWindow::on_actioncolor_triggered(){
+    QColor c = QColorDialog::getColor(color,this,"颜色选择");
+    if(c.isValid()){
+        color =c;
+        // 设置文本框的文本颜色
+        // 1.从光标开始新输入的文本颜色被设置
+        // 2.鼠标选中的文本颜色设置
+        textEdit->setTextColor(c);
+    }
+}//颜色操作
 
-void  MainWindow::on_actionfont_triggered(){}
+void  MainWindow::on_actionfont_triggered(){
+    bool ok; // 用户字体对话框保存是否选择了字体
 
-void  MainWindow::on_help(){}
+    QFont f = QFontDialog::getFont(&ok,font,this,"选择文本框要设置的字体");
+
+    if(ok){
+        font =f;
+
+        // 1.从当前光标开始
+        // 鼠标选中文本的字体
+        textEdit->setCurrentFont(f);
+    }
+}
+
+void  MainWindow::on_help(){
+    QDesktopServices::openUrl(QUrl(QLatin1String("http://oceaneyes.top")));
+}
 
 void  MainWindow::on_about(){
     static About about;
     about.show();
 }
+
+void MainWindow::createFile(){}
 
 //https://blog.csdn.net/ironjam/article/details/125582161
 //https://blog.csdn.net/btufdycxyffd/article/details/126716115
