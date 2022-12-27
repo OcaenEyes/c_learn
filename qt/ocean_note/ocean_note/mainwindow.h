@@ -57,6 +57,8 @@ public slots:
 
     void on_actionnewfile_triggered(); //创建新文件操作
 
+    void on_actionnewwin_triggered();
+
     void on_actionundo_triggered();//撤回操作
 
     void on_actionredo_triggered();//恢复文件

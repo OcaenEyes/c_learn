@@ -29,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     menuBar ->addMenu(menu3);
     menuBar ->addMenu(menu4);
 
+    QAction *actionNewWin = new QAction("新窗口",this);
+    connect(actionNewWin,SIGNAL(triggered(bool)),this,SLOT(on_actionnewwin_triggered()));
+
     QAction *action1 = new QAction("新建",this);
     action1->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_N));
     connect(action1,SIGNAL(triggered(bool)),this,SLOT(on_actionnewfile_triggered()));
@@ -71,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     QAction *action11 = new QAction("帮助",this);
     connect(action11,SIGNAL(triggered(bool)),this,SLOT(on_help()));
 
+    menu1->addAction(actionNewWin);
     menu1->addAction(action1);
     menu1->addAction(action2);//菜单添加标签
     menu1->addAction(action12);//菜单添加标签
@@ -215,6 +219,11 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_actionnewwin_triggered(){
+    MainWindow*newWindow=new MainWindow;
+    newWindow->show();
 }
 
 QString MainWindow::saveCurrentData(QString filePath){
