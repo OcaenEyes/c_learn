@@ -22,7 +22,7 @@ Window {
             id: mainPage
             anchors.centerIn: parent
             text: "这是主页"
-            visible: (curPageIndex != 0) ||  (curPageIndex != 1) ||  (curPageIndex != 2)
+            visible: curPageIndex ==3
         }
 
         Text{
@@ -78,7 +78,9 @@ Window {
         Connections {
             target: repeaterMenu
             function onPageSig(idx) {
+//                console.log("触发pageSig -idx:"+idx)
                 curPageIndex = idx // idx为PageSig信号的输入参数
+//                console.log("触发pageSig -当前curPageIndex:"+curPageIndex)
             }
         }
     }
