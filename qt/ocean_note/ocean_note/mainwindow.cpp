@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(action2,SIGNAL(triggered(bool)),this,SLOT(on_actionopenfile_triggered()));
 
     QAction *action12 = new QAction("保存",this);
+    action12->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     connect(action12,SIGNAL(triggered(bool)),this,SLOT(on_SaveFile_triggered()));
 
     QAction *action3 = new QAction("退出",this);
@@ -52,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(action5,SIGNAL(triggered(bool)),this,SLOT(on_actionpatse_triggered()));
 
     QAction *action6 = new QAction("撤销",this);
+    action6->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     connect(action6,SIGNAL(triggered(bool)),this,SLOT(on_actionundo_triggered()));
 
     QAction *action7 = new QAction("恢复",this);
@@ -102,15 +104,19 @@ MainWindow::MainWindow(QWidget *parent)
     // 创建工具项
     QAction *action13 = new QAction("打开",this);
     // 槽函数与信号的连接
+    action13->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     connect(action13,SIGNAL(triggered(bool)),this,SLOT(on_actionopenfile_triggered()));
 
     QAction *action14 = new QAction("保存",this);
+    action14->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     connect(action14,SIGNAL(triggered(bool)),this,SLOT(on_SaveFile_triggered()));
 
     QAction *action15 = new QAction("撤回",this);
+    action15->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Z));
     connect(action15,SIGNAL(triggered(bool)),this,SLOT(on_actionundo_triggered()));
 
     QAction *action16 = new QAction("剪切",this);
+    action16->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_X));
     connect(action16,SIGNAL(triggered(bool)),this,SLOT(on_actioncut_triggered()));
 
     QAction *action17 = new QAction("粗体",this);
@@ -171,7 +177,7 @@ MainWindow::MainWindow(QWidget *parent)
     dockWidget -> setFeatures(QDockWidget::NoDockWidgetFeatures); // 设置铆接不可移动、不可关闭、不可浮动
     dockWidget ->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea); // 设置允许左右停靠
 
-    QLabel * titleLabel = new QLabel("lines");
+    QLabel * titleLabel = new QLabel("行");
     titleLabel->setAlignment(Qt::AlignCenter);
     dockWidget -> setTitleBarWidget(titleLabel);
 
@@ -221,7 +227,6 @@ QString MainWindow::saveCurrentData(QString filePath){
             QTextStream out(&file);
             out << textEdit ->toPlainText();
             file.close();
-            setWindowTitle("OceanNote - ["+ret +"]");
         }else{
             ret ="";
         }
@@ -231,6 +236,7 @@ QString MainWindow::saveCurrentData(QString filePath){
 }
 void MainWindow::setCurrentFileName(const QString &filename){
     m_fileName = filename;
+    qDebug()<< "设置当前名字为："<<m_fileName << Qt::endl;
     textEdit->document() ->setModified(false);
 
     QString shownName;
@@ -239,7 +245,8 @@ void MainWindow::setCurrentFileName(const QString &filename){
     }else{
         shownName = QFileInfo(filename).fileName();
     }
-
+    qDebug()<< "显示出来的名字是："<<shownName << Qt::endl;
+    setWindowTitle("OceanNote - ["+shownName +"]");
     setWindowModified(false);
 }
 QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode){
@@ -259,7 +266,7 @@ QString MainWindow::showFileDialog(QFileDialog::AcceptMode mode){
     }
 
     if(fd.exec() == QFileDialog::Accepted){
-        ret = fd.selectedFiles()[0]; // 函数返回装有选中的文件的 绝对路径链表
+        ret = fd.selectedFiles().at(0); // 函数返回装有选中的文件的 绝对路径链表
     }
 
     return ret;
@@ -273,13 +280,14 @@ void MainWindow::on_actionexit_triggered(){
 
 void  MainWindow::on_actionopenfile_triggered(){
     QString path = showFileDialog(QFileDialog::AcceptOpen);
+    qDebug() <<"当前打开的文件名字" <<path <<Qt::endl;
     setCurrentFileName(path);
-    if(path ==""){
+    if(path !=""){
         QFile file(path);
         if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
             textEdit -> setPlainText(QString(file.readAll()));
             file.close();
-            setWindowTitle("OceanNote - ["+ path+ "]");
+//            setWindowTitle("OceanNote - ["+ path+ "]");
         }else{
 
         }
@@ -307,8 +315,8 @@ void  MainWindow::on_actionnewfile_triggered(){
     textEdit -> setText(QString());
     if(m_fileName == "" && ok == QMessageBox::StandardButton::Yes){
         m_fileName =  showFileDialog(QFileDialog::AcceptSave);
+        qDebug() << "创建的新文件名字是：m_fileName" << m_fileName <<Qt::endl ;
         setCurrentFileName(m_fileName);
-
     }
 } //创建新文件操作
 
