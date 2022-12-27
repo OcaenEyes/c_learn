@@ -83,6 +83,10 @@ Item {
                 width:                   maxWidth * 0.6  //_rootPlanView.fullMenuShow ? parent.width *1/3 : parent.width
                 height:                  width
                 anchors.margins:         (maxWidth - width ) / 2
+                source: Image {
+                    source: modelData.iconSource
+                }
+
                 gradient: Gradient {
                     GradientStop {
                         position: 0.0;

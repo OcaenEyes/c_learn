@@ -64,13 +64,16 @@ Window {
         maxHeight: rectMenu.height
         listMode: [
             {
-                name: qsTr("文件")
+                name: qsTr("文件"),
+                iconSource:     "/assets/images/file.png"
             },
             {
-                name: qsTr("编辑")
+                name: qsTr("编辑"),
+                iconSource:     "/assets/images/edit.png"
             },
             {
-                name: qsTr("设置")
+                name: qsTr("设置"),
+                iconSource:     "/assets/images/setting.png"
             },
         ]
 

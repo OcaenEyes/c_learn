@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>RepeaterMenu.qml</file>
+        <file>assets/images/edit.png</file>
+        <file>assets/images/file.png</file>
+        <file>assets/images/setting.png</file>
     </qresource>
 </RCC>
