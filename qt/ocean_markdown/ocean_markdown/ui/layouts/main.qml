@@ -18,31 +18,27 @@ Window {
         anchors.leftMargin: 40
         anchors.right: parent.right
 
-        Text{
-            id: mainPage
+        HomePage {
+            id: homePage
             anchors.centerIn: parent
-            text: "这是主页"
             visible: curPageIndex ==3
         }
 
-        Text{
-            id: firstPage
+        FilePage {
+            id: filePage
             anchors.centerIn: parent
-            text: "这是页面1"
             visible: curPageIndex == 0
         }
 
-        Text{
-            id: secondPage
+        EditPage {
+            id: editPage
             anchors.centerIn: parent
-            text: "这是页面2"
             visible: curPageIndex == 1
         }
 
-        Text{
-            id: thirdPage
+        SettingPage {
+            id: settingPage
             anchors.centerIn: parent
-            text: "这是页面3"
             visible: curPageIndex == 2
         }
     }

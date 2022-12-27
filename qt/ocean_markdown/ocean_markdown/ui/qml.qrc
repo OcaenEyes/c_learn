@@ -1,9 +1,15 @@
 <RCC>
-    <qresource prefix="/">
-        <file>main.qml</file>
-        <file>RepeaterMenu.qml</file>
-        <file>assets/images/edit.png</file>
-        <file>assets/images/file.png</file>
-        <file>assets/images/setting.png</file>
+    <qresource prefix="/layouts">
+        <file alias="EditPage.qml">layouts/EditPage.qml</file>
+        <file alias="SettingPage.qml">layouts/SettingPage.qml</file>
+        <file alias="main.qml">layouts/main.qml</file>
+        <file alias="RepeaterMenu.qml">layouts/RepeaterMenu.qml</file>
+        <file alias="FilePage.qml">layouts/FilePage.qml</file>
+        <file alias="HomePage.qml">layouts/HomePage.qml</file>
+    </qresource>
+    <qresource prefix="/assets/images">
+        <file alias="edit.png">assets/images/edit.png</file>
+        <file alias="file.png">assets/images/file.png</file>
+        <file alias="setting.png">assets/images/setting.png</file>
     </qresource>
 </RCC>
