@@ -8,6 +8,9 @@ Item {
     property bool isShowPreviw: true
     width: parent.width
     height: parent.height
+    signal inputMd(string text)
+
+    property string inputV: "欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~"
 
     Column {
         id : _editView
@@ -17,18 +20,18 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: 0
         anchors.leftMargin: 0
-        spacing: 2
 
 
         Rectangle {
             id: _editTools
             width: parent.width
-            height: 40
-            color: "#f4f4f4"
+            height: 28
+            color: "#ededed"
             Row{
                 id: _editToolBar
                 spacing: 2
                 anchors.verticalCenter: parent.verticalCenter
+
 
                 Button{
                     id: _bold
@@ -60,7 +63,7 @@ Item {
         Rectangle {
             id: _editContainer
             width: parent.width
-            height: parent.height - 44
+            height: parent.height - 28
 //            color: "red"
             Row {
                 id: _editItem
@@ -72,18 +75,54 @@ Item {
                     id: _editContent
                     width: (parent.width-2)/2
                     height: parent.height
-//                    color: "#e95d5d"
-                    border.color: "#999"
-                    border.width: 1
+                    clip: true
+                    Keys.onUpPressed: _vbar.decrease()
+                    Keys.onDownPressed: _vbar.increase()
 
                     TextEdit {
-                        id: textEdit
+                        id: _textIn
+                        text: inputV
+                        focus: true
                         x: 8
-                        y: 8
-                        width: parent.width-16
-                        height:  parent.height-16
-                        text: qsTr("Text Edit")
+                        y: -_vbar.position * _textIn.height
+                        width: parent.width-8-_vbar.width
+                        height:  contentHeight
+                        wrapMode: TextEdit.Wrap
                         font.pixelSize: 12
+                        selectByKeyboard: true
+                        selectByMouse: true
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onWheel:{
+//                                console.log("w轮子滚动"+wheel.angleDelta.y)
+                                if(wheel.angleDelta.y >0){
+                                    _vbar.decrease()
+//                                    console.log("y大于0_vbar.height"+_vbar.height)
+//                                    console.log("y大于0 _vbar.width"+_vbar.width)
+//                                    console.log("y大于0 _vbar.size"+_vbar.size)
+//                                    console.log("y大于0 _vbar.position"+_vbar.position)
+                                }
+                                else {
+                                    _vbar.increase()
+                                }
+                            }
+                            onClicked: {
+                                _textIn.forceActiveFocus()
+                            }
+                        }
+                    }
+
+                    ScrollBar {
+                        id: _vbar
+                        hoverEnabled: true
+                        active: hovered || pressed
+                        orientation: Qt.Vertical
+                        size: _editContent.height / _textIn.height
+                        width:4
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
 
                     }
                 }
@@ -92,18 +131,45 @@ Item {
                     id: _previwContent
                     width: (parent.width-2)/2
                     height: parent.height
-//                    color: "#36e632"
-                    border.color: "#999"
-                    border.width: 1
+                    color: "#f2eada"
+                    clip: true
+                    Keys.onUpPressed: _vbar.decrease()
+                    Keys.onDownPressed: _vbar.increase()
 
                     TextEdit {
-                        id: textEdit1
+                        id: _textOut
                         x: 8
-                        y: 8
-                        width: parent.width-16
-                        height: parent.height-16
-                        text: qsTr("Text Edit")
+                        y: -_vbar.position * _textOut.height
+                        width: parent.width-8-_vbar.width
+                        height:  contentHeight
+                        selectByKeyboard: true
+                        selectByMouse: true
+
+                        text: inputV
+                        wrapMode: TextEdit.Wrap
                         font.pixelSize: 12
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onWheel:{
+//                                console.log("w轮子滚动"+wheel.angleDelta.y)
+                                if(wheel.angleDelta.y >0){
+                                    _vbar.decrease()
+//                                    console.log("y大于0_vbar.height"+_vbar.height)
+//                                    console.log("y大于0 _vbar.width"+_vbar.width)
+//                                    console.log("y大于0 _vbar.size"+_vbar.size)
+//                                    console.log("y大于0 _vbar.position"+_vbar.position)
+                                }
+                                else {
+                                    _vbar.increase()
+                                }
+                            }
+                            onClicked: {
+                                _textIn.forceActiveFocus()
+                            }
+                        }
+
+
                     }
                 }
 
