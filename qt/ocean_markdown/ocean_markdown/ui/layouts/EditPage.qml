@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
+import QtQuick.Controls 2.5
 
 Item {
     id: _edit
@@ -23,8 +24,37 @@ Item {
             id: _editTools
             width: parent.width
             height: 40
-            border.color: "#999"
-            border.width: 1
+            color: "#f4f4f4"
+            Row{
+                id: _editToolBar
+                spacing: 2
+                anchors.verticalCenter: parent.verticalCenter
+
+                Button{
+                    id: _bold
+                    text: "粗体"
+                }
+
+                Button{
+                    id: _italitic
+                    text: "斜体"
+                }
+
+                Button{
+                    id: _leftAlign
+                    text: "左对齐"
+                }
+
+                Button{
+                    id: _centerAlign
+                    text: "中对齐"
+                }
+
+                Button{
+                    id: _rightAlign
+                    text: "右对齐"
+                }
+            }
         }
 
         Rectangle {
