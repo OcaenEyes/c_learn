@@ -94,7 +94,7 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
-                            onWheel:{
+                            onWheel:(wheel)=>{
 //                                console.log("w轮子滚动"+wheel.angleDelta.y)
                                 if(wheel.angleDelta.y >0){
                                     _vbar.decrease()
@@ -151,7 +151,7 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
-                            onWheel:{
+                            onWheel:(wheel)=>{
 //                                console.log("w轮子滚动"+wheel.angleDelta.y)
                                 if(wheel.angleDelta.y >0){
                                     _vbar.decrease()
