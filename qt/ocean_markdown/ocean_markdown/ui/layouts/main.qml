@@ -32,7 +32,7 @@ Window {
 
         EditPage {
             id: editPage
-            anchors.centerIn: parent
+//            anchors.centerIn: parent
             visible: curPageIndex == 1
         }
 
