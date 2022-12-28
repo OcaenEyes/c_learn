@@ -90,11 +90,11 @@ Item {
                 gradient: Gradient {
                     GradientStop {
                         position: 0.0;
-                        color: listItem.checked ? "#ff8815" : "#0ea9ff"
+                        color: listItem.checked ? "#000" : "#666"
                     }
                     GradientStop {
                         position: 1.0;
-                        color: listItem.checked ? "#f6ff00" : "#2af8ff"
+                        color: listItem.checked ? "#000" : "#666"
                     }
                 }
                 start:Qt.point(0,0)

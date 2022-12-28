@@ -4,10 +4,10 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.15
 
 Window {
-    width: 640
-    height: 480
+    width: 800
+    height: 600
     visible: true
-    title: qsTr("OceanMarkDown")
+    title: qsTr("Ocean MarkDown")
     property int curPageIndex: 3
 
     // 1个主页+3个内容界面
