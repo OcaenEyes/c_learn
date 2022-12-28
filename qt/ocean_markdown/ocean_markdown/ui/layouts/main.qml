@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.15
 
 Window {
     id : _window
-    width: 800
-    height: 600
+    width: 1000
+    height: 800
     visible: true
     title: qsTr("Ocean MarkDown")
     property int curPageIndex: 3
