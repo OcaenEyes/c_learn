@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls
+import MarkDownCore 1.0
 
 Item {
     id: _edit
@@ -10,7 +11,11 @@ Item {
     height: parent.height
     signal inputMd(string text)
 
-    property string inputV: "欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~欢迎使用~"
+    MarkDownCore {
+        id : _mdcore
+        onHasMarkdownIn: console.log(_mdcore.mdRes)
+
+    }
 
     Column {
         id : _editView
@@ -85,7 +90,7 @@ Item {
 
                     TextEdit {
                         id: _textIn
-                        text: inputV
+                        text: _mdcore.mdRes
                         focus: true
                         x: 8
                         y: -_vbar.position * _textIn.height
@@ -95,6 +100,7 @@ Item {
                         font.pixelSize: 12
                         selectByKeyboard: true
                         selectByMouse: true
+                        cursorPosition: _textIn.text.length
 
                         MouseArea {
                             anchors.fill: parent
@@ -115,6 +121,8 @@ Item {
                                 _textIn.forceActiveFocus()
                             }
                         }
+
+                        onTextChanged: _mdcore.mdRes=_textIn.text
                     }
 
                     ScrollBar {
@@ -146,11 +154,10 @@ Item {
                         y: -_vbar.position * _textOut.height
                         width: parent.width-8-_vbar.width
                         height:  contentHeight
-                        textFormat: TextEdit.RichText
                         selectByKeyboard: true
                         selectByMouse: true
 
-                        text: inputV
+                        text: _mdcore.mdRes
                         wrapMode: TextEdit.Wrap
                         font.pixelSize: 12
 

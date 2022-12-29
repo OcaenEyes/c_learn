@@ -16,6 +16,8 @@ set(TS_FILES language/ocean_markdown_zh_CN.ts)
 
 set(PROJECT_SOURCES
         source/main.cpp
+        source/markdowncore.h
+        source/markdowncore.cpp
         ui/qml.qrc
         ${TS_FILES}
 )
