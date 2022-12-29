@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
-import QtQuick.Controls 2.5
+import QtQuick.Controls
 
 Item {
     id: _edit
@@ -65,15 +65,19 @@ Item {
             width: parent.width
             height: parent.height - 28
 //            color: "red"
-            Row {
+
+            SplitView {
                 id: _editItem
-                spacing: 2
-                width: parent.width
-                height: parent.height
+                anchors.fill: parent
+                orientation: Qt.Horizontal
+//                spacing: 2
+//                width: parent.width
+//                height: parent.height
 
                 Rectangle {
                     id: _editContent
-                    width: (parent.width-2)/2
+                    implicitWidth: parent.width*0.5
+//                    width: parent.width * 0.5
                     height: parent.height
                     clip: true
                     Keys.onUpPressed: _vbar.decrease()
@@ -129,9 +133,9 @@ Item {
 
                 Rectangle {
                     id: _previwContent
-                    width: (parent.width-2)/2
+                    implicitWidth: parent.width * 0.5
                     height: parent.height
-                    color: "#f2eada"
+//                    color: "#f2eada"
                     clip: true
                     Keys.onUpPressed: _vbar.decrease()
                     Keys.onDownPressed: _vbar.increase()
@@ -142,6 +146,7 @@ Item {
                         y: -_vbar.position * _textOut.height
                         width: parent.width-8-_vbar.width
                         height:  contentHeight
+                        textFormat: TextEdit.RichText
                         selectByKeyboard: true
                         selectByMouse: true
 
