@@ -88,6 +88,7 @@ Item {
                     Keys.onUpPressed: _vbar.decrease()
                     Keys.onDownPressed: _vbar.increase()
 
+
                     TextEdit {
                         id: _textIn
                         text: _mdcore.mdRes
@@ -143,6 +144,8 @@ Item {
 
                     }
 
+
+
                     ScrollBar {
                         id: _vbar
                         hoverEnabled: true
@@ -153,6 +156,7 @@ Item {
                         anchors.top: parent.top
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
+                        y:_editContent.v
 
                     }
                 }
