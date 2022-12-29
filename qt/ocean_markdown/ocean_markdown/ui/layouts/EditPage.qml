@@ -101,28 +101,46 @@ Item {
                         selectByKeyboard: true
                         selectByMouse: true
                         cursorPosition: _textIn.text.length
+                        onTextChanged: _mdcore.mdRes=_textIn.text
 
                         MouseArea {
-                            anchors.fill: parent
+                            anchors.fill: _textIn
+                            hoverEnabled: true
+                            propagateComposedEvents: true
                             onWheel:(wheel)=>{
-//                                console.log("w轮子滚动"+wheel.angleDelta.y)
+    //                                console.log("w轮子滚动"+wheel.angleDelta.y)
                                 if(wheel.angleDelta.y >0){
                                     _vbar.decrease()
-//                                    console.log("y大于0_vbar.height"+_vbar.height)
-//                                    console.log("y大于0 _vbar.width"+_vbar.width)
-//                                    console.log("y大于0 _vbar.size"+_vbar.size)
-//                                    console.log("y大于0 _vbar.position"+_vbar.position)
+    //                                    console.log("y大于0_vbar.height"+_vbar.height)
+    //                                    console.log("y大于0 _vbar.width"+_vbar.width)
+    //                                    console.log("y大于0 _vbar.size"+_vbar.size)
+    //                                    console.log("y大于0 _vbar.position"+_vbar.position)
                                 }
-                                else {
+                                else if((wheel.angleDelta.y <0)) {
                                     _vbar.increase()
                                 }
                             }
-                            onClicked: {
-                                _textIn.forceActiveFocus()
+                            onClicked:(mouse)=> {
+                                _textIn.forceActiveFocus();
+                                mouse.accepted = false;
+                            }
+                            onPressed:(mouse)=> {
+                               mouse.accepted = false;
+                            }
+                            onReleased: (mouse)=>{
+                                mouse.accepted = false;
+                            }
+                            onDoubleClicked:(mouse)=> {
+                                mouse.accepted = false;
+                            }
+                            onPositionChanged: (mouse)=>{
+                                mouse.accepted = false;
+                            }
+                            onPressAndHold:(mouse)=> {
+                                mouse.accepted = false;
                             }
                         }
 
-                        onTextChanged: _mdcore.mdRes=_textIn.text
                     }
 
                     ScrollBar {
