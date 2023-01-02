@@ -2,6 +2,11 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls
 import MarkDownCore 1.0
+import QtWebEngine 1.9
+import QtWebChannel 1.0
+
+import "../3rdparty/showdown.js" as ShowDown
+
 
 Item {
     id: _edit
@@ -15,6 +20,11 @@ Item {
         id : _mdcore
         onHasMarkdownIn: console.log(_mdcore.mdRes)
 
+    }
+
+    WebChannel {
+        id: _textEditWebChannel
+        registeredObjects: [_textIn]
     }
 
     Column {
@@ -90,6 +100,7 @@ Item {
 
                     TextEdit {
                         id: _textIn
+                        WebChannel.id: "_textInObj"
                         text: _mdcore.mdRes
                         focus: true
                         x: 8
@@ -101,7 +112,12 @@ Item {
                         selectByKeyboard: true
                         selectByMouse: true
                         cursorPosition: _textIn.text.length
-                        onTextChanged: _mdcore.mdRes=_textIn.text
+                        onTextChanged: {
+                            console.log("_textIn.text:"+_textIn.text)
+//                           _textOut.text = Marked.marked.parse(_textIn.text)
+//                            var _tmp = ShowDown.markdown2Html(_textIn.text)
+//                            _textOut.loadHtml(_tmp,"index.html")
+                        }
 
                         MouseArea {
                             anchors.fill: _textIn
@@ -146,6 +162,7 @@ Item {
                     ScrollBar {
                         id: _vbar
                         hoverEnabled: true
+
                         active: hovered || pressed
                         orientation: Qt.Vertical
                         size: _editContent.height / _textIn.height
@@ -166,41 +183,70 @@ Item {
                     Keys.onUpPressed: _vbar.decrease()
                     Keys.onDownPressed: _vbar.increase()
 
-                    TextEdit {
+                    WebEngineView {
                         id: _textOut
-                        x: 8
-                        y: -_vbar.position * _textOut.height
-                        width: parent.width-8-_vbar.width
-                        height:  contentHeight
-                        selectByKeyboard: true
-                        selectByMouse: true
-
-                        text: _mdcore.mdRes
-                        wrapMode: TextEdit.Wrap
-                        font.pixelSize: 12
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onWheel:(wheel)=>{
-//                                console.log("w轮子滚动"+wheel.angleDelta.y)
-                                if(wheel.angleDelta.y >0){
-                                    _vbar.decrease()
-//                                    console.log("y大于0_vbar.height"+_vbar.height)
-//                                    console.log("y大于0 _vbar.width"+_vbar.width)
-//                                    console.log("y大于0 _vbar.size"+_vbar.size)
-//                                    console.log("y大于0 _vbar.position"+_vbar.position)
-                                }
-                                else {
-                                    _vbar.increase()
-                                }
-                            }
-                            onClicked: {
-                                _textIn.forceActiveFocus()
-                            }
-                        }
-
-
+                        anchors.fill: parent
+                        visible: true
+                        url:"qrc:/assets/static/index.html"
+                        webChannel: _textEditWebChannel
                     }
+
+//                    TextEdit {
+//                        id: _textOut
+//                        x: 8
+//                        y: -_vbar.position * _textOut.height
+//                        width: parent.width-8-_vbar.width
+//                        height:  contentHeight
+//                        selectByKeyboard: true
+//                        selectByMouse: true
+
+////                        text: _mdcore.mdRes
+//                        wrapMode: TextEdit.Wrap
+//                        textFormat: Text.RichText
+//                        font.pixelSize: 12
+
+//                        MouseArea {
+//                            anchors.fill: parent
+//                            propagateComposedEvents: true
+//                            hoverEnabled: true
+//                            onWheel:(wheel)=>{
+////                                console.log("w轮子滚动"+wheel.angleDelta.y)
+//                                if(wheel.angleDelta.y >0){
+//                                    _vbar.decrease()
+////                                    console.log("y大于0_vbar.height"+_vbar.height)
+////                                    console.log("y大于0 _vbar.width"+_vbar.width)
+////                                    console.log("y大于0 _vbar.size"+_vbar.size)
+////                                    console.log("y大于0 _vbar.position"+_vbar.position)
+//                                }
+//                                else {
+//                                    _vbar.increase()
+//                                }
+//                            }
+//                            onClicked:(mouse)=> {
+//                                _textIn.forceActiveFocus();
+//                                mouse.accepted = false;
+//                            }
+//                            onPressed:(mouse)=> {
+//                               mouse.accepted = false;
+//                            }
+//                            onReleased: (mouse)=>{
+//                                mouse.accepted = false;
+//                            }
+//                            onDoubleClicked:(mouse)=> {
+//                                mouse.accepted = false;
+//                            }
+//                            onPositionChanged: (mouse)=>{
+//                                mouse.accepted = false;
+//                            }
+//                            onPressAndHold:(mouse)=> {
+//                                mouse.accepted = false;
+//                            }
+//                        }
+
+
+//                    }
+
+
                 }
 
             }

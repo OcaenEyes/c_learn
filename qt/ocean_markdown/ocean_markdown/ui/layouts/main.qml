@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.15
+import QtWebChannel 1.0
 
 Window {
     id : _window
@@ -10,6 +11,11 @@ Window {
     visible: true
     title: qsTr("Ocean MarkDown")
     property int curPageIndex: 3
+
+    WebChannel {
+        id: _mainWindowChannel
+        registeredObjects: [editPage]
+    }
 
     // 1个主页+3个内容界面
     Item {
@@ -34,6 +40,7 @@ Window {
         EditPage {
             id: editPage
 //            anchors.centerIn: parent
+            WebChannel.id: "editPage"
             visible: curPageIndex == 1
         }
 

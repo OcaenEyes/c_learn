@@ -9,8 +9,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick LinguistTools WebEngineQuick)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick LinguistTools WebEngineQuick)
+
 
 set(TS_FILES language/ocean_markdown_zh_CN.ts)
 
@@ -18,7 +19,14 @@ set(PROJECT_SOURCES
         source/main.cpp
         source/markdowncore.h
         source/markdowncore.cpp
+        3rdparty/qwebchannel.js
         ui/qml.qrc
+        3rdparty/showdown.js
+        3rdparty/marked.min.js
+        3rdparty/marked.umd.js
+        3rdparty/marked.js
+        3rdparty/markdown.css
+
         ${TS_FILES}
 )
 
@@ -50,7 +58,7 @@ else()
 endif()
 
 target_link_libraries(ocean_markdown
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
+  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::WebEngineQuick)
 
 set_target_properties(ocean_markdown PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER com.gzy.oceanmarkdown
