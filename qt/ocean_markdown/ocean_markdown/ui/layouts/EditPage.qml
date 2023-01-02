@@ -14,7 +14,6 @@ Item {
     property bool isShowPreviw: true
     width: parent.width
     height: parent.height
-    signal inputMd(string text)
 
     MarkDownCore {
         id : _mdcore
@@ -72,6 +71,14 @@ Item {
                     id: _rightAlign
                     text: "右对齐"
                 }
+
+                Button{
+                    id: _chanegMdStyle
+                    text: "主题模式"
+                    onClicked: {
+                        _textOut.runJavaScript("changeMarkDownStyle(0)")
+                    }
+                }
             }
         }
 
@@ -100,6 +107,7 @@ Item {
 
 
                     TextEdit {
+                        signal inputMd(string text)
                         id: _textIn
                         WebChannel.id: "_textInObj"
                         text: _mdcore.mdRes
@@ -118,6 +126,7 @@ Item {
 //                           _textOut.text = Marked.marked.parse(_textIn.text)
 //                            var _tmp = ShowDown.markdown2Html(_textIn.text)
 //                            _textOut.loadHtml(_tmp,"index.html")
+                            _textIn.inputMd(_textIn.text)
                         }
 
                         MouseArea {
@@ -173,7 +182,7 @@ Item {
                         anchors.top: parent.top
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
-                        y:_editContent.v
+                        y:_editContent.y
 
                     }
                 }

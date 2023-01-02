@@ -23,9 +23,8 @@ set(PROJECT_SOURCES
         ui/qml.qrc
         3rdparty/showdown.js
         3rdparty/marked.min.js
-        3rdparty/marked.umd.js
-        3rdparty/marked.js
         3rdparty/markdown.css
+        3rdparty/sspai.css
 
         ${TS_FILES}
 )

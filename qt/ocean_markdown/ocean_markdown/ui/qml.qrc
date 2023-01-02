@@ -18,7 +18,6 @@
         <file>../3rdparty/marked.min.js</file>
         <file>assets/static/index.html</file>
         <file>../3rdparty/qwebchannel.js</file>
-        <file>../3rdparty/marked.umd.js</file>
-        <file>../3rdparty/marked.js</file>
+        <file>../3rdparty/sspai.css</file>
     </qresource>
 </RCC>
