@@ -4,7 +4,7 @@ import QtQuick.Controls
 import MarkDownCore 1.0
 import QtWebEngine 1.9
 import QtWebChannel 1.0
-import Qt.labs.folderlistmodel 2.2
+import Qt.labs.folderlistmodel 2.4
 
 import "../3rdparty/showdown.js" as ShowDown
 
@@ -158,6 +158,7 @@ Item {
                         }
                     }
                 }
+
                 Action {
                     id: h5Action
                     shortcut: "Ctrl+5"
@@ -361,29 +362,86 @@ Item {
                     height: parent.height
                     visible: true
 
-                    ListView {
-                        id: _filesListView
-                        spacing: 10
-                        model: FolderListModel {
-                            id:_folders
-                            property var folders:[]
-                            folder: "file:///" +"/Users/gaozhiyong/Desktop/"
-                        }
-                        delegate: Text {
-                            id: _fileName
-                            text: fileName
+                    TreeView {
+                        anchors.fill: parent
+                        // The model needs to be a QAbstractItemModel
+                        // model: yourTreeModel
 
-                            MouseArea {
-                                id:_mos
-                                enabled: fileIsDir
-                                anchors.fill: parent
-                                onClicked: {
-                                    _folders.folders.push(_folders.folder)
-                                    _folders.folder += fileName +"/"
-                                }
+                        delegate: Item {
+                            id: treeDelegate
+
+                            implicitWidth: padding + label.x + label.implicitWidth + padding
+                            implicitHeight: label.implicitHeight * 1.5
+
+                            readonly property real indent: 20
+                            readonly property real padding: 5
+
+                            // Assigned to by TreeView:
+                            required property TreeView treeView
+                            required property bool isTreeNode
+                            required property bool expanded
+                            required property int hasChildren
+                            required property int depth
+
+                            TapHandler {
+                                onTapped: treeView.toggleExpanded(row)
+                            }
+
+                            Text {
+                                id: indicator
+                                visible: treeDelegate.isTreeNode && treeDelegate.hasChildren
+                                x: padding + (treeDelegate.depth * treeDelegate.indent)
+                                anchors.verticalCenter: label.verticalCenter
+                                text: "▸"
+                                rotation: treeDelegate.expanded ? 90 : 0
+                            }
+
+                            Text {
+                                id: label
+                                x: padding + (treeDelegate.isTreeNode ? (treeDelegate.depth + 1) * treeDelegate.indent : 0)
+                                width: treeDelegate.width - treeDelegate.padding - x
+                                clip: true
+                                text: model.display
                             }
                         }
                     }
+
+                    TreeViewModel
+                    {
+                            id:treeViewModel
+                    }
+
+
+//                    ListView {
+//                        id: _filesListView
+//                        anchors.fill: parent
+//                        spacing: 10
+//                        model: _folders
+//                        delegate:_fileDelegate
+//                        Component {
+//                            id: _fileDelegate
+//                            Text {
+//                                text: fileName
+//                                MouseArea {
+//                                    enabled: fileIsDir
+//                                    anchors.fill: parent
+//                                    onClicked: {
+//                                        _folders.folders.push(_folders.folder)
+//                                        _folders.folder += fileName+"/"
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        FolderListModel {
+//                            id:_folders
+//                            property var folders:[]
+//                            folder: "file:///" + "E:/GitHub/c_learn/qt/ocean_markdown/ocean_markdown/ui"
+//                            nameFilters: ["*"]
+//                            showDirs: true
+//                            showFiles: true
+//                            showDotAndDotDot: true
+//                        }
+//                    }
 
                 }
 

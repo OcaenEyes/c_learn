@@ -17,24 +17,10 @@ public:
 
 signals:
     void hasMarkdownIn();
-    void fontBold();
-    void fontUnderLine();
-    void fontItalic();
-    void fontLeftAlign();
-    void fontCenterAlign();
-    void fontRightAlign();
 
 public slots:
-    void fontDesign();
     QString markdown();
     void markdownIn(const QString &_text);
-    void setFontBold();
-    void setFontUnderLine();
-    void setFontItalic();
-    void setFontLeftAlign();
-    void setFontCenterAlign();
-    void setFontRightAlign();
-
 };
 
 #endif // MARKDOWNCORE_H

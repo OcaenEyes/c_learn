@@ -20,6 +20,8 @@ set(PROJECT_SOURCES
         source/markdowncore.h
         source/markdowncore.cpp
         3rdparty/qwebchannel.js
+        source/filelistmodel.h
+        source/filelistmodel.cpp
         ui/qml.qrc
         3rdparty/showdown.js
         3rdparty/marked.min.js
