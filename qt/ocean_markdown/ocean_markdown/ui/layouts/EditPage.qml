@@ -354,13 +354,20 @@ Item {
                 id: _editItem
                 anchors.fill: parent
                 orientation: Qt.Horizontal
-//                spacing: 2
-//                width: parent.width
-//                height: parent.height
+
+                handle: Rectangle {
+                    id: handleDelegate
+                    implicitWidth: 1
+                    implicitHeight: 1
+                    color: SplitHandle.pressed ? "#333"
+                     : (SplitHandle.hovered ? "#33333350" : "#33333380")
+                }
+
                 Rectangle {
                     id: _filesView
                     implicitWidth: parent.width*0.12
                     height: parent.height
+                    color: "#e9e9e9"
                     visible: true
                     TreeView {
                         anchors.fill: parent
