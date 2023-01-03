@@ -5,6 +5,7 @@
 #include <QLocale>
 #include <QTranslator>
 #include "markdowncore.h"
+#include "filelistmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,6 +24,9 @@ int main(int argc, char *argv[])
     //arg3:次版本号
     //arg4:QML类型名
     qmlRegisterType<MarkDownCore>("MarkDownCore",1,0,"MarkDownCore");
+    qmlRegisterType<FileListModel>("FileListModel",1,0,"FileListModel");
+
+//    qmlRegisterUncreatableType<FileListModel>("FileListModel",1,0,"FileListModel","Cannot create a TreeView instance");
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -35,6 +39,8 @@ int main(int argc, char *argv[])
     }
 
     QQmlApplicationEngine engine;
+//    QAbstractItemModel* _fileListModel = new FileListModel();
+//    engine.rootContext()->setContextProperty("_fileListModel",_fileListModel);
     const QUrl url(QStringLiteral("qrc:/layouts/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
