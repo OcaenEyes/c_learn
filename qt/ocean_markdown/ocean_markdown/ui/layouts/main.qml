@@ -6,11 +6,11 @@ import QtWebChannel 1.0
 
 Window {
     id : _window
-    width: 1000
+    width: 1200
     height: 800
     visible: true
     title: qsTr("Ocean MarkDown")
-    property int curPageIndex: 3
+    property int curPageIndex: 2
 
     WebChannel {
         id: _mainWindowChannel
@@ -28,26 +28,26 @@ Window {
         HomePage {
             id: homePage
             anchors.centerIn: parent
-            visible: curPageIndex ==3
+            visible: curPageIndex ==2
         }
 
-        FilePage {
-            id: filePage
-            anchors.centerIn: parent
-            visible: curPageIndex == 0
-        }
+//        FilePage {
+//            id: filePage
+//            anchors.centerIn: parent
+//            visible: curPageIndex == 0
+//        }
 
         EditPage {
             id: editPage
 //            anchors.centerIn: parent
             WebChannel.id: "editPage"
-            visible: curPageIndex == 1
+            visible: curPageIndex == 0
         }
 
         SettingPage {
             id: settingPage
             anchors.centerIn: parent
-            visible: curPageIndex == 2
+            visible: curPageIndex == 1
         }
     }
 
@@ -67,10 +67,10 @@ Window {
         maxWidth: rectMenu.width
         maxHeight: rectMenu.height
         listMode: [
-            {
-                name: qsTr("文件"),
-                iconSource:     "/assets/images/file.png"
-            },
+//            {
+//                name: qsTr("文件"),
+//                iconSource:     "/assets/images/file.png"
+//            },
             {
                 name: qsTr("编辑"),
                 iconSource:     "/assets/images/edit.png"

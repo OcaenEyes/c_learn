@@ -14,10 +14,12 @@
     </qresource>
     <qresource prefix="/">
         <file>../3rdparty/showdown.js</file>
-        <file>../3rdparty/markdown.css</file>
         <file>../3rdparty/marked.min.js</file>
         <file>assets/static/index.html</file>
         <file>../3rdparty/qwebchannel.js</file>
         <file>../3rdparty/sspai.css</file>
+        <file>../3rdparty/han.css</file>
+        <file>../3rdparty/mdhere.css</file>
+        <file>../favicon.ico</file>
     </qresource>
 </RCC>

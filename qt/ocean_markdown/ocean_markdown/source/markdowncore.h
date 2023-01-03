@@ -13,7 +13,7 @@ public:
     //宏声明了一个可以从QML访问的属性
     Q_PROPERTY(QString mdRes READ markdown WRITE markdownIn NOTIFY hasMarkdownIn)
 
-    QString _textIn= "欢迎使用～";
+    QString _textIn= "# 欢迎使用～ \n [【个人网站】http://oceaneyes.top](http://oceaneyes.top)";
 
 signals:
     void hasMarkdownIn();

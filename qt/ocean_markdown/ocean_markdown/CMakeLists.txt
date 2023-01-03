@@ -25,20 +25,30 @@ set(PROJECT_SOURCES
         3rdparty/marked.min.js
         3rdparty/markdown.css
         3rdparty/sspai.css
-
         ${TS_FILES}
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(ocean_markdown
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET ocean_markdown APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+    if(WIN32)
+        set(app_icon_resource_windows "${CMAKE_CURRENT_SOURCE_DIR}/icon.rc")
+        qt_add_executable(ocean_markdown
+            MANUAL_FINALIZATION
+            ${PROJECT_SOURCES}
+            ${app_icon_resource_windows}
+        )
+    elseif(APPLE)
+        set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+        set(app_icon_macos "${CMAKE_CURRENT_SOURCE_DIR}/icon.icns")
+        set_source_files_properties(${app_icon_macos} PROPERTIES
+               MACOSX_PACKAGE_LOCATION "Resources")
 
+        qt_add_executable(ocean_markdown
+            MACOSX_BUNDLE
+            MANUAL_FINALIZATION
+            ${PROJECT_SOURCES}
+            ${app_icon_macos}
+        )
+    endif()
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(ANDROID)

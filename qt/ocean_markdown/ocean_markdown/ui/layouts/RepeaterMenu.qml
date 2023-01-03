@@ -52,14 +52,14 @@ Item {
 //                    console.log("点击了getListIndex -index:"+index)
                     if(idx === index ) {
                         //与前一次互斥事件, 大部分目录都是此逻辑
-                        if(idx!==3) {
+                        if(idx!==2) {
                             if(!listItem.oldChecked) {
                                 listItem.checked = true
                                 pageSig(idx)
                             }
                             else {
                                 listItem.checked = false
-                                pageSig(3)      //关闭此目录(回到主页)/工具
+                                pageSig(2)      //关闭此目录(回到主页)/工具
                             }
                         }
                         //可添加：连续点击事件 (工具栏中，需要此逻辑，如放大缩小)
