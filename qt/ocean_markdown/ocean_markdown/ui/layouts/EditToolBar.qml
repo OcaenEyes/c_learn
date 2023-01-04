@@ -196,6 +196,14 @@ Item {
                     shortcut: "Ctrl+S"
                     onTriggered:{
                         console.log("测试保存文档")
+                        _mdcore.mdRes = _editContainerComponent.textIns.text
+                    }
+                }
+                MenuItem {
+                    text: "另存为文档"
+                    shortcut: "Ctrl+Shift+S"
+                    onTriggered:{
+                        console.log("测试另存为")
                     }
                 }
             }

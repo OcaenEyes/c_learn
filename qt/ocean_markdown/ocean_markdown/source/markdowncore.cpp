@@ -2,12 +2,11 @@
 #include <QDebug>
 #include <QDir>
 #include <QList>
-#include "filelistmodel.h"
 
 MarkDownCore::MarkDownCore(QObject *parent)
     : QObject{parent}
 {
-
+    connect(this,SIGNAL(fileNameChanged()),this,SLOT(readFileContent()));
 }
 
 QString MarkDownCore::markdown(){
@@ -18,37 +17,40 @@ void MarkDownCore::markdownIn(const QString &_text){
     if(_text == _textIn){
         return;
     }
-    _textIn= _text;
+
     qDebug() << "有新的文本输入,内容是："<< _textIn << Qt::endl;
-    emit hasMarkdownIn();
-}
 
-std::vector<QString> MarkDownCore::getFileList(QString dir){
-    qDebug() << dir << Qt::endl;
-    dir = dir.remove("file://");
-    std::vector<QString> filePath;
-    QDir dirPath(dir);
-    qDebug() << dirPath << Qt::endl;
-
-    if(!dirPath.exists())
-        qDebug() << "dirPath不存在" << Qt::endl;
-
-    QFileInfoList fileInfoList = dirPath.entryInfoList(QDir::Files | QDir::NoDotAndDotDot | QDir::Dirs);
-    qDebug() << fileInfoList << Qt::endl;
-
-    QString name = "";
-
-    FileListModel _filelistModel;
-
-    for (auto it = fileInfoList.begin(); it != fileInfoList.end(); ++it) {
-        qDebug() << "it是："<< *it << Qt::endl;
-        name = it->fileName();
-        if(it->isDir()){
-
-        }
-        filePath.push_back(name);
+    QFile file(_fName);
+    _textIn= _text;
+    if(!file.open(QIODevice::WriteOnly)){
+        qDebug() << "文件写入失败，请重试"<< Qt::endl;
+    }else{
+        QTextStream out(&file);
+        out<<_textIn;
+        file.close();
     }
-    qDebug() << filePath << Qt::endl;
 
-    return filePath;
+    emit textInChanged();
 }
+
+QString MarkDownCore::getFileName(){
+    return _fName;
+}
+void MarkDownCore::setFileName(const QString &_fileName){
+    _fName = _fileName;
+    qDebug() << "文件路径变化了，是："<< _fileName << Qt::endl;
+    emit fileNameChanged();
+}
+
+
+void MarkDownCore::readFileContent(){
+    QFile file(_fName);
+    if(!file.open(QIODevice::ReadOnly)){
+        _textIn= "> 文件打开失败，请重试";
+    }
+    _textIn.clear();
+    _textIn = file.readAll();
+    qDebug() << "开始读取新文件，内容是："<< _textIn << Qt::endl;
+    emit textInChanged();
+}
+

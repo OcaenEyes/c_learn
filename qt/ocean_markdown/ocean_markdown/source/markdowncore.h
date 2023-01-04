@@ -2,6 +2,7 @@
 #define MARKDOWNCORE_H
 
 #include <QObject>
+#include <QFile>
 
 class MarkDownCore : public QObject
 {
@@ -9,18 +10,29 @@ class MarkDownCore : public QObject
 public:
     explicit MarkDownCore(QObject *parent = nullptr);
 
-    Q_INVOKABLE std::vector<QString> getFileList(QString dir);
     //宏声明了一个可以从QML访问的属性
-    Q_PROPERTY(QString mdRes READ markdown WRITE markdownIn NOTIFY hasMarkdownIn)
+    Q_PROPERTY(QString mdRes READ markdown WRITE markdownIn NOTIFY textInChanged)
+
+    Q_PROPERTY(QString fileName READ getFileName WRITE setFileName NOTIFY fileNameChanged)
 
     QString _textIn= "# 欢迎使用～ \n [【个人网站】http://oceaneyes.top](http://oceaneyes.top)";
 
-signals:
-    void hasMarkdownIn();
 
-public slots:
+signals:
+    void textInChanged();
+    void fileNameChanged();
+
+private:
+    QString _fName;
+
+private slots:
     QString markdown();
     void markdownIn(const QString &_text);
+
+    QString getFileName();
+    void setFileName(const QString &_fileName);
+
+    void readFileContent();
 };
 
 #endif // MARKDOWNCORE_H

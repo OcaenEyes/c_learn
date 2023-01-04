@@ -55,6 +55,7 @@ Item {
             Rectangle{
                x:10
                y:10
+               id: _editContentRect
                width: parent.width-10
                height: parent.height-20
                Flickable {
@@ -81,8 +82,9 @@ Item {
                         WebChannel.id: "_textInObj"
                         text: _mdcore.mdRes
                         focus: true
-                        width: parent.width
-                        height:  contentHeight
+                        activeFocusOnPress:true
+                        width: _editContentRect.width
+                        height: _editContentRect.height
                         wrapMode: TextEdit.Wrap
                         font.pixelSize: 14
                         selectByKeyboard: true
@@ -90,7 +92,9 @@ Item {
                         onCursorRectangleChanged: _flick.ensureVisible(cursorRectangle)
                         onTextChanged: {
                             _textIn.inputMd(_textIn.text)
+//                            _mdcore.mdRes= _textIn.text
                         }
+
                     }
                 }
 

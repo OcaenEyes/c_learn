@@ -1,9 +1,7 @@
 import QtQuick
 import QtQuick.Window 2.15
 import QtQuick.Controls
-//import Qt.labs.folderlistmodel 2.4
 import MarkDownCore 1.0
-//import "../3rdparty/showdown.js" as ShowDown
 
 
 Item {
@@ -15,8 +13,7 @@ Item {
 
     MarkDownCore {
         id : _mdcore
-        onHasMarkdownIn: console.log(_mdcore.mdRes)
-
+        onTextInChanged: console.log(_mdcore.mdRes)
     }
 
     Column {

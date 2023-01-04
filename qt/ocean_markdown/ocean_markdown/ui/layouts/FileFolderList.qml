@@ -45,6 +45,7 @@ Item {
                 x: padding + (depth * indent)
                 y: label.implicitHeight * 0.2
                 text: expanded ? "▼" : "▶"
+                color:"#333"
                 anchors.leftMargin: 8
             }
             ToolButton {
@@ -52,11 +53,32 @@ Item {
                 x: padding + (_fileLists.isTreeNode ? (_fileLists.depth + 1) * _fileLists.indent : 0)
                 width: _fileLists.width - _fileLists.padding - x
                 clip: true
-                text: model.name
+                contentItem: Text {
+                    id :_tree0
+                    text: model.name
+                    color: label.hovered ||label.down ||  label.highlighted  ? "white" :"black"
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                    elide:Text.ElideRight
+                }
+                background: Rectangle{
+                    id :_tree1
+                    color: label.hovered ||label.down || label.highlighted ? "#666" :"#ffffffff"
+                    visible:label.hovered || label.down || label.highlighted
+                }
                 onClicked: {
-                    if (!isTreeNode){
+                    if (!hasChildren){
                         console.log(model.fPath)
+                        _mdcore.fileName= model.fPath
                     }
+                    _tree0.color="white"
+                    _tree1.color="333"
+                    _tree1.visible = true
+                }
+                onFocusChanged: {
+                    _tree0.color="black"
+                    _tree1.color="#ffffffff"
+                    _tree1.visible = false
                 }
             }
         }
