@@ -98,9 +98,11 @@ Item {
                Rectangle
                {
                    id: _srect;
-                   width: 3;
+                   width: 4;
+                   radius:4
                    anchors.right: _flick.right;
                    color: "#99999990";
+                   visible: _flick.height < _flick.contentHeight
 
                    //flick.visibleArea.heightRatio = flick.height / flick.contentHeight
                    height: _flick.visibleArea.heightRatio * _flick.height;

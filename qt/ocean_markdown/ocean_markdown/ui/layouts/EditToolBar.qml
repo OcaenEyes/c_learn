@@ -16,12 +16,12 @@ Item {
         acceptLabel: "确定"
         rejectLabel: "取消"
         options: FileDialog.ShowDirsOnly
-        onAccepted: {
-            defaltFolderUrl= currentFolder
-            console.log("当前路径：",defaltFolderUrl)
-            _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
+//        onAccepted: {
+//            defaltFolderUrl= currentFolder
+//            console.log("当前路径：",defaltFolderUrl)
+//            _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
 
-        }
+//        }
         onFolderChanged: {
             defaltFolderUrl= folder
             console.log("修改了folder以后当前路径：",defaltFolderUrl)

@@ -47,13 +47,13 @@ Item {
                 text: expanded ? "▼" : "▶"
                 anchors.leftMargin: 8
             }
-            MenuItem {
+            ToolButton {
                 id: label
                 x: padding + (_fileLists.isTreeNode ? (_fileLists.depth + 1) * _fileLists.indent : 0)
                 width: _fileLists.width - _fileLists.padding - x
                 clip: true
                 text: model.name
-                onTriggered: {
+                onClicked: {
                     if (!isTreeNode){
                         console.log(model.fPath)
                     }

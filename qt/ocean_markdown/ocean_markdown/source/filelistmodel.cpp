@@ -85,6 +85,7 @@ MyTreeItem *FileListModel::getItem(const QModelIndex &idx) const{
 }
 
 void FileListModel::initItems(QString dirPath){
+    qDebug() << "rootItem.data();" << rootItem.data()<< Qt::endl;
     beginResetModel();
     dirPath = dirPath.remove("file://");
     QDir _dir(dirPath);
