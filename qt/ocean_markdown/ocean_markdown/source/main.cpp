@@ -6,6 +6,7 @@
 #include <QTranslator>
 #include "markdowncore.h"
 #include "filelistmodel.h"
+#include "filefolderpathindir.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,6 +26,8 @@ int main(int argc, char *argv[])
     //arg4:QML类型名
     qmlRegisterType<MarkDownCore>("MarkDownCore",1,0,"MarkDownCore");
     qmlRegisterType<FileListModel>("FileListModel",1,0,"FileListModel");
+    qmlRegisterType<FileFolderPathInDir>("FileFolderPathInDir",1,0,"FileFolderPathInDir");
+
 
 //    qmlRegisterUncreatableType<FileListModel>("FileListModel",1,0,"FileListModel","Cannot create a TreeView instance");
 

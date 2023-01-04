@@ -6,6 +6,9 @@
         <file alias="RepeaterMenu.qml">layouts/RepeaterMenu.qml</file>
         <file alias="FilePage.qml">layouts/FilePage.qml</file>
         <file alias="HomePage.qml">layouts/HomePage.qml</file>
+        <file alias="EditToolBar.qml">layouts/EditToolBar.qml</file>
+        <file alias="EditContainer.qml">layouts/EditContainer.qml</file>
+        <file alias="FileFolderList.qml">layouts/FileFolderList.qml</file>
     </qresource>
     <qresource prefix="/assets/images">
         <file alias="edit.png">assets/images/edit.png</file>

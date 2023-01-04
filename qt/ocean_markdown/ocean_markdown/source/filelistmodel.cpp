@@ -1,5 +1,8 @@
 #include "filelistmodel.h"
 #include <QDebug>
+#include <QDir>
+#include <QFileInfoList>
+#include <QFileInfo>
 
 
 FileListModel::FileListModel(QObject *parent) : QAbstractItemModel(parent),rootItem(new MyTreeItem)
@@ -54,6 +57,8 @@ QVariant FileListModel::data(const QModelIndex &index,int role) const{
     switch (role) {
         case FullNameRole:
             return item->name;
+        case FullPathRole:
+            return item->fPath;
         default: break;
     }
     return QVariant();
@@ -62,7 +67,10 @@ QVariant FileListModel::data(const QModelIndex &index,int role) const{
 
 QHash<int,QByteArray> FileListModel::roleNames() const{
     QHash<int, QByteArray> names = QAbstractItemModel::roleNames();
-    names.insert(QHash<int, QByteArray>{{FullNameRole, "name"}});
+    names.insert(QHash<int, QByteArray>{
+                     {FullNameRole, "name"},
+                     {FullPathRole,"fPath"}
+                 });
     return names;
 }
 
@@ -76,25 +84,58 @@ MyTreeItem *FileListModel::getItem(const QModelIndex &idx) const{
     return rootItem.get();
 }
 
-void FileListModel::initItems(){
+void FileListModel::initItems(QString dirPath){
     beginResetModel();
-    for(int i=0; i<10; i++)
-        {
-            QSharedPointer<MyTreeItem> lv1{new MyTreeItem};
-            lv1->parentItem = rootItem;
-            rootItem->subItems.append(lv1);
-            lv1->row = i;
-            lv1->name = QString("lv1-%1").arg(i);
-            for(int j=0; j<10; j++)
-            {
-                QSharedPointer<MyTreeItem> lv2{new MyTreeItem};
-                lv2->parentItem = lv1;
-                lv1->subItems.append(lv2);
-                lv2->row = j;
-                lv2->name = QString("lv2-%1-%2").arg(i).arg(j);
-            }
+    dirPath = dirPath.remove("file://");
+    QDir _dir(dirPath);
+    if (!_dir.exists()){
+        _dir.mkdir(dirPath);
+    }
+    getFullFileAndFolder(dirPath,rootItem);
+//    for(int i=0; i<10; i++)
+//        {
+//            QSharedPointer<MyTreeItem> lv1{new MyTreeItem};
+//            lv1->parentItem = rootItem;
+//            rootItem->subItems.append(lv1);
+//            lv1->row = i;
+//            lv1->name = QString("lv1-%1").arg(i);
+//            for(int j=0; j<10; j++)
+//            {
+//                QSharedPointer<MyTreeItem> lv2{new MyTreeItem};
+//                lv2->parentItem = lv1;
+//                lv1->subItems.append(lv2);
+//                lv2->row = j;
+//                lv2->name = QString("lv2-%1-%2").arg(i).arg(j);
+//            }
+//    }
+    endResetModel();
+    qDebug()<<__FUNCTION__<<rowCount()<<columnCount();
+}
+
+void FileListModel::getFullFileAndFolder(QString dirPath,QSharedPointer<MyTreeItem> itemNode){
+    QDir _dir(dirPath);
+    if (!_dir.exists()){
+        _dir.mkdir(dirPath);
+    }
+    _dir.setSorting(QDir::DirsFirst);
+    QFileInfoList _tempFileInfoList =  _dir.entryInfoList(QDir::Dirs | QDir::Files |QDir::NoDotAndDotDot);
+    QFileInfo _tempFileInfo;
+
+    foreach (_tempFileInfo, _tempFileInfoList) {
+        QSharedPointer<MyTreeItem> _level{new MyTreeItem};
+        _level->parentItem = itemNode;
+        itemNode->subItems.append(_level);
+        _level->row = _tempFileInfoList.indexOf(_tempFileInfo);
+        _level->name = _tempFileInfo.fileName();
+        _level->fPath = _tempFileInfo.absoluteFilePath();
+        if(_tempFileInfo.isDir()){
+            getFullFileAndFolder(_tempFileInfo.absoluteFilePath(),_level);
+        }else{
+            qDebug() << "fileName="<<_tempFileInfo.fileName()
+                     << "absoluteFilePath="<< _tempFileInfo.absoluteFilePath()
+                     <<"fileSize="<<_tempFileInfo.size()
+                     << "lastModified=" << _tempFileInfo.lastModified().toString("yyyy-MM-dd hh:mm:ss");
         }
-        endResetModel();
-        qDebug()<<__FUNCTION__<<rowCount()<<columnCount();
+    }
 }
 

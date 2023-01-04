@@ -22,6 +22,9 @@ set(PROJECT_SOURCES
         3rdparty/qwebchannel.js
         source/filelistmodel.h
         source/filelistmodel.cpp
+        source/filefolderpathindir.h
+        source/filefolderpathindir.cpp
+        source/filefoldername.h
         ui/qml.qrc
         3rdparty/showdown.js
         3rdparty/marked.min.js

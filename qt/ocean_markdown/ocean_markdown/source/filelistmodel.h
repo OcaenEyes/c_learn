@@ -4,18 +4,8 @@
 #include <QAbstractItemModel>
 #include <QSharedPointer>
 #include <qqml.h>
+#include "filefoldername.h"
 
-// 自定义树节点
-struct MyTreeItem {
-    // 节点属性
-    QString name;
-    // 节点位置
-    int row;
-    // 父节点
-    QSharedPointer<MyTreeItem> parentItem;
-    // 子节点
-    QList<QSharedPointer<MyTreeItem>> subItems;
-};
 
 class FileListModel : public QAbstractItemModel
 {
@@ -23,7 +13,8 @@ class FileListModel : public QAbstractItemModel
     QML_ELEMENT
 public:
     enum RoleType {
-        FullNameRole = Qt::UserRole
+        FullNameRole = Qt::UserRole,
+        FullPathRole
     };
 
     Q_ENUM(RoleType)
@@ -43,13 +34,19 @@ public:
     virtual QHash<int,QByteArray> roleNames() const;
 
     // 初始化数据
-    Q_INVOKABLE void initItems();
+    Q_INVOKABLE void initItems(QString dirPath);
 
 private:
     MyTreeItem  *getItem(const QModelIndex &idx) const;
 
     // 根节点
     QSharedPointer<MyTreeItem> rootItem;
+
+    // 遍历文件夹和文件
+    void getFullFileAndFolder(QString dirPath, QSharedPointer<MyTreeItem> itemNode);
+
+    int getFullFileAndFolderTimes = 1;
+
 };
 
 #endif // FILELISTMODEL_H

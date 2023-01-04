@@ -9,7 +9,7 @@ class MarkDownCore : public QObject
 public:
     explicit MarkDownCore(QObject *parent = nullptr);
 
-//    Q_INVOKABLE void fontDesign ();
+    Q_INVOKABLE std::vector<QString> getFileList(QString dir);
     //宏声明了一个可以从QML访问的属性
     Q_PROPERTY(QString mdRes READ markdown WRITE markdownIn NOTIFY hasMarkdownIn)
 
