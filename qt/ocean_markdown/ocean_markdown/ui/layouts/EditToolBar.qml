@@ -48,14 +48,32 @@ Item {
             }else if (Qt.platform.os==="linux"){
                 curFileUrl = _fileDialog.file.toString().substr(7)
             }
-
             _mdcore.fileName = curFileUrl
-
             if(_fileDialog.fileMode == FileDialog.OpenFile){
                  _editContainerComponent.fileListModel.initItem(_fileDialog.file)
             }else if (_fileDialog.fileMode == FileDialog.SaveFile){
                 _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
             }  
+        }
+    }
+
+    FileDialog {
+        id : _fileDialogToSave
+        acceptLabel: "确定"
+        rejectLabel: "取消"
+        onFileChanged:  {
+            defaltFolderUrl= _fileDialogToSave.folder
+            console.log("打开的新文档路径：",_fileDialogToSave.file)
+            console.log("Qt.platform.os:",Qt.platform.os)
+            if(Qt.platform.os==="windows"){
+                curFileUrl = _fileDialogToSave.file.toString().substr(8)
+            }else if (Qt.platform.os==="osx"){
+                curFileUrl = _fileDialogToSave.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                curFileUrl = _fileDialogToSave.file.toString().substr(7)
+            }
+            _mdcore.newFileName = curFileUrl
+            _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
         }
     }
 
@@ -187,6 +205,15 @@ Item {
                 }
             }
         }
+        Action {
+            id:inTableAction
+            shortcut: "Ctrl+6"
+            onTriggered: {
+                _editContainerComponent.textIns.insert(
+                            _editContainerComponent.textIns.cursorPosition,
+                            "\n|  表头   | 表头  |\n|  ----    | ----   |\n| 单元格  | 单元格 |\n| 单元格  | 单元格 |\n")
+            }
+        }
 
         ToolButton {
             id: _fileTool
@@ -240,8 +267,9 @@ Item {
                     shortcut: "Ctrl+Shift+S"
                     onTriggered:{
                         console.log("测试另存为")
-                        _fileDialog.fileMode= FileDialog.SaveFile
-                        _fileDialog.open()
+                        _fileDialogToSave.fileMode= FileDialog.SaveFile
+                        _fileDialogToSave.nameFilters=["Markdown (*.md)","All Files (*)"]
+                        _fileDialogToSave.open()
                     }
                 }
             }
@@ -275,6 +303,11 @@ Item {
             id: _h5
             text: "H5"
             action: h5Action
+        }
+        ToolButton{
+            id: _inTable
+            text: "表格"
+            action: inTableAction
         }
 
         ToolButton{

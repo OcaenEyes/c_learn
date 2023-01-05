@@ -84,8 +84,8 @@ Item {
                         text: _mdcore.mdRes
                         focus: true
                         activeFocusOnPress:true
-                        width: _editContentRect.width
-                        height: _editContentRect.height
+                        width:  _editContentRect.width
+                        height: _textIn.contentHeight <500 ? _editContentRect.height : contentHeight
                         wrapMode: TextEdit.Wrap
                         font.pixelSize: 14
                         selectByKeyboard: true

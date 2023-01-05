@@ -15,6 +15,8 @@ public:
 
     Q_PROPERTY(QString fileName READ getFileName WRITE setFileName NOTIFY fileNameChanged)
 
+    Q_PROPERTY(QString newFileName READ getNewFileName WRITE setNewFileName NOTIFY newFileNameChanged)
+
     QString _textIn= "# 欢迎使用～ \n [【个人网站】http://oceaneyes.top](http://oceaneyes.top)";
 
     Q_INVOKABLE void saveFile(const QString &_text);
@@ -23,6 +25,7 @@ public:
 signals:
     void textInChanged();
     void fileNameChanged();
+    void newFileNameChanged();
 
 private:
     QString _fName;
@@ -33,6 +36,10 @@ public slots:
 
     QString getFileName();
     void setFileName(const QString &_fileName);
+    void saveFile();
+
+    QString getNewFileName();
+    void setNewFileName(const QString &_fileName);
 
     void readFileContent();
 };

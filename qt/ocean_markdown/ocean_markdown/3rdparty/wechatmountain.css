@@ -231,3 +231,26 @@ padding:6%;
  */
 #placeholder .inline-equation svg {
 }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+#placeholder table th, #placeholder table td {
+  border: 1px solid #ddd;
+  padding: 0.5em 1em;
+  color: #666;
+  margin-bottom: 1.2em
+}
+#placeholder table th  {
+  background: #fbfbfb;
+}
+
+#placeholder table thead th{
+  background: #f1f1f1;
+}
+
+#placeholder table caption {
+  border-bottom: none;
+}
+
