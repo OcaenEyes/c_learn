@@ -24,5 +24,13 @@
         <file>../3rdparty/han.css</file>
         <file>../3rdparty/mdhere.css</file>
         <file>../favicon.ico</file>
+        <file>../3rdparty/businessblue.css</file>
+        <file>../3rdparty/github.css</file>
+        <file>../3rdparty/wechatallblue.css</file>
+        <file>../3rdparty/wechatazure.css</file>
+        <file>../3rdparty/wechatgeekblack.css</file>
+        <file>../3rdparty/wechatmountain.css</file>
+        <file>../3rdparty/wechatorange.css</file>
+        <file>../3rdparty/wechatinkblack.css</file>
     </qresource>
 </RCC>

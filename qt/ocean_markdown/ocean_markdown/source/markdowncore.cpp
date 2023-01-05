@@ -19,7 +19,11 @@ void MarkDownCore::markdownIn(const QString &_text){
     }
 
     qDebug() << "有新的文本输入,内容是："<< _textIn << Qt::endl;
+    saveFile(_text);
+    emit textInChanged();
+}
 
+void MarkDownCore::saveFile(const QString &_text){
     QFile file(_fName);
     _textIn= _text;
     if(!file.open(QIODevice::WriteOnly)){
@@ -29,8 +33,6 @@ void MarkDownCore::markdownIn(const QString &_text){
         out<<_textIn;
         file.close();
     }
-
-    emit textInChanged();
 }
 
 QString MarkDownCore::getFileName(){
@@ -45,7 +47,7 @@ void MarkDownCore::setFileName(const QString &_fileName){
 
 void MarkDownCore::readFileContent(){
     QFile file(_fName);
-    if(!file.open(QIODevice::ReadOnly)){
+    if(!file.open(QIODevice::ReadWrite)){
         _textIn= "> 文件打开失败，请重试";
     }
     _textIn.clear();

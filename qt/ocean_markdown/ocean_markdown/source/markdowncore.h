@@ -17,6 +17,8 @@ public:
 
     QString _textIn= "# 欢迎使用～ \n [【个人网站】http://oceaneyes.top](http://oceaneyes.top)";
 
+    Q_INVOKABLE void saveFile(const QString &_text);
+
 
 signals:
     void textInChanged();

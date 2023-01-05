@@ -28,8 +28,20 @@ set(PROJECT_SOURCES
         ui/qml.qrc
         3rdparty/showdown.js
         3rdparty/marked.min.js
-        3rdparty/markdown.css
+
         3rdparty/sspai.css
+        3rdparty/han.css
+        3rdparty/mdhere.css
+        3rdparty/businessblue.css
+        3rdparty/github.css
+
+        3rdparty/wechatallblue.css
+        3rdparty/wechatazure.css
+        3rdparty/wechatgeekblack.css
+        3rdparty/wechatinkblack.css
+        3rdparty/wechatorange.css
+        3rdparty/wechatmountain.css
+
         ${TS_FILES}
 )
 

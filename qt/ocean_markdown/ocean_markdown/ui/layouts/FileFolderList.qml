@@ -4,7 +4,6 @@ import QtQuick.Controls
 Item {
     width: parent.width
     height:parent.height
-    property alias fileListItem: label
     TreeView {
         anchors.fill: parent
         model:_fileListModel
@@ -57,15 +56,15 @@ Item {
                 contentItem: Text {
                     id :_tree0
                     text: model.name
-                    color: label.hovered ||label.down ||  label.highlighted  ? "white" :"black"
+                    color: model.fPath === _editToolComponent.curFileUrl ||  label.hovered ||label.down ||  label.highlighted  ? "white" :"black"
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     elide:Text.ElideRight
                 }
                 background: Rectangle{
                     id :_tree1
-                    color: label.hovered ||label.down || label.highlighted ? "#666" :"#ffffffff"
-                    visible:label.hovered || label.down || label.highlighted
+                    color: model.fPath === _editToolComponent.curFileUrl || label.hovered ||label.down || label.highlighted ? "#666" :"#ffffffff"
+                    visible:model.fPath === _editToolComponent.curFileUrl || label.hovered || label.down || label.highlighted
                 }
                 onClicked: {
                     if (!hasChildren){
@@ -73,15 +72,8 @@ Item {
                         _mdcore.fileName= model.fPath
                         console.log(model)
                     }
-//                    _tree0.color="white"
-//                    _tree1.color="333"
-//                    _tree1.visible = true
+                    _editToolComponent.curFileUrl = model.fPath
                 }
-//                onFocusChanged: {
-//                    _tree0.color="black"
-//                    _tree1.color="#ffffffff"
-//                    _tree1.visible = false
-//                }
             }
         }
     }

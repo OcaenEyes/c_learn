@@ -8,6 +8,8 @@ Item {
 
     property string defaltFolderUrl: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0]+"/oceanmarkdown_data"//默认打开Documents/oceanmarkdown_data文件夹
 
+    property string curFileUrl: ""
+
     FolderDialog {
         id: _folderDialog
         folder: defaltFolderUrl
@@ -38,20 +40,22 @@ Item {
         onFileChanged:  {
             defaltFolderUrl= _fileDialog.folder
             console.log("打开的新文档路径：",_fileDialog.file)
+            console.log("Qt.platform.os:",Qt.platform.os)
+            if(Qt.platform.os==="windows"){
+                curFileUrl = _fileDialog.file.toString().substr(8)
+            }else if (Qt.platform.os==="osx"){
+                curFileUrl = _fileDialog.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                curFileUrl = _fileDialog.file.toString().substr(7)
+            }
+
+            _mdcore.fileName = curFileUrl
+
             if(_fileDialog.fileMode == FileDialog.OpenFile){
                  _editContainerComponent.fileListModel.initItem(_fileDialog.file)
             }else if (_fileDialog.fileMode == FileDialog.SaveFile){
-                _mdcore.mdRes = ""
                 _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
-            }
-            console.log("Qt.platform.os:",Qt.platform.os)
-            if(Qt.platform.os==="windows"){
-                _mdcore.fileName=_fileDialog.file.toString().substr(8)
-            }else if (Qt.platform.os==="osx"){
-                _mdcore.fileName=_fileDialog.file.toString().substr(7)
-            }else if (Qt.platform.os==="linux"){
-                _mdcore.fileName=_fileDialog.file.toString().substr(7)
-            }
+            }  
         }
     }
 
@@ -323,23 +327,76 @@ Item {
 
             Menu {
                 id: _changeMdStyleMenu
-                MenuItem {
-                    text: "sspai"
-
-                    onTriggered: {
-                        _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(0)")
+                Menu{
+                    title:"桌面主题"
+                    MenuItem {
+                        text: "sspai"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(0)")
+                        }
+                    }
+                    MenuItem {
+                        text: "typora-han"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(1)")
+                        }
+                    }
+                    MenuItem {
+                        text: "markdownhere"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(2)")
+                        }
+                    }
+                    MenuItem {
+                        text: "github"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(3)")
+                        }
+                    }
+                    MenuItem {
+                        text: "科技蓝"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(4)")
+                        }
                     }
                 }
-                MenuItem {
-                    text: "han"
-                    onTriggered: {
-                        _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(1)")
+                Menu {
+                    title:"微信公众号主题"
+                    MenuItem {
+                        text: "微信-全栈蓝"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(5)")
+                        }
                     }
-                }
-                MenuItem {
-                    text: "mdhere"
-                    onTriggered: {
-                        _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(2)")
+                    MenuItem {
+                        text: "微信-天青"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(6)")
+                        }
+                    }
+                    MenuItem {
+                        text: "微信-极客黑"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(7)")
+                        }
+                    }
+                    MenuItem {
+                        text: "微信-墨水黑"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(8)")
+                        }
+                    }
+                    MenuItem {
+                        text: "微信-山吹"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(9)")
+                        }
+                    }
+                    MenuItem {
+                        text: "微信-橙心"
+                        onTriggered: {
+                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(10)")
+                        }
                     }
                 }
             }
