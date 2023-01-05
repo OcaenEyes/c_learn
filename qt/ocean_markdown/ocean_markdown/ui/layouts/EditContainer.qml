@@ -11,6 +11,7 @@ Item {
     property alias textIns: _textIn
     property alias textOuts: _textOut
     property alias fileListModel: _fileListModel
+    property alias filesViewComponent: _filesViewComponent
 
     WebChannel {
         id: _textEditWebChannel

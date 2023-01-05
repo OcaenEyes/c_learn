@@ -8,8 +8,6 @@ Item {
 
     property string defaltFolderUrl: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0]+"/oceanmarkdown_data"//默认打开Documents/oceanmarkdown_data文件夹
 
-
-
     FolderDialog {
         id: _folderDialog
         folder: defaltFolderUrl
@@ -23,11 +21,40 @@ Item {
 
 //        }
         onFolderChanged: {
-            defaltFolderUrl= folder
+            defaltFolderUrl= _folderDialog.folder
             console.log("修改了folder以后当前路径：",defaltFolderUrl)
             _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
         }
     }
+
+    FileDialog{
+        id :_fileDialog
+        acceptLabel: "确定"
+        rejectLabel: "取消"
+//        onAccepted: {
+//            defaltFolderUrl= _fileDialog.folder
+//            console.log("打开的新文档路径：",_fileDialog.file)
+//        }
+        onFileChanged:  {
+            defaltFolderUrl= _fileDialog.folder
+            console.log("打开的新文档路径：",_fileDialog.file)
+            if(_fileDialog.fileMode == FileDialog.OpenFile){
+                 _editContainerComponent.fileListModel.initItem(_fileDialog.file)
+            }else if (_fileDialog.fileMode == FileDialog.SaveFile){
+                _mdcore.mdRes = ""
+                _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
+            }
+            console.log("Qt.platform.os:",Qt.platform.os)
+            if(Qt.platform.os==="windows"){
+                _mdcore.fileName=_fileDialog.file.toString().substr(8)
+            }else if (Qt.platform.os==="osx"){
+                _mdcore.fileName=_fileDialog.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                _mdcore.fileName=_fileDialog.file.toString().substr(7)
+            }
+        }
+    }
+
     Row{
         id: _editToolBar
         spacing: 2
@@ -168,6 +195,9 @@ Item {
                     shortcut: "Ctrl+N"
                     onTriggered: {
                         console.log("测试新建文档")
+                        _fileDialog.fileMode= FileDialog.SaveFile
+                        _fileDialog.nameFilters=["Markdown (*.md)","All Files (*)"]
+                        _fileDialog.open()
                     }
                 }
 
@@ -176,6 +206,8 @@ Item {
                     shortcut: "Ctrl+O"
                     onTriggered: {
                         console.log("测试打开文档")
+                        _fileDialog.fileMode= FileDialog.OpenFile
+                        _fileDialog.open()
                     }
 
                 }
@@ -204,6 +236,8 @@ Item {
                     shortcut: "Ctrl+Shift+S"
                     onTriggered:{
                         console.log("测试另存为")
+                        _fileDialog.fileMode= FileDialog.SaveFile
+                        _fileDialog.open()
                     }
                 }
             }

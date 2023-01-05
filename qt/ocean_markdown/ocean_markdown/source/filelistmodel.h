@@ -33,8 +33,16 @@ public:
 
     virtual QHash<int,QByteArray> roleNames() const;
 
+
     // 初始化数据
     Q_INVOKABLE void initItems(QString dirPath);
+
+    // 初始化数据
+    Q_INVOKABLE void initItem(QString filePath);
+
+    Q_INVOKABLE void appendChild(const QModelIndex &index);
+
+    Q_INVOKABLE void removeChild(int row,int count , QModelIndex _item);
 
 private:
     MyTreeItem  *getItem(const QModelIndex &idx) const;

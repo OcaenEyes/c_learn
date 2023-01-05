@@ -11,6 +11,8 @@ Item {
     width: parent.width
     height: parent.height
 
+
+
     MarkDownCore {
         id : _mdcore
         onTextInChanged: console.log(_mdcore.mdRes)

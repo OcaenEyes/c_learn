@@ -25,7 +25,7 @@ signals:
 private:
     QString _fName;
 
-private slots:
+public slots:
     QString markdown();
     void markdownIn(const QString &_text);
 

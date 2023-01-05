@@ -4,6 +4,7 @@ import QtQuick.Controls
 Item {
     width: parent.width
     height:parent.height
+    property alias fileListItem: label
     TreeView {
         anchors.fill: parent
         model:_fileListModel
@@ -70,16 +71,17 @@ Item {
                     if (!hasChildren){
                         console.log(model.fPath)
                         _mdcore.fileName= model.fPath
+                        console.log(model)
                     }
-                    _tree0.color="white"
-                    _tree1.color="333"
-                    _tree1.visible = true
+//                    _tree0.color="white"
+//                    _tree1.color="333"
+//                    _tree1.visible = true
                 }
-                onFocusChanged: {
-                    _tree0.color="black"
-                    _tree1.color="#ffffffff"
-                    _tree1.visible = false
-                }
+//                onFocusChanged: {
+//                    _tree0.color="black"
+//                    _tree1.color="#ffffffff"
+//                    _tree1.visible = false
+//                }
             }
         }
     }
