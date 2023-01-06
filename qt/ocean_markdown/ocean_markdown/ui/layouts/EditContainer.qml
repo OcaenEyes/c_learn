@@ -168,6 +168,7 @@ Item {
                 visible: true
                 url:"qrc:/assets/static/index.html"
                 webChannel: _textEditWebChannel
+                
            }
         }
     }
