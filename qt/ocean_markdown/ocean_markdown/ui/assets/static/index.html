@@ -5,6 +5,7 @@
   <link rel="stylesheet" type="text/css" href="../../3rdparty/sspai.css" id="style_mode">
   <script src="../../3rdparty/marked.min.js"></script>
   <script src="../../3rdparty/qwebchannel.js"></script>
+
 </head>
 <body>
   <div id="placeholder">欢迎使用～</div>
@@ -53,10 +54,6 @@
                 _styleLinkObj.setAttribute("href","../../3rdparty/wechatmountain.css");
                 break;
 
-            case 10:
-                _styleLinkObj.setAttribute("href","../../3rdparty/wechatorange.css");
-                break;
-
 
             default:
         }
@@ -71,6 +68,14 @@
       }
     );
   </script>
+  <script type="text/javascript">
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+        }
+    };
+  </script>
+  <script id="MathJax-script" async src="../../3rdparty/tex-mml-chtml.js" ></script>
 </body>
 </html>
 

@@ -425,12 +425,6 @@ Item {
                             _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(9)")
                         }
                     }
-                    MenuItem {
-                        text: "微信-橙心"
-                        onTriggered: {
-                            _editContainerComponent.textOuts.runJavaScript("changeMarkDownStyle(10)")
-                        }
-                    }
                 }
             }
         }

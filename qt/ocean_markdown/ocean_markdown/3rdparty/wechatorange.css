@@ -3,11 +3,7 @@
  * 全文字体 font-family: ptima-Regular;
  * 英文换行 word-break: break-all;
  */
- body{
- background-color:"#f4f4f4";
- padding:6%;
- }
- #placeholder {
+#placeholder {
 }
 /* 段落，下方未标注标签参数均同此处
  * 上边距 margin-top: 5px;
@@ -35,9 +31,6 @@
 #placeholder h2 {
   border-bottom: 2px solid rgb(239, 112, 96);
   font-size: 1.3em;
-}
-/* 二级标题内容 */
-#placeholder h2 .content {
   display: inline-block;
   font-weight: bold;
   background: rgb(239, 112, 96);
@@ -57,9 +50,6 @@
 }
 /* 三级标题 */
 #placeholder h3 {
-}
-/* 三级标题内容 */
-#placeholder h3 .content {
 }
 /* 三级标题修饰 请参考有实例的主题 */
 #placeholder h3:after {
@@ -84,12 +74,13 @@
  */
 #placeholder blockquote {
   border-left-color: rgb(239, 112, 96);
+  border-left:2px;
   background: #fff9f9;
 }
 /* 引用文字 */
 #placeholder blockquote p {
 }
-/* 链接 
+/* 链接
  * border-bottom: 1px solid #009688;
  */
 #placeholder a {
@@ -151,7 +142,7 @@
 #placeholder .footnote-ref {
   color: rgb(239, 112, 96);
 }
-/* "参考资料"四个字 
+/* "参考资料"四个字
  * 内容 content: "参考资料";
  */
 #placeholder .footnotes-sep:before {
@@ -174,26 +165,3 @@
  */
 #placeholder .inline-equation svg {
 }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-#placeholder table th, #placeholder table td {
-  border: 1px solid #ddd;
-  padding: 0.5em 1em;
-  color: #666;
-  margin-bottom: 1.2em
-}
-#placeholder table th  {
-  background: #fbfbfb;
-}
-
-#placeholder table thead th{
-  background: #f1f1f1;
-}
-
-#placeholder table caption {
-  border-bottom: none;
-}
-

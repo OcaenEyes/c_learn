@@ -3,12 +3,7 @@
  * 全文字体 font-family: ptima-Regular;
  * 英文换行 word-break: break-all;
  */
- body{
- background-color:"#f4f4f4";
- padding:6%;
- }
- #placeholder {
-
+ #placeholder{
 }
 
 /* 段落，下方未标注标签参数均同此处
@@ -22,77 +17,66 @@
  * 字体大小 font-size: 16px;
  * 首行缩进 text-indent: 2em;
  */
-
-#placeholder p {
+ p {
   color: rgb(89,89,89);
 }
 
 /* 一级标题 */
-#placeholder h1 {
+ h1 {
   color: rgb(89,89,89);
 }
 
-/* 一级标题内容 */
-#placeholder h1 .content {
-}
 
 /* 一级标题修饰 请参考有实例的主题 */
-#placeholder h1:after {
+ h1:after {
 }
 
 /* 二级标题 */
-#placeholder h2 {
+ h2 {
   border-bottom: 2px solid rgb(89,89,89);
   margin-bottom: 30px;
   color: rgb(89,89,89);
-}
-
-/* 二级标题内容 */
-#placeholder h2 .content {
   font-size: 22px;
   display: inline-block;
   border-bottom: 2px solid rgb(89,89,89);
 }
 
 /* 二级标题修饰 请参考有实例的主题 */
-#placeholder h2:after {
+ h2:after {
 }
 
 /* 三级标题 */
-#placeholder h3 {
+ h3 {
   color: rgb(89,89,89);
 }
 
-/* 三级标题内容 */
-#placeholder h3 .content {
-}
 
 /* 三级标题修饰 请参考有实例的主题 */
-#placeholder h3:after {
+ h3:after {
 }
 
 /* 无序列表整体样式
  * list-style-type: square|circle|disc;
  */
-#placeholder ul {
+ ul {
 }
 
 /* 有序列表整体样式
  * list-style-type: upper-roman|lower-greek|lower-alpha;
  */
-#placeholder ol {
+ ol {
 }
 
 /* 列表内容，不要设置li
  */
-#placeholder li section {
+ li section {
 }
 
 /* 引用
 * 左边缘颜色 border-left-color: black;
 * 背景色 background: gray;
 */
-#placeholder blockquote {
+ blockquote {
   font-style: normal;
   padding: 10px;
   position: relative;
@@ -102,7 +86,7 @@
   color: #888;
 }
 
-#placeholder blockquote:before {
+ blockquote:before {
   content: "“";
   display: inline;
   color: #555555;
@@ -113,42 +97,42 @@
 }
 
 /* 引用文字 */
-#placeholder blockquote p {
+ blockquote p {
   display: inline;
 }
 
-/* 链接 
+/* 链接
  * border-bottom: 1px solid #009688;
  */
-#placeholder a {
+ a {
   color: rgb(71, 193, 168);
   border-bottom: 1px solid rgb(71, 193, 168);
 }
 
 /* 加粗 */
-#placeholder strong {
+ strong {
   color: rgb(71, 193, 168);
 }
 
 /* 斜体 */
-#placeholder em {
+ em {
   color: rgb(71, 193, 168);
 }
 
 /* 加粗斜体 */
-#placeholder em strong {
+ em strong {
   color: rgb(71, 193, 168);
 }
 
 /* 删除线 */
-#placeholder del {
+ del {
 }
 
 /* 分隔线
 * 粗细、样式和颜色
 * border-top: 1px solid #3e3e3e;
 */
-#placeholder hr {
+ hr {
 }
 
 /* 图片
@@ -156,15 +140,15 @@
 * 居中 margin: 0 auto;
 * 居左 margin: 0 0;
 */
-#placeholder img {
+ img {
 }
 
 /* 图片描述文字 */
-#placeholder figcaption {
+ figcaption {
 }
 
 /* 行内代码 */
-#placeholder p code, #placeholder li code {
+ p code,  li code {
   color: rgb(71, 193, 168);
 }
 
@@ -172,7 +156,7 @@
  * 代码块不换行 display: -webkit-box !important;
  * 代码块换行 display: block;
  */
-#placeholder pre code {
+ pre code {
 }
 
 /*
@@ -181,70 +165,49 @@
  * 边框 border: 1px solid #ccc;
  * 内边距 padding: 5px 10px;
  */
-#placeholder table tr th,
-#placeholder table tr td {
+ table tr th,
+ table tr td {
 }
 
 /* 脚注文字 */
-#placeholder .footnote-word {
+ .footnote-word {
   color: rgb(71, 193, 168);
 }
 
 /* 脚注上标 */
-#placeholder .footnote-ref {
+ .footnote-ref {
   color: rgb(71, 193, 168);
 }
 
-#placeholder .footnote-item em {
+ .footnote-item em {
   color: black;
 }
 
-/* "参考资料"四个字 
+/* "参考资料"四个字
  * 内容 content: "参考资料";
  */
-#placeholder .footnotes-sep:before {
+ .footnotes-sep:before {
 }
 
 /* 参考资料编号 */
-#placeholder .footnote-num {
+ .footnote-num {
 }
 
 /* 参考资料文字 */
-#placeholder .footnote-item p {
+ .footnote-item p {
 }
 
 /* 参考资料解释 */
-#placeholder .footnote-item p em {
+ .footnote-item p em {
 }
 
 /* 行间公式
  * 最大宽度 max-width: 300% !important;
  */
-#placeholder .block-equation svg {
+ .block-equation svg {
 }
 
 /* 行内公式
  */
-#placeholder .inline-equation svg {
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-#placeholder table th, #placeholder table td {
-  border: 1px solid #ddd;
-  padding: 0.5em 1em;
-  color: #666;
-  margin-bottom: 1.2em
-}
-#placeholder table th  {
-  background: #fbfbfb;
-}
-
-#placeholder table thead th{
-  background: #f1f1f1;
-}
-
-#placeholder table caption {
-  border-bottom: none;
+ .inline-equation svg {
 }

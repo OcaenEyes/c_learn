@@ -1,313 +1,331 @@
-body {
-    font-family: "Microsoft Yahei", Helvetica, arial, sans-serif ;
-    font-size: 14px;
-    line-height: 1.6;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: white;
-    padding: 30px;
-    color: #516272;}
+/*自定义样式，实时生效*/
 
-body > *:first-child {
-    margin-top: 0 !important; }
-body > *:last-child {
-    margin-bottom: 0 !important; }
-
-a {
-    color: #4183C4; }
-a.absent {
-    color: #cc0000; }
-a.anchor {
-    display: block;
-    padding-left: 30px;
-    margin-left: -30px;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0; }
-
-h1, h2, h3, h4, h5, h6 {
-    margin: 20px 0 10px;
-    padding: 0;
-    font-weight: bold;
-    -webkit-font-smoothing: antialiased;
-    cursor: text;
-    position: relative; }
-
-h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
-    text-decoration: none; }
-
-h1 tt, h1 code {
-    font-size: inherit; }
-
-h2 tt, h2 code {
-    font-size: inherit; }
-
-h3 tt, h3 code {
-    font-size: inherit; }
-
-h4 tt, h4 code {
-    font-size: inherit; }
-
-h5 tt, h5 code {
-    font-size: inherit; }
-
-h6 tt, h6 code {
-    font-size: inherit; }
-
-h1 {
-    font-size: 28px;
-    color: #2B3F52; }
-
-h2 {
-    font-size: 24px;
-    border-bottom: 1px solid #DDE4E9;
-    color: #2B3F52; }
-
-h3 {
-    font-size: 18px;
-    color: #2B3F52;  }
-
-h4 {
-    font-size: 16px;
-    color: #2B3F52;  }
-
-h5 {
-    font-size: 14px;
-    color: #2B3F52;  }
-
-h6 {
-    color: #2B3F52;
-    font-size: 14px;
+/* 全局属性
+ * 页边距 padding:30px;
+ * 全文字体 font-family:ptima-Regular;
+ * 英文换行 word-break:break-all;
+ */
+#placeholder {
+  font-family:PingFangSC-Light;
+  margin:2rem 12rem;
+  box-shadow:  0px 0px 30px 0px #99999980;
+  padding:2rem;
 }
 
-p, blockquote, ul, ol, dl, li, table, pre {
-    margin: 15px 0;
-    color: #516272;  }
-
-hr {
-    background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
-    border: 0 none;
-    color: #cccccc;
-    height: 4px;
-    padding: 0;
-
+/* 段落，下方未标注标签参数均同此处
+ * 上边距 margin-top:5px;
+ * 下边距 margin-bottom:5px;
+ * 行高 line-height:26px;
+ * 词间距 word-spacing:3px;
+ * 字间距 letter-spacing:3px;
+ * 对齐 text-align:left;
+ * 颜色 color:#3e3e3e;
+ * 字体大小 font-size:16px;
+ * 首行缩进 text-indent:2em;
+ */
+#placeholder p {
+  margin:10px 10px;
+  line-height:1.75;
+  letter-spacing:0.2em;
+  font-size: 15px;
+  word-spacing:0.1em;
 }
 
-body > h2:first-child {
-    margin-top: 0;
-    padding-top: 0; }
-body > h1:first-child {
-    margin-top: 0;
-    padding-top: 0; }
-body > h1:first-child + h2 {
-    margin-top: 0;
-    padding-top: 0; }
-body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
-    margin-top: 0;
-    padding-top: 0; }
+/* 一级标题 */
+#placeholder h1 {
+border-bottom: 2px solid #0e88eb;
+font-size: 1.4em;
+text-align: center;
+  font-size: 1.4em;
+  display:block;
+  font-weight: bold;
+/*  //background: #0e88eb;*/
+  color:#ffffff;
+  color: #0e88eb;
+  padding:3px 10px 1px;
+  border-top-right-radius:3px;
+  border-top-left-radius:3px;
+  margin-right:3px;
+}
 
-a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
-    margin-top: 0;
-    padding-top: 0; }
+/* 一级标题修饰 请参考有实例的主题 */
+#placeholder h1:after {
+}
 
-h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
-    margin-top: 0; }
+/* 二级标题 */
+#placeholder h2 {
+  text-align:left;
+  margin:20px 10px 0px 0px;
+  font-family:STHeitiSC-Light;
+  font-size: 22px;
+  color:#0e88eb;
+  font-weight:bolder;
+  display:inline-block;
+  padding-left:10px;
+  border-left:5px solid #0e88eb;
+}
 
-li p.first {
-    display: inline-block; }
-li {
-    margin: 0; }
-ul, ol {
-    padding-left: 30px; }
+/* 二级标题修饰 请参考有实例的主题 */
+#placeholder h2:after {
+}
 
-ul :first-child, ol :first-child {
-    margin-top: 0; }
+/* 三级标题 */
+#placeholder h3 {
+        font-size: 18px;
+        color: #0e88eb;
+  font-size: 18px;
+  color: #0e88eb;
+}
 
-dl {
-    padding: 0; }
-dl dt {
-    font-size: 14px;
-    font-weight: bold;
-    font-style: italic;
-    padding: 0;
-    margin: 15px 0 5px; }
-dl dt:first-child {
-    padding: 0; }
-dl dt > :first-child {
-    margin-top: 0; }
-dl dt > :last-child {
-    margin-bottom: 0; }
-dl dd {
-    margin: 0 0 15px;
-    padding: 0 15px; }
-dl dd > :first-child {
-    margin-top: 0; }
-dl dd > :last-child {
-    margin-bottom: 0; }
+/* 三级标题修饰 请参考有实例的主题 */
+#placeholder h3:after {
+}
 
-blockquote {
-    border-left: 4px solid #ECF0F3;
-    /*padding: 0 15px;*/
-    padding: 15px;
-    background-color:#F7F9FA;
-    color: #2B3F52; }
-blockquote > :first-child {
-    margin-top: 0; }
-blockquote > :last-child {
-    margin-bottom: 0; }
+/* 无序列表整体样式
+ * list-style-type: square|circle|disc;
+ */
+#placeholder ul {
+}
 
-table {
-    padding: 0;border-collapse: collapse; }
-table tr {
-    border-top: 1px solid #cccccc;
-    background-color: white;
-    margin: 0;
-    padding: 0; }
-table tr:nth-child(2n) {
-    background-color: #f8f8f8; }
-table tr th {
-    font-weight: bold;
-    border: 1px solid #cccccc;
-    margin: 0;
-    padding: 6px 13px; }
-table tr td {
-    border: 1px solid #cccccc;
-    margin: 0;
-    padding: 6px 13px; }
-table tr th :first-child, table tr td :first-child {
-    margin-top: 0; }
-table tr th :last-child, table tr td :last-child {
-    margin-bottom: 0; }
+/* 有序列表整体样式
+ * list-style-type: upper-roman|lower-greek|lower-alpha;
+ */
+#placeholder ol {
+}
 
-img {
-    max-width: 100%; }
+/* 列表内容，不要设置li
+ */
+#placeholder li section {
+  font-size: 15px;
+}
 
-span.frame {
-    display: block;
-    overflow: hidden; }
-span.frame > span {
-    border: 1px solid #dddddd;
-    display: block;
-    float: left;
-    overflow: hidden;
-    margin: 13px 0 0;
-    padding: 7px;
-    width: auto; }
-span.frame span img {
-    display: block;
-    float: left; }
-span.frame span span {
-    clear: both;
-    color: #333333;
-    display: block;
-    padding: 5px 0 0; }
-span.align-center {
-    display: block;
-    overflow: hidden;
-    clear: both; }
-span.align-center > span {
-    display: block;
-    overflow: hidden;
-    margin: 13px auto 0;
-    text-align: center; }
-span.align-center span img {
-    margin: 0 auto;
-    text-align: center; }
-span.align-right {
-    display: block;
-    overflow: hidden;
-    clear: both; }
-span.align-right > span {
-    display: block;
-    overflow: hidden;
-    margin: 13px 0 0;
-    text-align: right; }
-span.align-right span img {
-    margin: 0;
-    text-align: right; }
-span.float-left {
-    display: block;
-    margin-right: 13px;
-    overflow: hidden;
-    float: left; }
-span.float-left span {
-    margin: 13px 0 0; }
-span.float-right {
-    display: block;
-    margin-left: 13px;
-    overflow: hidden;
-    float: right; }
-span.float-right > span {
-    display: block;
-    overflow: hidden;
-    margin: 13px auto 0;
-    text-align: right; }
+/* 引用
+ * 左边缘颜色 border-left-color:black;
+ * 背景色 background:gray;
+ */
+#placeholder blockquote {
+  font-style:normal;
+  border-left:none;
+  padding:10px;
+  position:relative;
+  line-height:1.8;
+  border-radius:0px 0px 10px 10px;
+  color: #0e88eb;
+  background:#fff;
+  box-shadow:#84A1A8 0px 10px 15px;
+}
+#placeholder blockquote:before {
+  content:"★ ";
+  display:inline;
+  color: #0e88eb;
+  font-size:4em;
+  font-family:Arial,serif;
+  line-height:1em;
+  font-weight:700;
+}
 
-code, tt {
+/* 引用文字 */
+#placeholder blockquote p {
+  color: #0e88eb;
+  font-size:15px;
+  display:inline;
+}
+#placeholder blockquote:after {
+  content:"”";
+  float:right;
+  display:inline;
+  color:#0e88eb;
+  font-size:3em;
+  line-height:1em;
+  font-weight:500;
+}
+
+/* 链接
+ * border-bottom: 1px solid #009688;
+ */
+#placeholder a {
+  color: #0e88eb;
+  border-bottom: 0px solid #ff3502;
+  font-family:STHeitiSC-Light;
+}
+
+/* 加粗 */
+#placeholder strong {
+  font-weight: border;
+  color: #0e88eb;
+}
+
+/* 斜体 */
+#placeholder em {
+  color: #0e88eb;
+  letter-spacing:0.3em;
+}
+
+/* 加粗斜体 */
+#placeholder em strong {
+  color: #0e88eb;
+  letter-spacing:0.3em;
+}
+
+/* 删除线 */
+#placeholder del {
+}
+
+/* 分隔线
+ * 粗细、样式和颜色
+ * border-top:1px solid #3e3e3e;
+ */
+#placeholder hr {
+  height:1px;
+  padding:0;
+  border:none;
+  border-top:medium solidid #333;
+  text-align:center;
+  background-image:linear-gradient(to right,rgba(248,57,41,0),#0e88eb,rgba(248,57,41,0));
+}
+
+/* 图片
+ * 宽度 width:80%;
+ * 居中 margin:0 auto;
+ * 居左 margin:0 0;
+ */
+#placeholder img {
+  border-radius:0px 0px 5px 5px;
+  display:block;
+  margin:20px auto;
+  width:85%;
+  height:100%;
+  object-fit:contain;
+  box-shadow:#84A1A8 0px 10px 15px;
+}
+
+/* 图片描述文字 */
+#placeholder figcaption {
+  display:block;
+  font-size:12px;
+  font-family:PingFangSC-Light;
+}
+
+/* 行内代码 */
+#placeholder p code, #placeholder li code {
+   font-size: 14px;
+    word-wrap: break-word;
+    padding: 2px 4px;
+    border-radius: 4px;
     margin: 0 2px;
-    padding: 0 5px;
-    white-space: nowrap;
-    border: 1px solid #eaeaea;
-    background-color: #f8f8f8;
-    border-radius: 3px; }
-
-pre code {
-    margin: 0;
-    padding: 0;
-    white-space: pre;
-    border: none;
-    background: transparent; }
-
-.highlight pre {
-    background-color: #f8f8f8;
-    border: 1px solid #cccccc;
-    font-size: 13px;
-    line-height: 19px;
-    overflow: auto;
-    padding: 6px 10px;
-    border-radius: 3px; }
-
-pre {
-    background-color: #f8f8f8;
-    border: 1px solid #cccccc;
-    font-size: 13px;
-    line-height: 19px;
-    overflow: auto;
-    padding: 6px 10px;
-    border-radius: 3px; }
-pre code, pre tt {
-    background-color: transparent;
-    border: none; }
-
-sup {
-    font-size: 0.83em;
-    vertical-align: super;
-    line-height: 0;
-}
-
-code {
-    white-space: pre-wrap;
+    color: #1e6bb8;
+    background-color: #f6f8fa;
+    font-family: Operator Mono, Consolas, Monaco, Menlo, monospace;
     word-break: break-all;
-    display: block;
 
 }
-* {
-    -webkit-print-color-adjust: exact;
+
+/* 非微信代码块
+ * 代码块不换行 display:-webkit-box !important;
+ * 代码块换行 display:block;
+ */
+#placeholder pre {
+  padding: 16px;
+  overflow: auto;
+  line-height: 1.5;
+  background-color: #f6f8fa;
+  border-radius: 6px;
 }
-@media screen and (min-width: 914px) {
-    body {
-        width: 960px;
-        margin:0 auto;
-    }
+#placeholder pre code {
+    display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
 }
-@media print {
-    table, pre {
-        page-break-inside: avoid;
-    }
-    pre {
-        word-wrap: break-word;
-    }
+
+/*
+ * 表格内的单元格
+ * 字体大小 font-size: 16px;
+ * 边框 border: 1px solid #ccc;
+ * 内边距 padding: 5px 10px;
+ */
+#placeholder table{
+  font-size: 16px;
+  border-collapse: collapse;
+  padding: 5px 10px;
+  border-spacing: 2px;
+  border-color: grey;
+}
+#placeholder table tr th {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+#placeholder table tr th ,#placeholder table tr td{
+        border: 1px solid #ccc;
+    padding: 5px 10px;
+}
+#placeholder table tr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    background-color: white;
+}
+
+#placeholder table tr:nth-child(2n) {
+    background-color: #F8F8F8;
+}
+
+/* 脚注文字 */
+#placeholder .footnote-word {
+  color: #2d59b3;
+}
+
+/* 脚注上标 */
+#placeholder .footnote-ref {
+  color: #6a88c5;
+}
+
+
+/* 脚注文字 */
+#placeholder .footnote-word {
+  color: #0e88eb;
+}
+
+/* 脚注上标 */
+#placeholder .footnote-ref {
+  color: #0e88eb;
+}
+
+/*脚注链接样式*/
+#placeholder .footnote-item em {
+  color: #082a71;
+  font-size:12px;
+}
+
+/* "参考资料"四个字
+ * 内容 content: "参考资料";
+ */
+#placeholder .footnotes-sep:before {
+}
+
+/* 参考资料编号 */
+#placeholder .footnote-num {
+}
+
+/* 参考资料文字 */
+#placeholder .footnote-item p {
+}
+
+/* 参考资料解释 */
+#placeholder .footnote-item p em {
+}
+
+/* 行间公式
+ * 最大宽度 max-width: 300% !important;
+ */
+#placeholder .block-equation svg {
+}
+
+/* 行内公式
+ */
+#placeholder .inline-equation svg {
 }

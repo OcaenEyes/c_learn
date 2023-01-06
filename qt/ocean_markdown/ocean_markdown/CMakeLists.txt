@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
         ui/qml.qrc
         3rdparty/showdown.js
         3rdparty/marked.min.js
+        3rdparty/tex-mml-chtml.js
 
         3rdparty/sspai.css
         3rdparty/han.css
@@ -39,7 +40,6 @@ set(PROJECT_SOURCES
         3rdparty/wechatazure.css
         3rdparty/wechatgeekblack.css
         3rdparty/wechatinkblack.css
-        3rdparty/wechatorange.css
         3rdparty/wechatmountain.css
 
         ${TS_FILES}
