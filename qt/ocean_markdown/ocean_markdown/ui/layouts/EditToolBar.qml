@@ -437,6 +437,36 @@ Item {
                 }
             }
         }
+
+        ToolButton {
+            id: _aboutModule
+            text: "关于"
+            onClicked: _aboutModuleMenu.open()
+            Menu{
+                id: _aboutModuleMenu
+                MenuItem {
+                    text: "关于作者"
+                    onTriggered: {
+                        _aboutmeWin.show()
+                    }
+                }
+                MenuItem {
+                    text: "关于软件"
+                    onTriggered: {
+                        _aboutsoftwareWin.show()
+                    }
+                }
+            }
+        }
+
+        AboutMe{
+            id: _aboutmeWin
+        }
+
+        AboutSoftWare{
+            id: _aboutsoftwareWin
+        }
+
     }
 
 }

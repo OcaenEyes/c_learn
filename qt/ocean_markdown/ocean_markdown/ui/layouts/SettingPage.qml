@@ -6,7 +6,8 @@ Item {
     Text {
         id: _title
         anchors.centerIn: parent
-        text: "这是设置页"
+        text: "这是设置页⚙\n正在开发中~"
+        font.pixelSize: 18
     }
 
 }

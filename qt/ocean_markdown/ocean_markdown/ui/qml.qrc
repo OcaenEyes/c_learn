@@ -9,6 +9,8 @@
         <file alias="EditToolBar.qml">layouts/EditToolBar.qml</file>
         <file alias="EditContainer.qml">layouts/EditContainer.qml</file>
         <file alias="FileFolderList.qml">layouts/FileFolderList.qml</file>
+        <file alias="AboutMe.qml">layouts/AboutMe.qml</file>
+        <file alias="AboutSoftWare.qml">layouts/AboutSoftWare.qml</file>
     </qresource>
     <qresource prefix="/assets/images">
         <file alias="edit.png">assets/images/edit.png</file>

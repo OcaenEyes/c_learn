@@ -29,10 +29,10 @@ Item {
 
         handle: Rectangle {
             id: handleDelegate
-            implicitWidth: 1
+            implicitWidth: 2
             implicitHeight: 1
             color: SplitHandle.pressed ? "#333"
-             : (SplitHandle.hovered ? "#33333350" : "#33333380")
+             : (SplitHandle.hovered ? "#33333360" : "#33333320")
         }
 
         Rectangle {
@@ -171,5 +171,6 @@ Item {
                 
            }
         }
+
     }
 }
