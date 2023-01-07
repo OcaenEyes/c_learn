@@ -4,7 +4,7 @@ import QtQuick.Controls
 Window{
     width: 300
     height: 260
-    title: qsTr("关于作者")
+    title: qsTr("关于软件")
 
     ToolButton{
         anchors.centerIn: parent
