@@ -18,16 +18,6 @@
     <qresource prefix="/">
         <file>assets/static/index.html</file>
         <file>../favicon.ico</file>
-        <file>../3rdparty/fonts/KaTeX_Main-Regular.ttf</file>
-        <file>../3rdparty/fonts/KaTeX_Main-Regular.woff</file>
-        <file>../3rdparty/fonts/KaTeX_Main-Regular.woff2</file>
-        <file>../3rdparty/fonts/KaTeX_Math-Italic.ttf</file>
-        <file>../3rdparty/fonts/KaTeX_Math-Italic.woff</file>
-        <file>../3rdparty/fonts/KaTeX_Math-Italic.woff2</file>
-        <file>../3rdparty/fonts/KaTeX_Size3-Regular.ttf</file>
-        <file>../3rdparty/fonts/KaTeX_Size3-Regular.woff</file>
-        <file>../3rdparty/fonts/KaTeX_Size3-Regular.woff2</file>
-        <file>../3rdparty/fonts/KaTeX_Size4-Regular.woff2</file>
         <file>../3rdparty/css/businessblue.css</file>
         <file>../3rdparty/css/github.css</file>
         <file>../3rdparty/css/han.css</file>
@@ -45,5 +35,15 @@
         <file>../3rdparty/js/marked_with_katex.js</file>
         <file>../3rdparty/js/qwebchannel.js</file>
         <file>../3rdparty/js/showdown.js</file>
+        <file>../3rdparty/css/fonts/KaTeX_Main-Regular.ttf</file>
+        <file>../3rdparty/css/fonts/KaTeX_Main-Regular.woff</file>
+        <file>../3rdparty/css/fonts/KaTeX_Main-Regular.woff2</file>
+        <file>../3rdparty/css/fonts/KaTeX_Math-Italic.ttf</file>
+        <file>../3rdparty/css/fonts/KaTeX_Math-Italic.woff</file>
+        <file>../3rdparty/css/fonts/KaTeX_Math-Italic.woff2</file>
+        <file>../3rdparty/css/fonts/KaTeX_Size3-Regular.ttf</file>
+        <file>../3rdparty/css/fonts/KaTeX_Size3-Regular.woff</file>
+        <file>../3rdparty/css/fonts/KaTeX_Size3-Regular.woff2</file>
+        <file>../3rdparty/css/fonts/KaTeX_Size4-Regular.woff2</file>
     </qresource>
 </RCC>

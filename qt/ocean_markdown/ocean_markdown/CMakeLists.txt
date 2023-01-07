@@ -34,16 +34,16 @@ set(PROJECT_SOURCES
         3rdparty/js/katex.min.js
         3rdparty/css/katex.min.css
 
-        3rdparty/fonts/KaTeX_Main-Regular.woff2
-        3rdparty/fonts/KaTeX_Math-Italic.woff2
-        3rdparty/fonts/KaTeX_Size3-Regular.woff2
-        3rdparty/fonts/KaTeX_Main-Regular.woff
-        3rdparty/fonts/KaTeX_Math-Italic.woff
-        3rdparty/fonts/KaTeX_Size3-Regular.woff
-        3rdparty/fonts/KaTeX_Main-Regular.ttf
-        3rdparty/fonts/KaTeX_Math-Italic.ttf
-        3rdparty/fonts/KaTeX_Size3-Regular.ttf
-        3rdparty/fonts/KaTeX_Size4-Regular.woff2
+        3rdparty/css/fonts/KaTeX_Main-Regular.woff2
+        3rdparty/css/fonts/KaTeX_Math-Italic.woff2
+        3rdparty/css/fonts/KaTeX_Size3-Regular.woff2
+        3rdparty/css/fonts/KaTeX_Main-Regular.woff
+        3rdparty/css/fonts/KaTeX_Math-Italic.woff
+        3rdparty/css/fonts/KaTeX_Size3-Regular.woff
+        3rdparty/css/fonts/KaTeX_Main-Regular.ttf
+        3rdparty/css/fonts/KaTeX_Math-Italic.ttf
+        3rdparty/css/fonts/KaTeX_Size3-Regular.ttf
+        3rdparty/css/fonts/KaTeX_Size4-Regular.woff2
 
         3rdparty/css/sspai.css
         3rdparty/css/han.css

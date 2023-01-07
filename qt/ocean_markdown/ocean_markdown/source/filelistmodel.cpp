@@ -45,7 +45,7 @@ int FileListModel::columnCount(const QModelIndex &parent) const{
 }
 
 QVariant FileListModel::data(const QModelIndex &index,int role) const{
-    qDebug() << "在初始化数据了node" << Qt::endl;
+//    qDebug() << "在初始化数据了node" << Qt::endl;
     if(!index.isValid()){
         return QVariant();
     }

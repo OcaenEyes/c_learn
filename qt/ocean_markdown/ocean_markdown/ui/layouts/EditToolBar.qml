@@ -131,6 +131,13 @@ Item {
         }
 
         Action {
+            id :equationAction
+            onTriggered: {
+                _editContainerComponent.textIns.insert(_editContainerComponent.textIns.cursorPosition,"\n```\n$$\n y=x+1 \n$$\n```\n")
+            }
+        }
+
+        Action {
             id: numListAction
             shortcut: "Ctrl+L"
             onTriggered: {
@@ -335,16 +342,18 @@ Item {
             id: _codeBlock
             text: "代码块"
             action: codeAction
+        }
 
-
+        ToolButton{
+            id: _equationBlock
+            text: "公式"
+            action: equationAction
         }
 
         ToolButton{
             id: _numList
             text: "有序列表"
             action: numListAction
-
-
         }
 
         ToolButton{
