@@ -2,49 +2,53 @@
 <html lang="en">
 <meta charset="utf-8">
 <head>
-  <link rel="stylesheet" type="text/css" href="../../3rdparty/sspai.css" id="style_mode">
-  <script src="../../3rdparty/marked.min.js"></script>
-  <script src="../../3rdparty/qwebchannel.js"></script>
-<!--  <script id="MathJax-script" async src="../../3rdparty/tex-mml-chtml.js" ></script>-->
+  <link rel="stylesheet" type="text/css" href="../../3rdparty/css/sspai.css" id="style_mode">
+<!--  <script src="../../3rdparty/js/highlight.min.js"></script>-->
+  <script src="../../3rdparty/js/marked.min.js"></script>
+  <script src="../../3rdparty/js/qwebchannel.js"></script>
+  <script src="../../3rdparty/js/marked_with_katex.js"></script>
+  <link rel="stylesheet" href="../../3rdparty/css/katex.min.css">
+  <script  src="../../3rdparty/js/katex.min.js"></script>
 
 </head>
 <body>
   <div id="placeholder">欢迎使用～</div>
   <script type="text/javascript">
+
     var placeholder = document.getElementById('placeholder');
     var updateText = function(text) {
-        placeholder.innerHTML = marked.parse(text);
+        placeholder.innerHTML = markedWithKatex(text);
     };
 
     var changeMarkDownStyle = function (type){
         var _styleLinkObj = document.getElementById("style_mode");
         switch (type) {
             case 0:
-                _styleLinkObj.setAttribute("href","../../3rdparty/sspai.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/sspai.css");
                 break;
             case 1:
-                _styleLinkObj.setAttribute("href","../../3rdparty/han.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/han.css");
                 break;
             case 2:
-                _styleLinkObj.setAttribute("href","../../3rdparty/mdhere.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/mdhere.css");
                 break;
             case 3:
-                _styleLinkObj.setAttribute("href","../../3rdparty/github.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/github.css");
                 break;
             case 4:
-                _styleLinkObj.setAttribute("href","../../3rdparty/businessblue.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/businessblue.css");
                 break;
 
             case 5:
-                _styleLinkObj.setAttribute("href","../../3rdparty/wechatallblue.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/wechatallblue.css");
                 break;
 
             case 6:
-                _styleLinkObj.setAttribute("href","../../3rdparty/wechatazure.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/wechatazure.css");
                 break;
 
             case 7:
-                _styleLinkObj.setAttribute("href","../../3rdparty/wechatgeekblack.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/wechatgeekblack.css");
                 break;
 
             case 8:
@@ -52,7 +56,7 @@
                 break;
 
             case 9:
-                _styleLinkObj.setAttribute("href","../../3rdparty/wechatmountain.css");
+                _styleLinkObj.setAttribute("href","../../3rdparty/css/wechatmountain.css");
                 break;
 
 
@@ -70,16 +74,6 @@
       }
     );
   </script>
-  <script>
-     MathJax= {
-      tex:{inlineMath:[['$','$'],['\\(', '\\)']],
-           displayMath:[['$$','$$'],['\[','\]']],
-      }
-     };
-   </script>
- <script type="text/javascript" id="MathJax-script" async
-   src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-chtml.js">
- </script>
 </body>
 </html>
 

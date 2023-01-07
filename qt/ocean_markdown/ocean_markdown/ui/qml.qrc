@@ -16,21 +16,34 @@
         <file alias="setting.png">assets/images/setting.png</file>
     </qresource>
     <qresource prefix="/">
-        <file>../3rdparty/showdown.js</file>
-        <file>../3rdparty/marked.min.js</file>
         <file>assets/static/index.html</file>
-        <file>../3rdparty/qwebchannel.js</file>
-        <file>../3rdparty/sspai.css</file>
-        <file>../3rdparty/han.css</file>
-        <file>../3rdparty/mdhere.css</file>
         <file>../favicon.ico</file>
-        <file>../3rdparty/businessblue.css</file>
-        <file>../3rdparty/github.css</file>
-        <file>../3rdparty/wechatallblue.css</file>
-        <file>../3rdparty/wechatazure.css</file>
-        <file>../3rdparty/wechatgeekblack.css</file>
-        <file>../3rdparty/wechatmountain.css</file>
-        <file>../3rdparty/wechatinkblack.css</file>
-        <file>../3rdparty/tex-mml-chtml.js</file>
+        <file>../3rdparty/fonts/KaTeX_Main-Regular.ttf</file>
+        <file>../3rdparty/fonts/KaTeX_Main-Regular.woff</file>
+        <file>../3rdparty/fonts/KaTeX_Main-Regular.woff2</file>
+        <file>../3rdparty/fonts/KaTeX_Math-Italic.ttf</file>
+        <file>../3rdparty/fonts/KaTeX_Math-Italic.woff</file>
+        <file>../3rdparty/fonts/KaTeX_Math-Italic.woff2</file>
+        <file>../3rdparty/fonts/KaTeX_Size3-Regular.ttf</file>
+        <file>../3rdparty/fonts/KaTeX_Size3-Regular.woff</file>
+        <file>../3rdparty/fonts/KaTeX_Size3-Regular.woff2</file>
+        <file>../3rdparty/fonts/KaTeX_Size4-Regular.woff2</file>
+        <file>../3rdparty/css/businessblue.css</file>
+        <file>../3rdparty/css/github.css</file>
+        <file>../3rdparty/css/han.css</file>
+        <file>../3rdparty/css/katex.min.css</file>
+        <file>../3rdparty/css/mdhere.css</file>
+        <file>../3rdparty/css/sspai.css</file>
+        <file>../3rdparty/css/wechatallblue.css</file>
+        <file>../3rdparty/css/wechatazure.css</file>
+        <file>../3rdparty/css/wechatgeekblack.css</file>
+        <file>../3rdparty/css/wechatinkblack.css</file>
+        <file>../3rdparty/css/wechatmountain.css</file>
+        <file>../3rdparty/css/wechatorange.css</file>
+        <file>../3rdparty/js/katex.min.js</file>
+        <file>../3rdparty/js/marked.min.js</file>
+        <file>../3rdparty/js/marked_with_katex.js</file>
+        <file>../3rdparty/js/qwebchannel.js</file>
+        <file>../3rdparty/js/showdown.js</file>
     </qresource>
 </RCC>

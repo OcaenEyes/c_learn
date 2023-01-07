@@ -19,28 +19,43 @@ set(PROJECT_SOURCES
         source/main.cpp
         source/markdowncore.h
         source/markdowncore.cpp
-        3rdparty/qwebchannel.js
+
         source/filelistmodel.h
         source/filelistmodel.cpp
         source/filefolderpathindir.h
         source/filefolderpathindir.cpp
         source/filefoldername.h
         ui/qml.qrc
-        3rdparty/showdown.js
-        3rdparty/marked.min.js
-        3rdparty/tex-mml-chtml.js
 
-        3rdparty/sspai.css
-        3rdparty/han.css
-        3rdparty/mdhere.css
-        3rdparty/businessblue.css
-        3rdparty/github.css
+        3rdparty/js/qwebchannel.js
+        3rdparty/js/showdown.js
+        3rdparty/js/marked.min.js
+        3rdparty/js/marked_with_katex.js
+        3rdparty/js/katex.min.js
+        3rdparty/css/katex.min.css
 
-        3rdparty/wechatallblue.css
-        3rdparty/wechatazure.css
-        3rdparty/wechatgeekblack.css
-        3rdparty/wechatinkblack.css
-        3rdparty/wechatmountain.css
+        3rdparty/fonts/KaTeX_Main-Regular.woff2
+        3rdparty/fonts/KaTeX_Math-Italic.woff2
+        3rdparty/fonts/KaTeX_Size3-Regular.woff2
+        3rdparty/fonts/KaTeX_Main-Regular.woff
+        3rdparty/fonts/KaTeX_Math-Italic.woff
+        3rdparty/fonts/KaTeX_Size3-Regular.woff
+        3rdparty/fonts/KaTeX_Main-Regular.ttf
+        3rdparty/fonts/KaTeX_Math-Italic.ttf
+        3rdparty/fonts/KaTeX_Size3-Regular.ttf
+        3rdparty/fonts/KaTeX_Size4-Regular.woff2
+
+        3rdparty/css/sspai.css
+        3rdparty/css/han.css
+        3rdparty/css/mdhere.css
+        3rdparty/css/businessblue.css
+        3rdparty/css/github.css
+
+        3rdparty/css/wechatallblue.css
+        3rdparty/css/wechatazure.css
+        3rdparty/css/wechatgeekblack.css
+        3rdparty/css/wechatinkblack.css
+        3rdparty/css/wechatmountain.css
 
         ${TS_FILES}
 )
