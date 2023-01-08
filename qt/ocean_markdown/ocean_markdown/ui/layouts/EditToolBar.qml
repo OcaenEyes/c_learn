@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import Qt.labs.platform
+import QtWebEngine 1.9
 
 Item {
     width:parent.width
@@ -9,6 +10,10 @@ Item {
     property string defaltFolderUrl: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0]+"/oceanmarkdown_data"//默认打开Documents/oceanmarkdown_data文件夹
 
     property string curFileUrl: ""
+
+    property string pdfUrl: ""
+
+    property string picUrl: ""
 
     FolderDialog {
         id: _folderDialog
@@ -77,6 +82,49 @@ Item {
         }
     }
 
+
+    FileDialog{
+        id:_savePdf
+        acceptLabel: "确定"
+        rejectLabel: "取消"
+        fileMode: FileDialog.SaveFile
+        nameFilters:["PDF (*.pdf)","All Files (*)"]
+        onFileChanged:  {
+            if(Qt.platform.os==="windows"){
+                pdfUrl = _savePdf.file.toString().substr(8)
+            }else if (Qt.platform.os==="osx"){
+                pdfUrl = _savePdf.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                pdfUrl = _savePdf.file.toString().substr(7)
+            }
+            console.log(pdfUrl)
+            _editContainerComponent.textOuts.printToPdf(pdfUrl)
+        }
+    }
+
+    FileDialog{
+        id:_savePng
+        acceptLabel: "确定"
+        rejectLabel: "取消"
+        fileMode: FileDialog.SaveFile
+        nameFilters:["PNG (*.png)","JPEG (*.jpeg)","All Files (*)"]
+        onFileChanged:  {
+            if(Qt.platform.os==="windows"){
+                picUrl = _savePng.file.toString().substr(8)
+            }else if (Qt.platform.os==="osx"){
+                picUrl = _savePng.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                picUrl = _savePng.file.toString().substr(7)
+            }
+            console.log(picUrl)
+            _editContainerComponent.textOuts.grabToImage(
+                        function(res){
+                            res.saveToFile(picUrl)
+                        }
+            )
+        }
+    }
+
     Row{
         id: _editToolBar
         spacing: 2
@@ -134,6 +182,13 @@ Item {
             id :equationAction
             onTriggered: {
                 _editContainerComponent.textIns.insert(_editContainerComponent.textIns.cursorPosition,"\n```\n$$\n y=x+1 \n$$\n```\n")
+            }
+        }
+
+        Action {
+            id :picAction
+            onTriggered: {
+                _editContainerComponent.textIns.insert(_editContainerComponent.textIns.cursorPosition,"\n![图片名字](图片地址)\n")
             }
         }
 
@@ -351,6 +406,12 @@ Item {
         }
 
         ToolButton{
+            id: _picBlock
+            text: "插入图片"
+            action: picAction
+        }
+
+        ToolButton{
             id: _numList
             text: "有序列表"
             action: numListAction
@@ -435,6 +496,34 @@ Item {
                         }
                     }
                 }
+            }
+        }
+
+        ToolButton{
+            id:_toOut
+            text:"导出"
+            onClicked:{
+                _toOutMenu.open()
+            }
+            Menu{
+                id: _toOutMenu
+                MenuItem {
+                    text: "导出PDF"
+                    onTriggered: {
+                        _savePdf.open()
+                    }
+                }
+//                MenuItem {
+//                    text: "导出图片"
+//                    onTriggered: {
+//                        _savePng.open()
+//                    }
+//                }
+//                MenuItem {
+//                    text: "导出html"
+//                    onTriggered: {
+//                    }
+//                }
             }
         }
 

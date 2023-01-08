@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtWebEngine 1.9
+import QtWebEngine
 import QtWebChannel 1.0
 import FileListModel 1.0
 
@@ -162,12 +162,19 @@ Item {
             Keys.onUpPressed: _vbar.decrease()
             Keys.onDownPressed: _vbar.increase()
 
+            NewWebViewWin{
+                id :_newWindow
+            }
             WebEngineView {
                 id: _textOut
                 anchors.fill: parent
                 visible: true
                 url:"qrc:/assets/static/index.html"
                 webChannel: _textEditWebChannel
+
+                onPdfPrintingFinished: {
+                    console.log("打印成功")
+                }
                 
            }
         }

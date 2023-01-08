@@ -11,6 +11,7 @@
         <file alias="FileFolderList.qml">layouts/FileFolderList.qml</file>
         <file alias="AboutMe.qml">layouts/AboutMe.qml</file>
         <file alias="AboutSoftWare.qml">layouts/AboutSoftWare.qml</file>
+        <file alias="NewWebViewWin.qml">layouts/NewWebViewWin.qml</file>
     </qresource>
     <qresource prefix="/assets/images">
         <file alias="edit.png">assets/images/edit.png</file>
