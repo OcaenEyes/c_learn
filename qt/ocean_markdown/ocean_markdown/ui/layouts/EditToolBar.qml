@@ -15,6 +15,8 @@ Item {
 
     property string picUrl: ""
 
+    property string htmlFile: ""
+
     FolderDialog {
         id: _folderDialog
         folder: defaltFolderUrl
@@ -122,6 +124,29 @@ Item {
                             res.saveToFile(picUrl)
                         }
             )
+        }
+    }
+
+    FileDialog{
+        id:_saveHtml
+        acceptLabel: "确定"
+        rejectLabel: "取消"
+        fileMode: FileDialog.SaveFile
+        nameFilters:["Html (*.html)","All Files (*)"]
+        onFileChanged:  {
+            if(Qt.platform.os==="windows"){
+                htmlFile = _saveHtml.file.toString().substr(8)
+            }else if (Qt._saveHtml.os==="osx"){
+                htmlFile = _saveHtml.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                htmlFile = _saveHtml.file.toString().substr(7)
+            }
+            console.log(htmlFile)
+            _editContainerComponent.textOuts.runJavaScript("document.documentElement.outerHTML",
+                                                            function(res){
+                                                               console.log(res)
+                                                            }
+                                                           )
         }
     }
 
@@ -501,7 +526,7 @@ Item {
 
         ToolButton{
             id:_toOut
-            text:"导出"
+            text:"小工具"
             onClicked:{
                 _toOutMenu.open()
             }
@@ -519,11 +544,20 @@ Item {
 //                        _savePng.open()
 //                    }
 //                }
-//                MenuItem {
-//                    text: "导出html"
-//                    onTriggered: {
-//                    }
-//                }
+                MenuItem {
+                    text: "切换显示模式"
+                    onTriggered: {
+//                        _saveHtml.open()
+                        _editContainerComponent.isShowSrcCode = !_editContainerComponent.isShowSrcCode
+                        _editContainerComponent.textOuts.runJavaScript("document.getElementById('placeholder').outerHTML",
+                                                                                                    function(res){
+                                                                                                       console.log(res.toString())
+                                                                                                      _editContainerComponent.codeSrc.text = res.toString()
+                                                                                                    }
+                                                                                                   )
+
+                    }
+                }
             }
         }
 
