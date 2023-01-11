@@ -25,17 +25,10 @@ Window {
     property alias _mdcore: _mdcore
 
     function readLoaclFileByPath(_path){
-        if(Qt.platform.os==="windows"){
-            _window.curFileUrl = _path.toString().substr(8)
-        }else if (Qt.platform.os==="osx"){
-            _window.curFileUrl = _path.toString().substr(7)
-        }else if (Qt.platform.os==="linux"){
-            _window.curFileUrl = _path.toString().substr(7)
-        }
-        _mdcore.fileName = _window.curFileUrl
+        _window.curFileUrl = _path
+        _mdcore.fileName = _path
         _fileListModel.initItem(_path)
     }
-
 
     WebChannel {
         id: _mainWindowChannel

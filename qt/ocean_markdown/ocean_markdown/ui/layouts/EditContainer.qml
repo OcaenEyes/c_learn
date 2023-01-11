@@ -92,7 +92,7 @@ Item {
                         onTextChanged: {
                             _textIn.inputMd(_textIn.text)
 //                            _window._mdcore.mdRes= _textIn.text
-                            _textOut.runJavaScript("document.getElementById('placeholder').outerHTML",
+                            _textOut.runJavaScript("document.getElementById('placeholder')",
                                                                             function(res){
                                                                                console.log(res.toString())
                                                                               _srcOut.text = res.toString()

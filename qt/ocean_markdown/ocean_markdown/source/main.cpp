@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtWebEngineQuick>
 
+
 #include <QLocale>
 #include <QTranslator>
 #include "markdowncore.h"
@@ -54,12 +55,17 @@ int main(int argc, char *argv[])
 
     engine.load(url);
     qDebug() << "启动参数argc:"<< argc<<Qt::endl;
-    qDebug() << "启动参数argv:"<<argv<<Qt::endl;
+    qDebug() << "启动参数argv:"<<qApp->arguments()<<Qt::endl;
+    qDebug() << "启动参数argv:"<<qApp->arguments().count()<<Qt::endl;
+    qDebug() << "启动参数argv:"<<qApp->arguments().at(0)<<Qt::endl;
 
-    if(argc ==2){
-        auto root = engine.rootObjects();
-        auto mainWindowQml = root.first()->findChild<QObject*>("mainWindow");
-        QMetaObject::invokeMethod(mainWindowQml, "readLoaclFileByPath", Q_ARG(QVariant, qApp->arguments().at(1)));
-    }
+//    if(argc ==2){
+//        auto root = engine.rootObjects();
+//        qDebug() << "启动root:"<<root <<Qt::endl;
+//        auto mainWindowQml = root.first()->findChild<QObject*>("mainWindow");
+//        QMetaObject::invokeMethod(mainWindowQml, "readLoaclFileByPath", Q_ARG(QVariant, qApp->arguments().at(1)));
+//    }
+
+
     return app.exec();
 }

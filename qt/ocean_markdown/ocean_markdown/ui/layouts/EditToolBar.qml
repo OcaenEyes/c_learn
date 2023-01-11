@@ -46,17 +46,18 @@ Item {
             _window.defaltFolderUrl= _fileDialog.folder
             console.log("打开的新文档路径：",_fileDialog.file)
             console.log("Qt.platform.os:",Qt.platform.os)
+            if(Qt.platform.os==="windows"){
+                _window.curFileUrl = _fileDialog.file.toString().substr(8)
+            }else if (Qt.platform.os==="osx"){
+                _window.curFileUrl = _fileDialog.file.toString().substr(7)
+            }else if (Qt.platform.os==="linux"){
+                _window.curFileUrl = _fileDialog.file.toString().substr(7)
+            }
+            _window._mdcore.fileName = _window.curFileUrl
+
             if(_fileDialog.fileMode == FileDialog.OpenFile){
-                _window.readLoaclFileByPath(_fileDialog.file)
+                _window.fileListModel.initItem(_fileDialog.file)
             }else if (_fileDialog.fileMode == FileDialog.SaveFile){
-                if(Qt.platform.os==="windows"){
-                    _window.curFileUrl = _fileDialog.file.toString().substr(8)
-                }else if (Qt.platform.os==="osx"){
-                    _window.curFileUrl = _fileDialog.file.toString().substr(7)
-                }else if (Qt.platform.os==="linux"){
-                    _window.curFileUrl = _fileDialog.file.toString().substr(7)
-                }
-                _window._mdcore.fileName = _window.curFileUrl
                 _window.fileListModel.initItems(_window.defaltFolderUrl)
             }  
         }
@@ -140,11 +141,11 @@ Item {
                 htmlFile = _saveHtml.file.toString().substr(7)
             }
             console.log(htmlFile)
-            _editContainerComponent.textOuts.runJavaScript("document.documentElement.outerHTML",
-                                                            function(res){
-                                                               console.log(res)
-                                                            }
-                                                           )
+            // _editContainerComponent.textOuts.runJavaScript("document.documentElement.outerHTML",
+            //                                                function(res){
+            //                                                   console.log(res)
+            //                                                }
+            //                                               )
         }
     }
 
@@ -547,7 +548,7 @@ Item {
                     onTriggered: {
 //                        _saveHtml.open()
                         _editContainerComponent.isShowSrcCode = !_editContainerComponent.isShowSrcCode
-                        _editContainerComponent.textOuts.runJavaScript("document.getElementById('placeholder').outerHTML",
+                        _editContainerComponent.textOuts.runJavaScript("document.getElementById('placeholder')",
                                                                                                     function(res){
                                                                                                        console.log(res.toString())
                                                                                                       _editContainerComponent.codeSrc.text = res.toString()
