@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtWebEngine
 import QtWebChannel 1.0
-import FileListModel 1.0
+
 
 Item {
     width: parent.width
@@ -11,7 +11,6 @@ Item {
     property alias textIns: _textIn
     property alias textOuts: _textOut
     property alias codeSrc: _srcOut
-    property alias fileListModel: _fileListModel
     property alias filesViewComponent: _filesViewComponent
     property bool isShowSrcCode: false
 
@@ -20,9 +19,6 @@ Item {
         registeredObjects: [_textIn]
     }
 
-    FileListModel{
-        id: _fileListModel
-    }
 
     SplitView {
         id: _editItem
@@ -83,7 +79,7 @@ Item {
                         signal inputMd(string text)
                         id: _textIn
                         WebChannel.id: "_textInObj"
-                        text: _mdcore.mdRes
+                        text: _window._mdcore.mdRes
                         focus: true
                         activeFocusOnPress:true
                         width:  _editContentRect.width
@@ -95,7 +91,7 @@ Item {
                         onCursorRectangleChanged: _flick.ensureVisible(cursorRectangle)
                         onTextChanged: {
                             _textIn.inputMd(_textIn.text)
-//                            _mdcore.mdRes= _textIn.text
+//                            _window._mdcore.mdRes= _textIn.text
                             _textOut.runJavaScript("document.getElementById('placeholder').outerHTML",
                                                                             function(res){
                                                                                console.log(res.toString())

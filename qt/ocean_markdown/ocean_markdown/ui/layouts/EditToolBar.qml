@@ -7,9 +7,6 @@ Item {
     width:parent.width
     height:parent.height
 
-    property string defaltFolderUrl: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0]+"/oceanmarkdown_data"//默认打开Documents/oceanmarkdown_data文件夹
-
-    property string curFileUrl: ""
 
     property string pdfUrl: ""
 
@@ -19,20 +16,20 @@ Item {
 
     FolderDialog {
         id: _folderDialog
-        folder: defaltFolderUrl
+        folder: _window.defaltFolderUrl
         acceptLabel: "确定"
         rejectLabel: "取消"
         options: FileDialog.ShowDirsOnly
 //        onAccepted: {
-//            defaltFolderUrl= currentFolder
-//            console.log("当前路径：",defaltFolderUrl)
-//            _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
+//            _window.defaltFolderUrl= currentFolder
+//            console.log("当前路径：",_window.defaltFolderUrl)
+//            _window.fileListModel.initItems(_window.defaltFolderUrl)
 
 //        }
         onFolderChanged: {
-            defaltFolderUrl= _folderDialog.folder
-            console.log("修改了folder以后当前路径：",defaltFolderUrl)
-            _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
+            _window.defaltFolderUrl= _folderDialog.folder
+            console.log("修改了folder以后当前路径：",_window.defaltFolderUrl)
+            _window.fileListModel.initItems(_window.defaltFolderUrl)
         }
     }
 
@@ -40,26 +37,27 @@ Item {
         id :_fileDialog
         acceptLabel: "确定"
         rejectLabel: "取消"
+        objectName: "readLocalFile"
 //        onAccepted: {
-//            defaltFolderUrl= _fileDialog.folder
+//            _window.defaltFolderUrl= _fileDialog.folder
 //            console.log("打开的新文档路径：",_fileDialog.file)
 //        }
         onFileChanged:  {
-            defaltFolderUrl= _fileDialog.folder
+            _window.defaltFolderUrl= _fileDialog.folder
             console.log("打开的新文档路径：",_fileDialog.file)
             console.log("Qt.platform.os:",Qt.platform.os)
-            if(Qt.platform.os==="windows"){
-                curFileUrl = _fileDialog.file.toString().substr(8)
-            }else if (Qt.platform.os==="osx"){
-                curFileUrl = _fileDialog.file.toString().substr(7)
-            }else if (Qt.platform.os==="linux"){
-                curFileUrl = _fileDialog.file.toString().substr(7)
-            }
-            _mdcore.fileName = curFileUrl
             if(_fileDialog.fileMode == FileDialog.OpenFile){
-                 _editContainerComponent.fileListModel.initItem(_fileDialog.file)
+                _window.readLoaclFileByPath(_fileDialog.file)
             }else if (_fileDialog.fileMode == FileDialog.SaveFile){
-                _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
+                if(Qt.platform.os==="windows"){
+                    _window.curFileUrl = _fileDialog.file.toString().substr(8)
+                }else if (Qt.platform.os==="osx"){
+                    _window.curFileUrl = _fileDialog.file.toString().substr(7)
+                }else if (Qt.platform.os==="linux"){
+                    _window.curFileUrl = _fileDialog.file.toString().substr(7)
+                }
+                _window._mdcore.fileName = _window.curFileUrl
+                _window.fileListModel.initItems(_window.defaltFolderUrl)
             }  
         }
     }
@@ -69,18 +67,18 @@ Item {
         acceptLabel: "确定"
         rejectLabel: "取消"
         onFileChanged:  {
-            defaltFolderUrl= _fileDialogToSave.folder
+            _window.defaltFolderUrl= _fileDialogToSave.folder
             console.log("打开的新文档路径：",_fileDialogToSave.file)
             console.log("Qt.platform.os:",Qt.platform.os)
             if(Qt.platform.os==="windows"){
-                curFileUrl = _fileDialogToSave.file.toString().substr(8)
+                _window.curFileUrl = _fileDialogToSave.file.toString().substr(8)
             }else if (Qt.platform.os==="osx"){
-                curFileUrl = _fileDialogToSave.file.toString().substr(7)
+                _window.curFileUrl = _fileDialogToSave.file.toString().substr(7)
             }else if (Qt.platform.os==="linux"){
-                curFileUrl = _fileDialogToSave.file.toString().substr(7)
+                _window.curFileUrl = _fileDialogToSave.file.toString().substr(7)
             }
-            _mdcore.newFileName = curFileUrl
-            _editContainerComponent.fileListModel.initItems(defaltFolderUrl)
+            _window._mdcore.newFileName = _window.curFileUrl
+            _window.fileListModel.initItems(_window.defaltFolderUrl)
         }
     }
 
@@ -346,7 +344,7 @@ Item {
                     shortcut: "Ctrl+S"
                     onTriggered:{
                         console.log("测试保存文档")
-                        _mdcore.mdRes = _editContainerComponent.textIns.text
+                        _window._mdcore.mdRes = _editContainerComponent.textIns.text
                     }
                 }
                 MenuItem {

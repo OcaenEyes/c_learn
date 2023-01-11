@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>CFBundleInfoDictionaryVersion</key>
+        <string>6.0</string>
+        <key>CFBundlePackageType</key>
+        <string>APPL</string>
+
+        <key>CFBundleName</key>
+        <string>ocean_markdown</string>
+        <key>CFBundleIdentifier</key>
+        <string>com.gzy.oceanmarkdown</string>
+        <key>CFBundleExecutable</key>
+        <string>ocean_markdown</string>
+
+        <key>CFBundleVersion</key>
+        <string>0.0.1</string>
+        <key>CFBundleShortVersionString</key>
+        <string>0.0.1</string>
+
+        <key>LSMinimumSystemVersion</key>
+        <string>12.6</string>
+
+        <key>NSHumanReadableCopyright</key>
+        <string></string>
+
+        <key>CFBundleIconFile</key>
+        <string>icon.icns</string>
+
+        <key>CFBundleDevelopmentRegion</key>
+        <string>en</string>
+
+        <key>NSPrincipalClass</key>
+        <string>NSApplication</string>
+
+        <key>NSSupportsAutomaticGraphicsSwitching</key>
+        <true/>
+        <key>CFBundleDocumentTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleTypeIconFile</key>
+                <string>Document</string>
+                <key>CFBundleTypeRole</key>
+                <string>Editor</string>
+                <key>LSHandlerRank</key>
+                <string>Alternate</string>
+                <key>LSItemContentTypes</key>
+                <array>
+                    <string>public.text</string>
+                    <string>public.plain-text</string>
+                    <string>public.utf8-plain-text</string>
+                    <string>public.utf16-external-plain-text</string>
+                    <string>public.utf16-plain-text</string>
+                    <string>com.apple.traditional-mac-plain-text</string>
+                    <string>public.html</string>
+                    <string>public.xml</string>
+                    <string>public.source-code</string>
+                    <string>public.c-source</string>
+                    <string>public.objective-c-source</string>
+                    <string>public.c-plus-plus-source</string>
+                    <string>public.objective-c-plus-plus-source</string>
+                    <string>public.c-header</string>
+                    <string>public.c-plus-plus-header</string>
+                    <string>com.sun.java-source</string>
+                    <string>public.script</string>
+                    <string>public.assembly-source</string>
+                    <string>com.netscape.javascript-source</string>
+                    <string>public.shell-script</string>
+                    <string>public.csh-script</string>
+                    <string>public.perl-script</string>
+                    <string>public.python-script</string>
+                    <string>public.ruby-script</string>
+                    <string>public.php-script</string>
+                    <string>com.apple.applescript.text</string>
+                    <string>net.daringfireball.markdown</string>
+                </array>
+            </dict>
+        </array>
+</dict>
+</plist>

@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
         source/filefolderpathindir.cpp
         source/filefoldername.h
         ui/qml.qrc
+        Info.plist.in
 
         3rdparty/js/qwebchannel.js
         3rdparty/js/showdown.js
@@ -74,12 +75,16 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         set_source_files_properties(${app_icon_macos} PROPERTIES
                MACOSX_PACKAGE_LOCATION "Resources")
 
+
+
         qt_add_executable(ocean_markdown
             MACOSX_BUNDLE
             MANUAL_FINALIZATION
             ${PROJECT_SOURCES}
             ${app_icon_macos}
         )
+        configure_file(${CMAKE_SOURCE_DIR}/Info.plist.in ${CMAKE_BINARY_DIR}/Info.plist)
+        set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${CMAKE_BINARY_DIR}/Info.plist)
     endif()
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()

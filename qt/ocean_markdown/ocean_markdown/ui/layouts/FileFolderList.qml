@@ -6,7 +6,7 @@ Item {
     height:parent.height
     TreeView {
         anchors.fill: parent
-        model:_fileListModel
+        model:_window.fileListModel
          //可以用预定义的TreeViewDelegate样式，也可以自定义
         //delegate: TreeViewDelegate { }
         delegate: Item {
@@ -56,23 +56,23 @@ Item {
                 contentItem: Text {
                     id :_tree0
                     text: model.name
-                    color: model.fPath === _editToolComponent.curFileUrl ||  label.hovered ||label.down ||  label.highlighted  ? "white" :"black"
+                    color: model.fPath === _window.curFileUrl ||  label.hovered ||label.down ||  label.highlighted  ? "white" :"black"
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     elide:Text.ElideRight
                 }
                 background: Rectangle{
                     id :_tree1
-                    color: model.fPath === _editToolComponent.curFileUrl || label.hovered ||label.down || label.highlighted ? "#666" :"#ffffffff"
-                    visible:model.fPath === _editToolComponent.curFileUrl || label.hovered || label.down || label.highlighted
+                    color: model.fPath === _window.curFileUrl || label.hovered ||label.down || label.highlighted ? "#666" :"#ffffffff"
+                    visible:model.fPath === _window.curFileUrl || label.hovered || label.down || label.highlighted
                 }
                 onClicked: {
                     if (!hasChildren){
                         console.log(model.fPath)
-                        _mdcore.fileName= model.fPath
+                        _window._mdcore.fileName= model.fPath
                         console.log(model)
                     }
-                    _editToolComponent.curFileUrl = model.fPath
+                    _window.curFileUrl = model.fPath
                 }
             }
         }

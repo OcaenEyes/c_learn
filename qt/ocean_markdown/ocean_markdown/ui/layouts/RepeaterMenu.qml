@@ -57,10 +57,10 @@ Item {
                                 listItem.checked = true
                                 pageSig(idx)
                             }
-                            else {
-                                listItem.checked = false
-                                pageSig(2)      //关闭此目录(回到主页)/工具
-                            }
+//                            else {
+//                                listItem.checked = false
+//                                pageSig(2)      //关闭此目录(回到主页)/工具
+//                            }
                         }
                         //可添加：连续点击事件 (工具栏中，需要此逻辑，如放大缩小)
                         else  {

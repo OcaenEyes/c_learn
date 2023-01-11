@@ -11,13 +11,13 @@
 int main(int argc, char *argv[])
 {
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)  
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QtWebEngineQuick::initialize();
-    QGuiApplication app(argc, argv);
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    #endif
+        QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+        QtWebEngineQuick::initialize();
+        QGuiApplication app(argc, argv);
 
     //qmlRegisterType注册C++类型至QML
     //arg1:import时模块名
@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
         }
     }
 
+
     QQmlApplicationEngine engine;
 //    QAbstractItemModel* _fileListModel = new FileListModel();
 //    engine.rootContext()->setContextProperty("_fileListModel",_fileListModel);
@@ -50,7 +51,15 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    engine.load(url);
 
+    engine.load(url);
+    qDebug() << "启动参数argc:"<< argc<<Qt::endl;
+    qDebug() << "启动参数argv:"<<argv<<Qt::endl;
+
+    if(argc ==2){
+        auto root = engine.rootObjects();
+        auto mainWindowQml = root.first()->findChild<QObject*>("mainWindow");
+        QMetaObject::invokeMethod(mainWindowQml, "readLoaclFileByPath", Q_ARG(QVariant, qApp->arguments().at(1)));
+    }
     return app.exec();
 }

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Window 2.15
 import QtQuick.Controls
-import MarkDownCore 1.0
 
 
 Item {
@@ -13,10 +12,6 @@ Item {
 
 
 
-    MarkDownCore {
-        id : _mdcore
-        onTextInChanged: console.log(_mdcore.mdRes)
-    }
 
     Column {
         id : _editView

@@ -3,6 +3,9 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.15
 import QtWebChannel 1.0
+import Qt.labs.platform
+import FileListModel 1.0
+import MarkDownCore 1.0
 
 Window {
     id : _window
@@ -10,11 +13,43 @@ Window {
     height: 800
     visible: true
     title: qsTr("Ocean MarkDown")
-    property int curPageIndex: 2
+    objectName: "mainWindow"
+    property int curPageIndex: 0
+
+    property string defaltFolderUrl: StandardPaths.standardLocations(StandardPaths.DocumentsLocation)[0]+"/oceanmarkdown_data"//默认打开Documents/oceanmarkdown_data文件夹
+
+    property string curFileUrl: ""
+
+    property alias fileListModel: _fileListModel
+
+    property alias _mdcore: _mdcore
+
+    function readLoaclFileByPath(_path){
+        if(Qt.platform.os==="windows"){
+            _window.curFileUrl = _path.toString().substr(8)
+        }else if (Qt.platform.os==="osx"){
+            _window.curFileUrl = _path.toString().substr(7)
+        }else if (Qt.platform.os==="linux"){
+            _window.curFileUrl = _path.toString().substr(7)
+        }
+        _mdcore.fileName = _window.curFileUrl
+        _fileListModel.initItem(_path)
+    }
+
 
     WebChannel {
         id: _mainWindowChannel
         registeredObjects: [editPage]
+    }
+
+    FileListModel{
+        id: _fileListModel
+    }
+
+
+    MarkDownCore {
+        id : _mdcore
+        onTextInChanged: console.log(_mdcore.mdRes)
     }
 
     // 1个主页+3个内容界面
