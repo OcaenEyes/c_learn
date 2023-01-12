@@ -45,6 +45,25 @@ Window {
         onTextInChanged: console.log(_mdcore.mdRes)
     }
 
+
+    DropArea{
+        anchors.fill:parent
+        onDropped:(drop)=>{
+            if(drop.hasUrls){
+                if(Qt.platform.os==="windows"){
+                    curFileUrl = drop.urls[0].toString().substr(8)
+                }else if (Qt.platform.os==="osx"){
+                    curFileUrl = drop.urls[0].toString().substr(7)
+                }else if (Qt.platform.os==="linux"){
+                    curFileUrl = drop.urls[0].toString().substr(7)
+                }
+                _mdcore.fileName = _window.curFileUrl
+                _window.fileListModel.initItem(drop.urls[0])
+            }
+        }
+    }
+
+
     // 1个主页+3个内容界面
     Item {
         id:page

@@ -74,7 +74,8 @@ void MarkDownCore::readFileContent(){
     }
     _textIn.clear();
     _textIn = file.readAll();
-    qDebug() << "开始读取新文件，内容是："<< _textIn << Qt::endl;
+//    qDebug() << "开始读取新文件，内容是："<< _textIn << Qt::endl;
+    qDebug() << "开始读取新文件" << Qt::endl;
     emit textInChanged();
 }
 

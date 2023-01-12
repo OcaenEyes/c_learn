@@ -548,7 +548,7 @@ Item {
                     onTriggered: {
 //                        _saveHtml.open()
                         _editContainerComponent.isShowSrcCode = !_editContainerComponent.isShowSrcCode
-                        _editContainerComponent.textOuts.runJavaScript("document.getElementById('placeholder')",
+                        _editContainerComponent.textOuts.runJavaScript("document.getElementById('placeholder').outerHTML",
                                                                                                     function(res){
                                                                                                        console.log(res.toString())
                                                                                                       _editContainerComponent.codeSrc.text = res.toString()
