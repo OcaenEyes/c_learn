@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     mdwebview = new QWebEngineView(this);
 
-    mdwebview->load(QUrl("https://www.baidu.com"));
+    mdwebview->load(QUrl("qrc:/statics/index.html"));
 
     this->setCentralWidget(mdwebview);
 

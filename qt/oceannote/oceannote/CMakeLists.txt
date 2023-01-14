@@ -20,9 +20,8 @@ set(PROJECT_SOURCES
         ui/mainwindow.ui
         ui/ui_mainwindow.h
 
-        statics/js/marked.js
-        statics/css/default.css
-        statics/index.html
+        src.qrc
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

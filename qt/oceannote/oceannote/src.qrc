@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>statics/css/app.4f2e83d5.css</file>
+        <file>statics/favicon.ico</file>
+        <file>statics/index.html</file>
+        <file>statics/fonts/fontello.3f1fdcf0.ttf</file>
+        <file>statics/fonts/fontello.6c502925.eot</file>
+        <file>statics/fonts/fontello.6ec73abf.woff</file>
+        <file>statics/img/fontello.d34249f0.svg</file>
+        <file>statics/js/app.ee158848.js</file>
+        <file>statics/js/app.ee158848.js.map</file>
+        <file>statics/js/chunk-vendors.f805c6e6.js</file>
+        <file>statics/js/chunk-vendors.f805c6e6.js.map</file>
+    </qresource>
+</RCC>
