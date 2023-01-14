@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.setWindowTitle("OceanNote");
-    w.resize(1200,800);
+    w.resize(1260,750);
     w.show();
     return a.exec();
 }

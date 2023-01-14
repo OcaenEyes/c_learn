@@ -8,11 +8,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    mdwebview = new QWebEngineView(this);
+    _spliterMainView = new QSplitter(Qt::Horizontal, 0); //新建主分割窗口，水平分割
 
-    mdwebview->load(QUrl("qrc:/statics/index.html"));
+    _fileTree = new QTreeView(_spliterMainView);
+    _fileModel = new QFileSystemModel;
+    _fileModel->setRootPath(QDir::currentPath());
+    _fileTree->setModel(_fileModel);
 
-    this->setCentralWidget(mdwebview);
+    QSplitter *_splitterRight = new QSplitter(Qt::Vertical, _spliterMainView);   //右分割窗口，并以主分割窗口作为父窗口
+    _mdwebview = new QWebEngineView(_splitterRight);
+    _mdwebview->load(QUrl("qrc:/statics/index.html"));
+
+    _spliterMainView->setStretchFactor(1,1);
+    this->setCentralWidget(_spliterMainView);
 
 }
 
