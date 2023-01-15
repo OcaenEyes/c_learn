@@ -16,6 +16,8 @@ set(PROJECT_SOURCES
         main.cpp
         source/mainwindow.cpp
         source/mainwindow.h
+        source/filelistmodel.h
+        source/filelistmodel.cpp
 
         ui/mainwindow.ui
         ui/ui_mainwindow.h

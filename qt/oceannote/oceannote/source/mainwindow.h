@@ -9,6 +9,7 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QFileSystemModel>
+#include "filelistmodel.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +28,7 @@ public:
     QFileSystemModel *_fileModel;
     QMenuBar *_menuBar;
     QToolBar *_toolBar;
+    FileListModel *_fileListModel;
 
 private:
     Ui::MainWindow *ui;

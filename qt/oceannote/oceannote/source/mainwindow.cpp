@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    _fileListModel = new FileListModel;
+
     // 分屏 左右布局
     _spliterMainView = new QSplitter(Qt::Horizontal, 0); //新建主分割窗口，水平分割
     // 文件列表
@@ -40,11 +42,22 @@ MainWindow::MainWindow(QWidget *parent)
     _menuBar->addMenu(_aboutMenu);
 
     QAction *_actionNewWin = new QAction("新窗口",_fileMenu);
+    connect(_actionNewWin, &QAction::triggered, _fileListModel, &FileListModel::openNewWindow);
+
     QAction *_actionNewFile = new QAction("新建文档",_fileMenu);
+    connect(_actionNewFile, &QAction::triggered, _fileListModel, &FileListModel::ceateFile);
+
     QAction *_actionOpenFile = new QAction("打开文档",_fileMenu);
+    connect(_actionOpenFile, &QAction::triggered, _fileListModel, &FileListModel::openFile);
+
     QAction *_actionOpenFolder = new QAction("打开文件夹",_fileMenu);
+    connect(_actionOpenFolder, &QAction::triggered, _fileListModel, &FileListModel::openFolder);
+
     QAction *_actionSaveFile = new QAction("保存",_fileMenu);
+    connect(_actionSaveFile, &QAction::triggered, _fileListModel, &FileListModel::saveFile);
+
     QAction *_actionSaveAsFile = new QAction("另存为",_fileMenu);
+    connect(_actionSaveAsFile, &QAction::triggered, _fileListModel, &FileListModel::saveAsFile);
 
 
     _fileMenu->addAction(_actionNewWin);
