@@ -5,6 +5,9 @@
 #include <QSplitter>
 #include <QWebEngineView>
 #include <QTreeView>
+#include <QMenuBar>
+#include <QToolBar>
+#include <QToolButton>
 #include <QFileSystemModel>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +25,8 @@ public:
     QSplitter *_spliterMainView;
     QTreeView *_fileTree;
     QFileSystemModel *_fileModel;
+    QMenuBar *_menuBar;
+    QToolBar *_toolBar;
 
 private:
     Ui::MainWindow *ui;
