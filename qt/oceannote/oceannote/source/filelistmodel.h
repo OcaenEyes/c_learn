@@ -9,15 +9,17 @@ class FileListModel : public QObject
     Q_OBJECT
 public:
     explicit FileListModel(QObject *parent = nullptr);
+    QString textData = "";
 
 
 public slots:
     void saveFile();
     void ceateFile();
-    void saveAsFile(QString &_text);
+    void saveAsFile();
     void openFile();
     void openFolder();
     void openNewWindow();
+
 
 private:
     QString showFileDialog(QFileDialog::AcceptMode _mode,QFileDialog::FileMode _type);

@@ -32,21 +32,21 @@ void FileListModel::ceateFile(){
         qDebug()<< "文件打开失败" << Qt::endl;
     }else{
         QTextStream out(&_file);
-        out << "";
+        out << textData;
         _file.close();
     }
 }
 
-void FileListModel::saveAsFile(QString &_text){
+void FileListModel::saveAsFile(){
     qDebug()<< "点击了文件另存为" << Qt::endl;
-    qDebug()<< "_text:" << _text<< Qt::endl;
+    qDebug()<< "_text:" << textData<< Qt::endl;
     QString _filePath=showFileDialog(QFileDialog::AcceptMode::AcceptSave,QFileDialog::FileMode::ExistingFile);
     QFile _file(_filePath);
     if(!_file.open(QFile::ReadWrite)){
         qDebug()<< "文件打开失败" << Qt::endl;
     }else{
         QTextStream out(&_file);
-        out << _text;
+        out << textData;
         _file.close();
     }
 }
