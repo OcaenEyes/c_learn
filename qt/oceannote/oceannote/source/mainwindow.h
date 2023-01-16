@@ -29,6 +29,7 @@ public:
     QMenuBar *_menuBar;
     QToolBar *_toolBar;
     FileListModel *_fileListModel;
+    QString textData;
 
 private:
     Ui::MainWindow *ui;

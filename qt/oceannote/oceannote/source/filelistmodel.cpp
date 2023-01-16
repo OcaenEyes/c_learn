@@ -1,6 +1,8 @@
 #include "filelistmodel.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QStandardPaths>
+
 
 FileListModel::FileListModel(QObject *parent)
     : QObject{parent}
@@ -24,27 +26,49 @@ void FileListModel::ceateFile(){
     if (ok == QMessageBox::StandardButton::Yes){
         qDebug()<< "点击的是确认新建文件" << Qt::endl;
     }
-    showFileDialog(QFileDialog::AcceptMode::AcceptSave,QFileDialog::FileMode::ExistingFile);
-
-
-
+    QString _filePath= showFileDialog(QFileDialog::AcceptMode::AcceptSave,QFileDialog::FileMode::ExistingFile);
+    QFile _file(_filePath);
+    if(!_file.open(QFile::ReadWrite)){
+        qDebug()<< "文件打开失败" << Qt::endl;
+    }else{
+        QTextStream out(&_file);
+        out << "";
+        _file.close();
+    }
 }
 
-void FileListModel::saveAsFile(){
+void FileListModel::saveAsFile(QString &_text){
     qDebug()<< "点击了文件另存为" << Qt::endl;
-    showFileDialog(QFileDialog::AcceptMode::AcceptSave,QFileDialog::FileMode::ExistingFile);
-
+    qDebug()<< "_text:" << _text<< Qt::endl;
+    QString _filePath=showFileDialog(QFileDialog::AcceptMode::AcceptSave,QFileDialog::FileMode::ExistingFile);
+    QFile _file(_filePath);
+    if(!_file.open(QFile::ReadWrite)){
+        qDebug()<< "文件打开失败" << Qt::endl;
+    }else{
+        QTextStream out(&_file);
+        out << _text;
+        _file.close();
+    }
 }
 
 void FileListModel::openFile(){
     qDebug()<< "点击了打开文件" << Qt::endl;
-    showFileDialog(QFileDialog::AcceptMode::AcceptOpen,QFileDialog::FileMode::ExistingFile);
+    QString _filePath=showFileDialog(QFileDialog::AcceptMode::AcceptOpen,QFileDialog::FileMode::ExistingFile);
 
+    QFile _file(_filePath);
+    if(!_file.open(QFile::ReadWrite)){
+        qDebug()<< "文件打开失败" << Qt::endl;
+    }else{
+        QString _text =_file.readAll();
+        qDebug()<< "_text:" << _text<< Qt::endl;
+        _file.close();
+    }
 }
 
 void FileListModel::openFolder(){
     qDebug()<< "点击了打开文件夹" << Qt::endl;
-    showFileDialog(QFileDialog::AcceptMode::AcceptOpen,QFileDialog::FileMode::Directory);
+    QString _folderPath=showFileDialog(QFileDialog::AcceptMode::AcceptOpen,QFileDialog::FileMode::Directory);
+    qDebug()<< "_folderPath:" << _folderPath<< Qt::endl;
 
 }
 
@@ -57,6 +81,8 @@ QString FileListModel::showFileDialog(QFileDialog::AcceptMode _mode,QFileDialog:
     QFileDialog _fd;
     _fd.setFileMode(_type);
     _fd.setAcceptMode(_mode);
+    _fd.setDirectory(QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation).at(0));
+
 
     switch (_type) {
     case QFileDialog::FileMode::Directory:
@@ -69,7 +95,13 @@ QString FileListModel::showFileDialog(QFileDialog::AcceptMode _mode,QFileDialog:
     default:
         break;
     }
-    _fd.open();
-
+    if(_fd.exec() == QFileDialog::Accepted){
+//        QStringList _tml = _fd.selectedFiles();
+//        qDebug() << "选择的内容是："<<_tml << Qt::endl;
+//        qDebug() << "选择的内容是："<<_tml.at(0) << Qt::endl;
+        _res= _fd.selectedFiles().at(0);
+    }else{
+        qDebug() << "没有选择任何东西" << Qt::endl;
+    }
     return _res;
 }

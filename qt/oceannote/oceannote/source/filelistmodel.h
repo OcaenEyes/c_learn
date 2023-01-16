@@ -10,10 +10,11 @@ class FileListModel : public QObject
 public:
     explicit FileListModel(QObject *parent = nullptr);
 
+
 public slots:
     void saveFile();
     void ceateFile();
-    void saveAsFile();
+    void saveAsFile(QString &_text);
     void openFile();
     void openFolder();
     void openNewWindow();
