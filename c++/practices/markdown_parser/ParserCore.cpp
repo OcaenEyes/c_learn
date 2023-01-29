@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-18 06:52:07
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-19 14:14:52
+ * @LastEditTime: 2023-01-29 09:20:13
  * @FilePath: /c++/practices/markdown_parser/ParserCore.cpp
  * @Description: 注释信息
  */
@@ -108,7 +108,132 @@ MarkdownParser::MarkdownParser(const std::string &filename)
             newPara = false;
             continue;
         }
+
+        now = findNode(ps.first);
+
+        // 如果是标题行，则向其标签中插入属性 tag
+        if (tj.first >= h1 && tj.first <= h6)
+        {
+            now->ch.push_back(new Node(tj.first));
+            now->ch.back()->elem[0] = "tag" + std::to_string(++cntTag);
+
+            insert(now->ch.back(), std::string(tj.second));
+            Cins(Croot, tj.first - h1 + 1, std::string(tj.second), cntTag);
+        }
+
+        // 如果是无序列表
+        if (tj.first == ul)
+        {
+            if (now->ch.empty() || now->ch.back()->type != ul)
+            {
+                now->ch.push_back(new Node(ul));
+            }
+            now = now->ch.back();
+
+            bool flag = false;
+            if (newPara && !now->ch.empty())
+            {
+                Node *ptr = nullptr;
+                for (auto i : now->ch)
+                {
+                    if (i->type == li)
+                    {
+                        ptr = i;
+                    }
+                }
+
+                if (ptr != nullptr)
+                {
+                    makePara(ptr);
+                }
+
+                flag = true;
+            }
+
+            now->ch.push_back(new Node(li));
+            now = now->ch.back();
+
+            if (flag)
+            {
+                now->ch.push_back(new Node(paragraph));
+                now = now->ch.back();
+            }
+
+            insert(now, std::string(tj.second));
+        }
+
+        // 如果是有序列表
+        if (tj.first == ol)
+        {
+            if (now->ch.empty() || now->ch.back()->type != ol)
+            {
+                now->ch.push_back(new Node(ol));
+            }
+            now = now->ch.back();
+            bool flag = false;
+
+            if (newPara && !now->ch.empty())
+            {
+                Node *ptr = nullptr;
+                for (auto i : now->ch)
+                {
+                    if (i->type == li)
+                    {
+                        ptr = i;
+                    }
+                }
+
+                if (ptr != nullptr)
+                {
+                    makePara(ptr);
+                }
+                flag = true;
+            }
+
+            now->ch.push_back(new Node(li));
+            now = now->ch.back();
+
+            if (flag)
+            {
+                now->ch.push_back(new Node(paragraph));
+                now = now->ch.back();
+            }
+            insert(now, std::string(tj.second));
+        }
+
+        // 如果是引用
+        if (tj.first == quote)
+        {
+            if (now->ch.empty() || now->ch.back()->type != quote)
+            {
+                now->ch.push_back(new Node(quote));
+            }
+            now = now->ch.back();
+            if (newPara || now->ch.empty())
+            {
+                now->ch.push_back(new Node(paragraph));
+            }
+            insert(now->ch.back(), std::string(tj.second));
+        }
+        newPara = false;
     }
+
+    // 文件读取分析完毕
+    fin.close();
+
+    // 深入有限遍历整个语法树
+    dfs(root);
+
+    // 构造目录
+    TOC += "<ul>";
+
+    for (int i = 0; i < (int)Croot->ch.size(); i++)
+    {
+        /* code */
+        Cdfs(Croot->ch[i], std::to_string(i + 1) + ".");
+    }
+
+    TOC += "</ul>";
 }
 
 MarkdownParser::~MarkdownParser()
@@ -168,7 +293,7 @@ bool MarkdownParser::isCutline(char *src)
 }
 
 // 生成段落
-inline void makePara(Node *v)
+inline void MarkdownParser::makePara(Node *v)
 {
     if (v->ch.size() == 1u && v->ch.back()->type == paragraph)
     {
