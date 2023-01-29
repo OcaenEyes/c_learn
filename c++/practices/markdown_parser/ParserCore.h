@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-18 06:38:20
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-30 00:08:52
+ * @LastEditTime: 2023-01-29 17:25:50
  * @FilePath: /c++/practices/markdown_parser/ParserCore.h
  * @Description: 注释信息
  */
@@ -46,7 +46,7 @@ const std::string startHtmlTag[] = {
     "<ol>",
     "<li>",
     "<em>",
-    "<strong>"
+    "<strong>",
     "<hr />",
     "<br />",
     "",
