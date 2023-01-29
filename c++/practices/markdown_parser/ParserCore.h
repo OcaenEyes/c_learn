@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-18 06:38:20
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-19 14:06:45
+ * @LastEditTime: 2023-01-30 00:08:52
  * @FilePath: /c++/practices/markdown_parser/ParserCore.h
  * @Description: 注释信息
  */
@@ -41,6 +41,7 @@ enum
 const std::string startHtmlTag[] = {
     "",
     "<p>",
+    "",
     "<ul>",
     "<ol>",
     "<li>",
@@ -50,18 +51,19 @@ const std::string startHtmlTag[] = {
     "<br />",
     "",
     "<blockquote>",
-    "<h1>",
-    "<h2>",
-    "<h3>",
-    "<h4>",
-    "<h5>",
-    "<h6>",
+    "<h1 ",
+    "<h2 ",
+    "<h3 ",
+    "<h4 ",
+    "<h5 ",
+    "<h6 ",
     "<pre><code>",
     "<code>"};
 
 const std::string endHtmlTag[] = {
     "",
     "</p>",
+    "",
     "</ul>",
     "</ol>",
     "</li>",
@@ -133,7 +135,7 @@ private:
     std::pair<int, char *> judgeType(char *src);
 
     // 给定树深度寻找树的节点
-    Node* findNode(int depth);
+    Node *findNode(int depth);
 
     // 在节点中插入内容
     void insert(Node *v, const std::string &src);

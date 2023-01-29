@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-18 06:37:12
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-29 09:30:09
+ * @LastEditTime: 2023-01-29 23:54:59
  * @FilePath: /c++/practices/markdown_parser/main.cpp
  * @Description: 注释信息
  */
@@ -22,9 +22,9 @@ int main()
 {
     MarkdownParser markdown_parser("test.md");
     std::string table = markdown_parser.getTableOfContent();
-    std::cout <<  table << std::endl;
+    // std::cout <<  table << std::endl;
     std::string contents = markdown_parser.getContents();
-    std::cout <<  contents << std::endl;
+    // std::cout <<  contents << std::endl;
 
     std::string head = "<!DOCTYPE html>\
                         <html lang=\"en\">\

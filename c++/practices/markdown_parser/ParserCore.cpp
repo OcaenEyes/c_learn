@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-18 06:52:07
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-29 09:20:13
+ * @LastEditTime: 2023-01-30 00:25:35
  * @FilePath: /c++/practices/markdown_parser/ParserCore.cpp
  * @Description: 注释信息
  */
@@ -70,7 +70,7 @@ MarkdownParser::MarkdownParser(const std::string &filename)
         }
 
         // 如果是普通段落
-        if (tj.first = paragraph)
+        if (tj.first == paragraph)
         {
             if (now == root)
             {
@@ -561,18 +561,19 @@ void MarkdownParser::Cins(CNode *v, int x, const std::string &hd, int tag)
 
 void MarkdownParser::Cdfs(CNode *v, std::string index)
 {
-    TOC += "<li>/n";
+    TOC += "<li>\n";
     TOC += "<a href=\"#" + v->tag + "\">" + index + " " + v->heading + "</a>\n";
     int n = (int)v->ch.size();
 
     if (n)
     {
         TOC += "<ul>\n";
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i <n; i++)
         {
             Cdfs(v->ch[i], index + std::to_string(i + 1) + ".");
         }
-        TOC += "</>\n";
+       
+       TOC += "</ul>\n";
     }
     TOC += "</li>\n";
 }
@@ -583,7 +584,12 @@ void MarkdownParser::dfs(Node *v)
     {
         return;
     }
+    std::cout <<"********************************************************"  <<std::endl;
+    std::cout <<"此时v->type是：" << v->type  <<std::endl;
+    std::cout <<"此时startHtmlTag[v->type]是：" << startHtmlTag[v->type] <<std::endl;
     content += startHtmlTag[v->type];
+    // std::cout <<"此时content是：" << content  <<std::endl;
+    std::cout <<"********************************************************"  <<std::endl;
     bool flag = true;
 
     // 处理标题
