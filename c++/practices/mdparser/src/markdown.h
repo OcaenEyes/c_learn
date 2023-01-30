@@ -1,3 +1,11 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2023-01-30 21:51:45
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2023-01-30 22:59:53
+ * @FilePath: /c++/practices/mdparser/src/markdown.h
+ * @Description: 注释信息
+ */
 #ifndef MARKDOWN_CORE_H
 #define MARKDOWN_CORE_H
 
@@ -50,9 +58,9 @@ private:
     void generateUnList();
 
     int block_number = 0;
-    int isBlock(std::string s);
-    std::string generateBlock(std::string s, int number);
-    int generateBlock_S(std::string s);
+    int isBlockQuote(std::string s);
+    std::string generateBlockQuote(std::string s, int number);
+    int generateBlockQuote_S(std::string s);
 
     bool needMathJax = 0;
 

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 07:19:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-30 11:44:04
+ * @LastEditTime: 2023-01-30 23:44:50
  * @FilePath: /c++/practices/mdparser/src/markdown.cpp
  * @Description: 注释信息
  */
@@ -295,22 +295,138 @@ void markdown::generateList()
             content[i] = _temp;
             continue;
         }
+
+        if (ii > _stack.top())
+        {
+            _temp = "<ol><li>" + s.substr(ii + 1) + "</li>";
+            _stack.push(ii);
+        }
+        else if (ii == _stack.top())
+        {
+            _temp = "<li>" + s.substr(ii + 1) + "</li>";
+        }
+        else
+        {
+            _temp = "";
+            while (ii < top)
+            {
+                _temp += "<ol>";
+                _stack.pop();
+                top = _stack.top();
+            }
+
+            if (ii > _stack.top())
+            {
+                _temp += "<ol><li>" + s.substr(ii + 1) + "</li>";
+                _stack.push(ii);
+            }
+            else if (ii == _stack.top())
+            {
+                _temp += "<li>" + s.substr(ii + 1) + "</li>";
+            }
+        }
+        content[i] = _temp;
     }
 }
 
-int markdown::isBlock(std::string s)
+int markdown::isBlockQuote(std::string s)
 {
+    std::regex re_blockquote("^>*\\s+.*");
+    std::smatch sm;
+    std::regex_match(s, sm, re_blockquote);
+
+    if (sm.size() != 0)
+    {
+        auto idx = 0;
+        while (s[idx] == '>')
+        {
+            idx++;
+        }
+        return idx;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
-std::string markdown::generateBlock(std::string s, int number)
+std::string markdown::generateBlockQuote(std::string s, int number)
 {
+    std::string _temp1, _temp2;
+    auto ii = number;
+    while (ii > 0)
+    {
+        _temp1 += "<blockquote style=\"color:#8fbc8f\">";
+        _temp2 += "</blockquote>";
+        --ii;
+    }
+    return _temp1 + s.substr(number + 1) + _temp2;
 }
 
-int markdown::generateBlock_S(std::string s)
+int markdown::generateBlockQuote_S(std::string s)
 {
+    int cor_number = isBlockQuote(s);
+
+    std::string result = "";
+    if (mdtype == NORMAL && cor_number >= 1)
+    {
+        mdtype = INBLOCK;
+        while (block_number < cor_number)
+        {
+            block_number++;
+            result += "<blockquote>";
+        }
+        result += s.substr(cor_number);
+        result += "<br />";
+
+        output.push_back(result);
+        return 1;
+    }
+    else if (mdtype == INBLOCK)
+    {
+        if (cor_number > block_number)
+        {
+            while (block_number < cor_number)
+            {
+                block_number++;
+                result += "<blockquote>";
+            }
+        }
+        else if (cor_number < block_number)
+        {
+            while (block_number > cor_number)
+            {
+                block_number--;
+                result += "</blockquote>";
+            }
+        }
+        result += s.substr(cor_number);
+        result += "<br \>";
+        if (block_number <= 0)
+        {
+            mdtype = NORMAL;
+            block_number = 0;
+        }
+        output.push_back(result);
+        return 1;
+    }
+    return 0;
 }
 
-bool markdown::isBr(std::string s) {}
+bool markdown::isBr(std::string s)
+{
+    std::regex re_br("^[\\s\\t]*$");
+    std::smatch sm;
+    std::regex_match(s, sm, re_br);
+    if (sm.size() > 0)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 int markdown::isCode(std::string s) {}
 bool markdown::generateCode(std::string s) {}
