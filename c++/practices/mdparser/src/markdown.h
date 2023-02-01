@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 21:51:45
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-30 22:59:53
+ * @LastEditTime: 2023-02-01 12:00:34
  * @FilePath: /c++/practices/mdparser/src/markdown.h
  * @Description: 注释信息
  */
@@ -37,7 +37,7 @@ private:
         int deep;
         std::string name;
     };
-    std::string toc_tontent;
+    std::string toc_content;
     int toc_number = 0;
     std::vector<struct Toc> tocs;
     std::vector<std::string> toc_string;
@@ -71,12 +71,14 @@ private:
 
     int table_number = 0;
     std::vector<std::string> aligns;
-    bool generateTable(std::string);
+    bool generateTable(std::string s);
     std::vector<std::string> getTableElem(std::string s);
 
     void generateFlow();
 
     void tokenTool();
+
+    std::string preReplace(std::string s);
 
 public:
     markdown(/* args */);
@@ -88,15 +90,6 @@ public:
     int getContent(std::vector<std::string> &_content);
 
     int generatePre();
-    int generateCore(std::vector<std::string> &_content);
+    int generateCore();
 };
-
-markdown::markdown(/* args */)
-{
-}
-
-markdown::~markdown()
-{
-}
-
 #endif

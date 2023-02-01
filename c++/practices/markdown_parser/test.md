@@ -1,11 +1,3 @@
-<!--
- * @Author: OCEAN.GZY
- * @Date: 2023-01-29 17:29:57
- * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-01-29 17:29:57
- * @FilePath: /c++/practices/markdown_parser/test.md
- * @Description: 注释信息
--->
 **# 桌面应用：📙OceanNote-dev0.0.2**
 
 # 标题1
@@ -59,5 +51,5 @@
   
 ##### 👋 感谢打赏~
   
-  <img src="https://oceaneyes.top/img/alipay.jpg" title="支付宝打赏" alt="" width="140" >
-  <img src="https://oceaneyes.top/img/wechatpay.jpg" title="微信打赏" alt="" width="140" >
+  \<img src="https://oceaneyes.top/img/alipay.jpg" title="支付宝打赏" alt="" width="140" >
+  \<img src="https://oceaneyes.top/img/wechatpay.jpg" title="微信打赏" alt="" width="140" >
