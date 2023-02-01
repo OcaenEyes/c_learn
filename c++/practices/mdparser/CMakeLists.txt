@@ -4,6 +4,9 @@ project(oceanmarkdown-core)
 add_library(oceanmarkdowncore
     src/markdown.h
     src/markdown.cpp
+    src/thirds/flowchart.js
+    src/thirds/MathJax.js
+    src/thirds/raphael.js
 )
 
 target_include_directories(oceanmarkdowncore PUBLIC src)
