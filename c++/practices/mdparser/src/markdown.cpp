@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 07:19:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-02-01 22:00:38
+ * @LastEditTime: 2023-02-01 15:28:52
  * @FilePath: /c++/practices/mdparser/src/markdown.cpp
  * @Description: 注释信息
  */
@@ -99,6 +99,15 @@ int markdown::generateCore()
                         <body>\
                             <div id=\"main\">");
 
+    output.push_back("<script type=\"text/x-mathjax-config\"> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}});</script>");
+    output.push_back("<script type=\"text/javascript\" src=\"./thirds/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">");
+    output.push_back("</script>");
+
+    output.push_back("<script type=\"text/javascript\" src=\"./thirds/raphael.js\">");
+    output.push_back("</script>");
+
+    output.push_back("<script type=\"text/javascript\" src=\"./thirds/flowchart.js\">");
+    output.push_back("</script>");
     if (needToc)
     {
         generateToc();
@@ -112,35 +121,6 @@ int markdown::generateCore()
         std::vector<std::string>::iterator it = output.begin() + 4;
         output.erase(it);
     }
-
-    std::ifstream mathJs("./thirds/MathJax.js");
-    std::string mathJsBuff;
-    output.push_back("<script type=\"text/x-mathjax-config\"> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}});</script>");
-    output.push_back("<script type=\"text/javascript\">");
-    while (std::getline(mathJs, mathJsBuff))
-    {
-        output.push_back(mathJsBuff);
-    }
-    output.push_back("</script>");
-
-    std::ifstream raphaelJs("./thirds/raphael.js");
-    std::string raphaelJsBuff;
-    output.push_back("<script type=\"text/javascript\">");
-    while (std::getline(raphaelJs, raphaelJsBuff))
-    {
-        output.push_back(raphaelJsBuff);
-    }
-    output.push_back("</script>");
-
-    std::ifstream flowchartJs("./thirds/flowchart.js");
-    std::string flowchartJsBuff;
-    while (std::getline(flowchartJs, flowchartJsBuff))
-    {
-        output.push_back(flowchartJsBuff);
-    }
-    output.push_back("<script type=\"text/javascript\">");
-
-    output.push_back("</script>");
 
     output.push_back("</div>\
                     </body>\
@@ -697,7 +677,7 @@ void markdown::tokenTool()
         _temp2.clear();
         std::regex_replace(std::back_inserter(_temp2), _temp1.begin(), _temp1.end(), re_code, "<code>$1</code>");
 
-        std::regex_match(_temp1, sm, re_math);
+        std::regex_match(_temp2, sm, re_math);
 
         if (sm.size() > 0)
         {
