@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 07:19:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-02-02 07:28:32
+ * @LastEditTime: 2023-02-02 08:12:34
  * @FilePath: /c++/practices/mdparser/src/markdown.cpp
  * @Description: 注释信息
  */
@@ -538,13 +538,13 @@ bool markdown::generateTable(std::string s)
     else if (mdtype == INTABLE && sm.size() > 0)
     {
         elem = getTableElem(s);
-        std::cout << "************" << std::endl;
-        std::cout << "当是在表格内部时,s是：" << s << std::endl;
+        // std::cout << "************" << std::endl;
+        // std::cout << "当是在表格内部时,s是：" << s << std::endl;
         result += "<tr>";
         for (auto ii = 0; ii < table_number; ++ii)
         {
             result += "<td align=\"" + aligns[ii] + "\">" + elem[ii] + "</td>";
-            std::cout << "当是在表格内部时,elem[ii]是：" << elem[ii] << std::endl;
+            // std::cout << "当是在表格内部时,elem[ii]是：" << elem[ii] << std::endl;
         }
 
         result += "</tr>";
@@ -586,8 +586,8 @@ std::vector<std::string> markdown::getTableElem(std::string s)
 void markdown::generateFlow()
 {
     auto flow_number = 0;
-    std::regex re_flow_start("^\\[flow\\]&");
-    std::regex re_flow_end("^\\[!flow\\]&");
+    std::regex re_flow_start("^\\[flow\\]$");
+    std::regex re_flow_end("^\\[!flow\\]$");
 
     std::smatch sm;
 
@@ -595,7 +595,7 @@ void markdown::generateFlow()
     {
         std::regex_search(content[ii], sm, re_flow_start);
         if (sm.size() > 0)
-        {
+        { 
             ++flow_number;
             content[ii] = "<div id=\"flow" + std::to_string(flow_number) + "\"> </div>";
             auto jj = ii + 1;
@@ -607,7 +607,7 @@ void markdown::generateFlow()
                 content.erase(content.begin() + jj);
                 std::regex_match(content[jj], sm, re_flow_end);
             }
-            content[ii] += "' ')diagram.drwSVG('flow" + std::to_string(flow_number) + "');</script>";
+            content[ii] += "' ');diagram.drawSVG('flow" + std::to_string(flow_number) + "');</script>";
             content.erase(content.begin() + jj);
         }
     }
@@ -653,7 +653,7 @@ void markdown::tokenTool()
         std::regex_replace(std::back_inserter(_temp1), _temp2.begin(), _temp2.end(), re_img, "<img src=\"$2\"align=\"middle\" >");
 
         _temp2.clear();
-        std::regex_replace(std::back_inserter(_temp2), _temp1.begin(), _temp1.end(), re_sup, "$1<sup>$2</sup>;");
+        std::regex_replace(std::back_inserter(_temp2), _temp1.begin(), _temp1.end(), re_sup, "$1<sup>$2</sup>");
 
         _temp1.clear();
         std::regex_replace(std::back_inserter(_temp1), _temp2.begin(), _temp2.end(), re_b, "<b>$1</b>");
