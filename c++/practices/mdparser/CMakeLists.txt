@@ -5,7 +5,8 @@ add_library(oceanmarkdowncore
     src/markdown.h
     src/markdown.cpp
     src/thirds/flowchart.js
-    src/thirds/MathJax.js
+    src/thirds/custom-mathjax.min.js
+    src/thirds/a11y/assistive-mml.js
     src/thirds/raphael.js
 )
 

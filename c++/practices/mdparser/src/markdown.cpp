@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 07:19:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-02-01 15:28:52
+ * @LastEditTime: 2023-02-02 07:28:32
  * @FilePath: /c++/practices/mdparser/src/markdown.cpp
  * @Description: 注释信息
  */
@@ -97,10 +97,10 @@ int markdown::generateCore()
                             <title>Document</title>\
                         </head>\
                         <body>\
-                            <div id=\"main\">");
+                            <div id=\"placeholder\">");
 
     output.push_back("<script type=\"text/x-mathjax-config\"> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}});</script>");
-    output.push_back("<script type=\"text/javascript\" src=\"./thirds/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">");
+    output.push_back("<script type=\"text/javascript\" src=\"./thirds/custom-mathjax.min.js\" id=\"MathJax-script\">");
     output.push_back("</script>");
 
     output.push_back("<script type=\"text/javascript\" src=\"./thirds/raphael.js\">");
@@ -108,6 +108,9 @@ int markdown::generateCore()
 
     output.push_back("<script type=\"text/javascript\" src=\"./thirds/flowchart.js\">");
     output.push_back("</script>");
+
+    output.push_back("<link rel=\"stylesheet\" href=\"./thirds/css/github.css\">");
+
     if (needToc)
     {
         generateToc();
@@ -237,7 +240,7 @@ void markdown::generateUnList()
         }
         else if (ii == _stack.top())
         {
-            _temp += "<li>" + s.substr(ii + 1) + "</li>";
+            _temp = "<li>" + s.substr(ii + 1) + "</li>";
         }
         else
         {
@@ -482,25 +485,6 @@ bool markdown::generateCode(std::string s)
         return 0;
     }
 }
-
-std::string markdown::preReplace(std::string s)
-{
-    if (mdtype != NORMAL)
-    {
-        std::string _temp1, _temp2;
-        std::regex re_lt("<");
-        std::regex re_and("&");
-        std::smatch sm;
-        _temp1 = s;
-        _temp2.clear();
-        std::regex_replace(std::back_inserter(_temp2), _temp1.begin(), _temp1.end(), re_and, "&amp;");
-        _temp1.clear();
-        std::regex_replace(std::back_inserter(_temp1), _temp2.begin(), _temp2.end(), re_lt, "&lt;");
-        return _temp1;
-    }
-    return s;
-}
-
 bool markdown::generateTable(std::string s)
 {
     std::regex re_table("\\|(.*)\\|");
@@ -511,10 +495,13 @@ bool markdown::generateTable(std::string s)
     std::string result = "";
     std::vector<std::string> elem;
 
+    // std::cout << "该行输入s是：" << s << std::endl;
+    // std::cout << "此时mdtype是：" << mdtype << std::endl;
+
     if (mdtype == NORMAL && sm.size() > 0)
     {
         elem = getTableElem(s);
-        result += "<table>";
+        result += "<table align=\"center\" cellspacing=\"0\" cellpadding=\"5\">";
         result += "<tr>";
 
         for (auto e : elem)
@@ -524,13 +511,13 @@ bool markdown::generateTable(std::string s)
 
         result += "</tr>";
 
-        table_number = static_cast<int>(elem.size() > 0);
+        table_number = static_cast<int>(elem.size());
 
         mdtype = TABLE_FMT;
         output.push_back(result);
         return 1;
     }
-    else if (mdtype == TABLE_FMT && sm.size())
+    else if (mdtype == TABLE_FMT && sm.size() > 0)
     {
         elem = getTableElem(s);
         for (auto ii = 0; ii < table_number; ++ii)
@@ -545,16 +532,19 @@ bool markdown::generateTable(std::string s)
             if (sm.size() > 0)
                 aligns[ii] = "right";
         }
-        mdtype == INTABLE;
+        mdtype = INTABLE;
         return 1;
     }
     else if (mdtype == INTABLE && sm.size() > 0)
     {
         elem = getTableElem(s);
+        std::cout << "************" << std::endl;
+        std::cout << "当是在表格内部时,s是：" << s << std::endl;
         result += "<tr>";
         for (auto ii = 0; ii < table_number; ++ii)
         {
             result += "<td align=\"" + aligns[ii] + "\">" + elem[ii] + "</td>";
+            std::cout << "当是在表格内部时,elem[ii]是：" << elem[ii] << std::endl;
         }
 
         result += "</tr>";
@@ -564,7 +554,7 @@ bool markdown::generateTable(std::string s)
     else if ((mdtype == INTABLE || mdtype == TABLE_FMT) && sm.size() == 0)
     {
         table_number = 0;
-        mdtype == NORMAL;
+        mdtype = NORMAL;
         result += "</table>" + s;
         output.push_back(result);
         return 1;

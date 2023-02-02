@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 21:51:45
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-02-01 12:00:34
+ * @LastEditTime: 2023-02-02 07:32:33
  * @FilePath: /c++/practices/mdparser/src/markdown.h
  * @Description: 注释信息
  */
@@ -77,8 +77,6 @@ private:
     void generateFlow();
 
     void tokenTool();
-
-    std::string preReplace(std::string s);
 
 public:
     markdown(/* args */);
