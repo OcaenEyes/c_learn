@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-01-30 03:27:09
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-02-01 14:42:49
+ * @LastEditTime: 2023-02-03 13:17:20
  * @FilePath: /c++/practices/mdparser/src/main.cpp
  * @Description: 注释信息
  */
@@ -82,3 +82,28 @@ int main(int argc, const char *argv[])
 
     return 0;
 }
+
+// int main()
+// {
+//     markdown _markdown;
+//     std::vector<std::string> outputs;
+//     std::string input;
+//     std::vector<std::string> inputs;
+//     while (true)
+//     {
+//         std::cin >> input;
+//         outputs.clear();
+//         inputs.push_back(input);
+//         inputs.push_back("");
+//         _markdown.getContent(inputs);
+//         _markdown.generateCore();
+//         _markdown.outputMarkdown(outputs);
+//         std::cout << outputs.size() << std::endl;
+//         std::cout << outputs.at(0) << std::endl;
+//         for (int i = 0; i < static_cast<int>(outputs.size()); i++)
+//         {
+//             std::cout << outputs.at(i) << std::endl;
+//         }
+//     }
+//     return 0;
+// }
