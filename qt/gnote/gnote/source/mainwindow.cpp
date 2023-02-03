@@ -11,7 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     textEditIn = new QTextEdit(_spliterMainView);
 
-
     textEditOut = new QTextEdit(_spliterMainView);
 
     // 分屏的切换展示模式
