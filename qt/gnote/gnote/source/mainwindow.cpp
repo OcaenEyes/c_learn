@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     _spliterMainView = new QSplitter(Qt::Horizontal, 0); //新建主分割窗口，水平分割
 
     textEditIn = new EditorCore(_spliterMainView);
+    connect(textEditIn,&EditorCore::textChanged,this,&MainWindow::textContent);
 
     textEditOut = new QTextEdit(_spliterMainView);
 
@@ -67,19 +68,81 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-
-
-
-
     // 工具栏
 
     _toolBar = new QToolBar(this);
 
-    QToolButton *_hToolBtn = new QToolButton();
-    _hToolBtn->setText("H1");
-    _hToolBtn->setToolTip("标题");
+    QToolButton *_hToolBtn = new QToolButton;
+    _hToolBtn->setText("标题");
+    _hToolBtn->setToolTip("标题H");
+
+    _hToolBtn->setPopupMode(QToolButton::InstantPopup);
+
+    QMenu *_hMenu = new QMenu;
+    QAction *h1 = new QAction("H1");
+    QAction *h2 = new QAction("H2");
+    QAction *h3 = new QAction("H3");
+    QAction *h4 = new QAction("H4");
+    QAction *h5 = new QAction("H5");
+    QAction *h6 = new QAction("H6");
+
+    _hMenu->addAction(h1);
+    _hMenu->addAction(h2);
+    _hMenu->addAction(h3);
+    _hMenu->addAction(h4);
+    _hMenu->addAction(h5);
+    _hMenu->addAction(h6);
+
+    _hToolBtn->setMenu(_hMenu);
+
+    connect(_hToolBtn,&QToolButton::triggered,_hMenu,&QMenu::show);
 
     _toolBar->addWidget(_hToolBtn);
+
+
+
+    QToolButton *_boldToolBtn = new QToolButton;
+    _boldToolBtn->setText("粗体");
+    _boldToolBtn->setToolTip("粗体B");
+    _toolBar->addWidget(_boldToolBtn);
+
+
+    QToolButton *_italicToolBtn = new QToolButton;
+    _italicToolBtn->setText("斜体");
+    _italicToolBtn->setToolTip("斜体I");
+    _toolBar->addWidget(_italicToolBtn);
+
+
+    QToolButton *_listToolBtn = new QToolButton;
+    _listToolBtn->setText("有序列表");
+    _listToolBtn->setToolTip("有序列表");
+    _toolBar->addWidget(_listToolBtn);
+
+
+    QToolButton *_unListToolBtn = new QToolButton;
+    _unListToolBtn->setText("无序列表");
+    _unListToolBtn->setToolTip("无序列表");
+    _toolBar->addWidget(_unListToolBtn);
+
+    QToolButton *_imgToolBtn = new QToolButton;
+    _imgToolBtn->setText("图片");
+    _imgToolBtn->setToolTip("图片Image");
+    _toolBar->addWidget(_imgToolBtn);
+
+    QToolButton *_codeToolBtn = new QToolButton;
+    _codeToolBtn->setText("代码");
+    _codeToolBtn->setToolTip("代码code");
+    _toolBar->addWidget(_codeToolBtn);
+
+    QToolButton *_mathToolBtn = new QToolButton;
+    _mathToolBtn->setText("公式");
+    _mathToolBtn->setToolTip("公式Math");
+    _toolBar->addWidget(_mathToolBtn);
+
+    QToolButton *_flowToolBtn = new QToolButton;
+    _flowToolBtn->setText("流程图");
+    _flowToolBtn->setToolTip("流程图Flow");
+    _toolBar->addWidget(_flowToolBtn);
 
     this->addToolBar(_toolBar);
 
@@ -91,5 +154,9 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow:: textContent(){
+    qDebug() << textEditIn->toPlainText() << Qt::endl;
 }
 

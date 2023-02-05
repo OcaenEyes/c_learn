@@ -4,6 +4,7 @@
 #include <QPlainTextEdit>
 
 #include "linenumarea.h"
+#include "markdwon.h"
 
 class EditorCore :public QPlainTextEdit
 {
@@ -18,13 +19,15 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
-private slots:
+public slots:
     void updateLineNumAreaWidth(int newBlockCount);
     void highLightCurrentLine();
     void updateLineNunArea(const QRect &rect, int dy);
+    void textContent();
 
 private:
     LineNumArea *lineNumArea;
+    Markdown *markDown;
 };
 
 #endif // EDITORCORE_H

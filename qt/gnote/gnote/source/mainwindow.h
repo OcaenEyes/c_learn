@@ -30,6 +30,9 @@ public:
 
     QTextEdit *textEditOut;
 
+public slots:
+    void textContent();
+
 private:
     Ui::MainWindow *ui;
 };

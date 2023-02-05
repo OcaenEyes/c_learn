@@ -2,9 +2,11 @@
 #include <QPainter>
 #include <QTextBlock>
 
+
 EditorCore::EditorCore(QWidget *parent): QPlainTextEdit(parent)
 {
     lineNumArea = new LineNumArea(this);
+    markDown = new Markdown();
 
     connect(this,&EditorCore::blockCountChanged,this,&EditorCore::updateLineNumAreaWidth);
 
@@ -15,6 +17,7 @@ EditorCore::EditorCore(QWidget *parent): QPlainTextEdit(parent)
     updateLineNumAreaWidth(0);
 
     highLightCurrentLine();
+
 }
 
 int EditorCore::lineNumAreaWidth(){
@@ -95,4 +98,8 @@ void EditorCore::lineNumAreaPaintEvent(QPaintEvent *event){
         ++blockNum;
 
     }
+}
+
+void EditorCore::textContent(){
+
 }
