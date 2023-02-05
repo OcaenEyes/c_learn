@@ -18,6 +18,10 @@ set(PROJECT_SOURCES
         source/mainwindow.h
         source/markdwon.h
         source/markdwon.cpp
+        source/editorcore.h
+        source/editorcore.cpp
+        source/linenumarea.h
+        source/linenumarea.cpp
 
         ui/mainwindow.ui
         ui/ui_mainwindow.h

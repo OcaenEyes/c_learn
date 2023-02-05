@@ -7,6 +7,7 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QTextEdit>
+#include "editorcore.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,10 +22,11 @@ public:
     ~MainWindow();
 
     QSplitter *_spliterMainView;
+
     QMenuBar *_menuBar;
     QToolBar *_toolBar;
 
-    QTextEdit *textEditIn;
+    EditorCore *textEditIn;
 
     QTextEdit *textEditOut;
 
