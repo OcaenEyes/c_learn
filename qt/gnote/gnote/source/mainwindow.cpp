@@ -25,7 +25,24 @@ MainWindow::MainWindow(QWidget *parent)
     _menuBar = new QMenuBar(this);
 
     QMenu *_fileMenus = new QMenu("文件",_menuBar);
-//    QAction *_newWin = new QAction("新窗口",_fileMenus);
+    QAction *_newWin = new QAction("新窗口",_fileMenus);
+    _fileMenus->addAction(_newWin);
+
+    _fileMenus->addSeparator();
+
+    QAction *_newFile = new QAction("新建文件",_fileMenus);
+    _fileMenus->addAction(_newFile);
+
+    QAction *_openFile = new QAction("打开文件",_fileMenus);
+    _fileMenus->addAction(_openFile);
+
+    QAction *_saveFile = new QAction("保存文件",_fileMenus);
+    _fileMenus->addAction(_saveFile);
+
+    _fileMenus->addSeparator();
+
+    QAction *_saveAsFile = new QAction("文件另存为",_fileMenus);
+    _fileMenus->addAction(_saveAsFile);
 
     _menuBar->addMenu(_fileMenus);
 
@@ -35,11 +52,36 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     QMenu *_aboutMenus = new QMenu("关于",_menuBar);
+
+    QAction *_aboutMe = new QAction("关于作者",_aboutMenus);
+    _aboutMenus->addAction(_aboutMe);
+
     _menuBar->addMenu(_aboutMenus);
+
+    _menuBar->addMenu(_aboutMenus);
+
+
 
     this->setMenuBar(_menuBar);
 
+
+
+
+
+
+
+
     // 工具栏
+
+    _toolBar = new QToolBar(this);
+
+    QToolButton *_hToolBtn = new QToolButton();
+    _hToolBtn->setText("H1");
+    _hToolBtn->setToolTip("标题");
+
+    _toolBar->addWidget(_hToolBtn);
+
+    this->addToolBar(_toolBar);
 
 
 
