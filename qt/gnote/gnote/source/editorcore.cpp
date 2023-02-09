@@ -6,7 +6,7 @@
 EditorCore::EditorCore(QWidget *parent): QPlainTextEdit(parent)
 {
     lineNumArea = new LineNumArea(this);
-    markDown = new Markdown();
+//    markDown = new Markdown();
 
     connect(this,&EditorCore::blockCountChanged,this,&EditorCore::updateLineNumAreaWidth);
 

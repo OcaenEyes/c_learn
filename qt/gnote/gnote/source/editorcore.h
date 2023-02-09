@@ -4,7 +4,7 @@
 #include <QPlainTextEdit>
 
 #include "linenumarea.h"
-#include "markdwon.h"
+//#include "markdwon.h"
 
 class EditorCore :public QPlainTextEdit
 {
@@ -27,7 +27,7 @@ public slots:
 
 private:
     LineNumArea *lineNumArea;
-    Markdown *markDown;
+//    Markdown *markDown;
 };
 
 #endif // EDITORCORE_H

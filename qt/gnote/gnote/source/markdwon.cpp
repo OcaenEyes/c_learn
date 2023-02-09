@@ -93,16 +93,16 @@ int Markdown::generateCore()
                             <div id=\"placeholder\">");
 
     output.push_back("<script type=\"text/x-mathjax-config\"> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}});</script>");
-    output.push_back("<script type=\"text/javascript\" src=\"./thirds/custom-mathjax.min.js\" id=\"MathJax-script\">");
+    output.push_back("<script type=\"text/javascript\" src=\"/thirds/static/js/custom-mathjax.min.js\" id=\"MathJax-script\">");
     output.push_back("</script>");
 
-    output.push_back("<script type=\"text/javascript\" src=\"./thirds/raphael.js\">");
+    output.push_back("<script type=\"text/javascript\" src=\"/thirds/static/js/raphael.js\">");
     output.push_back("</script>");
 
-    output.push_back("<script type=\"text/javascript\" src=\"./thirds/flowchart.js\">");
+    output.push_back("<script type=\"text/javascript\" src=\"/thirds/static/js/flowchart.js\">");
     output.push_back("</script>");
 
-    output.push_back("<link rel=\"stylesheet\" href=\"./thirds/css/github.css\">");
+    output.push_back("<link rel=\"stylesheet\" href=\"/thirds/static/css/github.css\">");
 
     if (needToc)
     {

@@ -7,7 +7,9 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QTextEdit>
+#include <QTextBrowser>
 #include "editorcore.h"
+#include "markdwon.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,12 +30,14 @@ public:
 
     EditorCore *textEditIn;
 
-    QTextEdit *textEditOut;
+    QTextBrowser *textEditOut;
 
 public slots:
     void textContent();
 
 private:
     Ui::MainWindow *ui;
+    Markdown *markdown;
+    QString _outHtml;
 };
 #endif // MAINWINDOW_H

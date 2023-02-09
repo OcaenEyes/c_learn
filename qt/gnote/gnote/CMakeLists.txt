@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         source/editorcore.cpp
         source/linenumarea.h
         source/linenumarea.cpp
+        assets.qrc
 
         ui/mainwindow.ui
         ui/ui_mainwindow.h

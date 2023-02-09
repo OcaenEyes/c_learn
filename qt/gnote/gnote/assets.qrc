@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>thirds/static/css/github.css</file>
+        <file>thirds/static/css/han.css</file>
+        <file>thirds/static/css/katex.min.css</file>
+        <file>thirds/static/css/mdhere.css</file>
+        <file>thirds/static/css/sspai.css</file>
+        <file>thirds/static/css/wechatallblue.css</file>
+        <file>thirds/static/css/wechatazure.css</file>
+        <file>thirds/static/css/wechatgeekblack.css</file>
+        <file>thirds/static/css/wechatinkblack.css</file>
+        <file>thirds/static/css/wechatmountain.css</file>
+        <file>thirds/static/css/wechatorange.css</file>
+        <file>thirds/static/js/custom-mathjax.min.js</file>
+        <file>thirds/static/js/flowchart.js</file>
+        <file>thirds/static/js/raphael.js</file>
+        <file>thirds/static/js/a11y/assistive-mml.js</file>
+    </qresource>
+</RCC>

@@ -2,19 +2,24 @@
 #include "../ui/ui_mainwindow.h"
 
 #include <QMenu>
+#include <QTextBlock>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    markdown = new Markdown;
+
     // 分屏 左右布局
     _spliterMainView = new QSplitter(Qt::Horizontal, 0); //新建主分割窗口，水平分割
 
     textEditIn = new EditorCore(_spliterMainView);
     connect(textEditIn,&EditorCore::textChanged,this,&MainWindow::textContent);
 
-    textEditOut = new QTextEdit(_spliterMainView);
+    textEditOut = new QTextBrowser(_spliterMainView);
+    textEditOut->setAcceptRichText(true);
 
     // 分屏的切换展示模式
     _spliterMainView->setStretchFactor(0,50);
@@ -158,5 +163,36 @@ MainWindow::~MainWindow()
 
 void MainWindow:: textContent(){
     qDebug() << textEditIn->toPlainText() << Qt::endl;
+
+    QTextDocument *doc =  textEditIn->document();
+    int docCnt = doc->blockCount();
+    std::vector<std::string> _texts;
+    std::vector<std::string> _htmls;
+    for (int i= 0 ; i <docCnt;i++){
+        QTextBlock textLine = doc->findBlockByNumber(i);
+        qDebug() << textLine.text() <<Qt::endl;
+        std::string _text =  textLine.text().toStdString();
+        _texts.push_back(_text);
+    }
+
+   markdown->getContent(_texts);
+   markdown->generateCore();
+   markdown->outputMarkdown(_htmls);
+
+   qDebug() << _htmls.size() << Qt::endl;
+
+   _outHtml.clear();
+
+   for (auto  _htmlItem : _htmls) {
+       qDebug() << QString::fromStdString(_htmlItem) << Qt::endl;
+       _outHtml += QString::fromStdString(_htmlItem);
+
+   }
+
+   qDebug() << "生成的html是" << Qt::endl;
+   qDebug() << _outHtml << Qt::endl;
+
+//   textEditOut->setHtml("<div id=\"placeholder\"><script type=\"text/x-mathjax-config\"> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}});</script><script type=\"text/javascript\" src=\"/thirds/static/js/custom-mathjax.min.js\" id=\"MathJax-script\"></script><script type=\"text/javascript\" src=\"/thirds/static/js/raphael.js\"></script><script type=\"text/javascript\" src=\"/thirds/static/js/flowchart.js\"></script><link rel=\"stylesheet\" href=\"/thirds/static/css/github.css\"><br />aaassa </div>");
+    textEditOut->insertHtml(_outHtml);
 }
 
