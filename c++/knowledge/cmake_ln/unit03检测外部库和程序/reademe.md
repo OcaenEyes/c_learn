@@ -1,0 +1,17 @@
+- 检测Python解释器
+- 检测Python库
+- 检测Python模块和包
+- 检测BLAS和LAPACK数学库
+- 检测OpenMP并行环境
+- 检测MPI并行环境
+- 检测Eigen库
+- 检测Boost库
+- 检测外部库:Ⅰ. 使用pkg-config
+- 检测外部库:Ⅱ. 书写find模块
+
+- find命令
+    - find_file：在相应路径下查找命名文件
+    - find_library：查找一个库文件
+    - find_package：从外部项目查找和加载设置
+    - find_path：查找包含指定文件的目录
+    - find_program：找到一个可执行程序
