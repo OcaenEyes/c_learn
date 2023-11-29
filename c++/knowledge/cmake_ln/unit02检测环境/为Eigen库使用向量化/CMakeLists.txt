@@ -34,3 +34,6 @@ target_link_libraries(learn-no-optimized PRIVATE Eigen3::Eigen)
 add_executable(learn main.cpp) # 优化版本
 target_compile_options(learn PRIVATE ${_CXX_FLAGS})
 target_link_libraries(learn PRIVATE Eigen3::Eigen)
+
+# find_package可以通过选项传递，届时CMake将不会使用FindEigen3.cmake模块，而是通过特定的Eigen3Config.cmake，Eigen3ConfigVersion.cmake和Eigen3Targets.cmake提供Eigen3安装的标准位置(<installation-prefix>/share/eigen3/cmake)。
+# 这种包定位模式称为“Config”模式，比Find<package>.cmake方式更加通用。
