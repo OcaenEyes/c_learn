@@ -103,3 +103,29 @@ struct msghdr
     socklen_t msg_controllen; // 辅助数据的大小
     int msg_flags;            // 复制函数中的flags参数，并在调用过程中更新
 };
+
+/**
+ * @description: 带外标记
+ * @param {int} sockfd 判断sockfd是否处于带外标记，即下一个被读到的数据是否是带外数据；如果是则返回1，此时可用MSG_OOB标识的recv来接收带外数据
+ * @return {*}
+ */
+int sockatmark(int sockfd) {}
+
+/* 地址信息函数 */
+/**
+ * @description: 获取sockfd 对应的本端socket地址， 并将其存储在address参数指定的内存中， 该socket地址的长度则存储与addrlen参数指向的变量中
+ * @param {int} sockfd
+ * @param {sockaddr*} address
+ * @param {socklen_t*} addrlen
+ * @return {*}
+ */
+int getsockname(int sockfd, struct sockaddr *address, socklen_t *addrlen) {}
+
+/**
+ * @description: 获取sockfd 对应的远端socket地址， 并将其存储在address参数指定的内存中， 该socket地址的长度则存储与addrlen参数指向的变量中
+ * @param {int} sockfd
+ * @param {sockaddr*} address
+ * @param {socklen_t*} addrlen
+ * @return {*}
+ */
+int getpeername(int sockfd, struct sockaddr *address, socklen_t *addrlen) {}
