@@ -50,8 +50,8 @@ int main(int argc, char *argv[])
     else
     {
         close(STDOUT_FILENO); // 先关闭标准文件描述符 STDOUT_FILENO(值为1)
-        dup(connfd);
-        printf("abcd\n");
+        dup(connfd); // 复制socket文件描述符connfd， 因为dup总是返回系统中最小的可用文件描述符，所以实际返回值是1【即之前关闭的标准输出文件描述符的值】
+        printf("abcd\n");// 服务器输出到标准输出的内容“abcd”，就会直接发送到与客户端连接对应socket上，因此printf调用的输出将被客户端获得【不是显示在服务器程序的终端上】--->>这就是cgi服务器的基础工作原理
         close(connfd);
     }
 
