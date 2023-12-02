@@ -17,6 +17,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/uio.h>
 #include <fcntl.h>
 
 #define BUFFER_SIZE 1024
@@ -106,5 +107,47 @@ int main(int argc, char *argv[])
                 valid = false;
             }
         }
+
+        // 如果目标文件有效，则返回正常的HTTP应答
+        if (valid)
+        {
+            // 将http应答的状态行、“content- length”头部字段和一个空行 依次加入header_buf中
+            /* int snprintf(char *str, size_t size, const char *format, ...) 设将可变参数(...)
+                按照 format 格式化成字符串，并将字符串复制到 str 中，
+                    size 为要写入的字符的最大数目，超过 size 会被截断，最多写入 size-1 个字符
+            */
+            ret = snprintf(header_buf, BUFFER_SIZE - 1,
+                           "%s %s \r\n", "HTTP/1.1", status_line[0]);
+            len += ret;
+
+            ret = snprintf(header_buf + len, BUFFER_SIZE - 1 - len,
+                           "Content-Length: %d\r\n", file_stat.st_size);
+            len += ret;
+
+            ret = snprintf(header_buf + len, BUFFER_SIZE - 1 - len, "%s", "\r\n");
+
+            // 用writev将header_buf 和file_buf的内容一并写出
+            struct iovec iv[2];
+
+            iv[0].iov_base = header_buf;
+            iv[0].iov_len = strlen(header_buf);
+
+            iv[1].iov_base = file_buf;
+            iv[1].iov_len = file_stat.st_size;
+
+            ret = writev(connfd, iv, 2);
+        }
+        else // 如果目标文件无效，则通知客户端服务器发生了内部错误
+        {
+            ret = snprintf(header_buf, BUFFER_SIZE - 1, "%s %s\r\n", "HTTP/1.1", status_line[1]);
+            len += ret;
+            ret = snprintf(header_buf + len, BUFFER_SIZE - 1 - len, "%s", "\r\n");
+            send(connfd, header_buf, strlen(header_buf), 0);
+        }
+
+        close(connfd);
+        delete[] file_buf;
     }
+    close(sock);
+    return 0;
 }
