@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 3.16) # 配置cmake最小版本
+project(oceanim) # 项目名字
+
+# 配置编译选项
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -g)
+
+# 设置可执行文件的最终保存位置
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# 配置库文件搜索路径 link_directories()
+
+# 设置需要编译的源文件列表 set(SRC_LIST src/muduo_server.cpp)
+
+# 把.指定路径下的所有源文件名字放入变量名SRC_LIST里 aux_source_directory(. SRC_LIST)
+
+# 生成库文件 add_library()
+
+# 生成可执行文件 add_executable(oceanim src/muduo_server.cpp)
+
+add_subdirectory(src)

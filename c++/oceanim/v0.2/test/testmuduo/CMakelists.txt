@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.16)
+project(muduotest)
+
+include_directories(
+  /workspaces/c_learn/c++/oceanim/v0.2/3rds/muduo2.0.3/include)
+message(/workspaces/c_learn/c++/oceanim/v0.2/3rds/muduo2.0.3/include)
+
+find_library(MUDUONET muduo_net
+             /workspaces/c_learn/c++/oceanim/v0.2/3rds/muduo2.0.3/lib)
+find_library(MUDUOBASE muduo_base
+             /workspaces/c_learn/c++/oceanim/v0.2/3rds/muduo2.0.3/lib)
+
+add_executable(muduotest muduotest.cpp)
+
+target_link_libraries(muduotest ${MUDUONET} ${MUDUOBASE} pthread)
