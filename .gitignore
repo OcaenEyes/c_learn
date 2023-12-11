@@ -3,6 +3,10 @@
 .vs/
 **/.vscode/
 RTC/cmake-build-debug
+**/build/
+**/bin/
 **/build*/
+**/threelib/
+**/3rds/
 c++/practices/服务器开发实战/webserver_test/thirds/mysql-connector-1.1.13/lib/libmysqlcppconn.so
 c++/practices/服务器开发实战/webserver_test/thirds/mysql-connector-1.1.13/lib/libmysqlcppconn.so.7
