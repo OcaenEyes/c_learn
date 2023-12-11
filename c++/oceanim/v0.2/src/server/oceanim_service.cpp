@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 11:28:18
+ * @LastEditTime: 2023-12-11 14:26:48
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -34,6 +34,29 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
 void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
 {
     printf("do regist service!\n");
+    std::string name = js["name"];
+    std::string password = js["password"];
+    User user;
+    user.setName(name);
+    user.setPassword(password);
+    bool state = _userModel.insert(user);
+    // 注册成功
+    nlohmann::json response;
+    if (state)
+    {
+
+        response["msgcate"] = REGIST_MSG_ACK;
+        response["id"] = user.getId();
+        response["errno"] = 0;
+    }
+    else
+    {
+        // 注册失败
+        response["msgcate"] = REGIST_MSG_ACK;
+        response["id"] = user.getId();
+        response["errno"] = 1;
+    }
+    conn->send(response.dump()); // 返回消息
 }
 
 MsgHandler OceanIMService::getHandler(int msgcate)

@@ -13,8 +13,10 @@ find_library(MUDUOBASE muduo_base
              /workspaces/c_learn/c++/oceanim/v0.2/3rds/muduo2.0.3/lib)
 
 aux_source_directory(. SRC_LIST) # 把.指定路径下的所有源文件名字放入变量名SRC_LIST里
+aux_source_directory(./db DB_LIST) # 把.指定路径下的所有源文件名字放入变量名SRC_LIST里
 
-add_executable(oceanim_server ${SRC_LIST})
+add_executable(oceanim_server ${SRC_LIST} ${DB_LIST})
 
 # 链接库
-target_link_libraries(oceanim_server ${MUDUONET} ${MUDUOBASE} pthread)
+target_link_libraries(oceanim_server ${MUDUONET} ${MUDUOBASE} mysqlclient
+                      pthread)
