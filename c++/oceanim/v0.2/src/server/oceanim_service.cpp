@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 14:26:48
+ * @LastEditTime: 2023-12-12 00:55:14
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -28,6 +28,42 @@ OceanIMService *OceanIMService::instance()
 void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
 {
     printf("do login service!\n");
+    int id = js["id"];
+    std::string password = js["password"];
+
+    User user = _userModel.queryById(id);
+    nlohmann::json response;
+    if (user.getId() == id && user.getPassword() == password)
+    {
+        if (user.getState() == "online")
+        {
+            // 不允许重复登录
+            response["msgcate"] = LOGIN_MSG_ACK;
+            response["id"] = user.getId();
+            response["errno"] = 2;
+            response["errmsg"] = "该账号已登录,请登录其他账号使用";
+        }
+        else
+        {
+            // 登录成功， 需要更新用户状态信息 state:offline->online
+            user.setState("online");
+            _userModel.update(user);
+
+            response["msgcate"] = LOGIN_MSG_ACK;
+            response["id"] = user.getId();
+            response["name"] = user.getName();
+            response["errno"] = 0;
+        }
+    }
+    else
+    {
+        // 账号密码错误
+        response["msgcate"] = LOGIN_MSG_ACK;
+        response["id"] = user.getId();
+        response["errno"] = 1;
+        response["errmsg"] = "账号或密码错误";
+    }
+    conn->send(response.dump());
 }
 
 // 注册
@@ -40,11 +76,11 @@ void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::
     user.setName(name);
     user.setPassword(password);
     bool state = _userModel.insert(user);
-    // 注册成功
+
     nlohmann::json response;
     if (state)
     {
-
+        // 注册成功
         response["msgcate"] = REGIST_MSG_ACK;
         response["id"] = user.getId();
         response["errno"] = 0;
