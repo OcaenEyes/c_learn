@@ -2,13 +2,14 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 13:52:00
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 14:01:42
+ * @LastEditTime: 2023-12-13 23:48:15
  * @FilePath: /c++/oceanim/v0.2/include/model/user.hpp
  * @Description: user用户的ORM类
  */
 #pragma once
 
 #include <string>
+#include "nlohmann/json.hpp"
 
 class User
 {
@@ -36,4 +37,16 @@ public:
     std::string getName() { return this->name; }
     std::string getPassword() { return this->password; }
     std::string getState() { return this->state; }
+
+    void from_json(const nlohmann::json &js, User &user)
+    {
+        js.at("id").get_to(user.id);
+        js.at("name").get_to(user.name);
+        js.at("password").get_to(user.password);
+        js.at("state").get_to(user.state);
+    }
+    void to_json(nlohmann::json &js, const User &user)
+    {
+        js = nlohmann::json{{"id", user.id}, {"name", user.name}, {"password", user.password}, {"state", user.state}};
+    }
 };

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-12 00:55:14
+ * @LastEditTime: 2023-12-14 02:21:10
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -13,8 +13,11 @@
 
 OceanIMService::OceanIMService()
 {
+    _msgHandlerMap.insert({ERR_REQ, std::bind(&OceanIMService::errreq, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     _msgHandlerMap.insert({LOGIN_MSG, std::bind(&OceanIMService::login, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     _msgHandlerMap.insert({REGIST_MSG, std::bind(&OceanIMService::regist, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+    _msgHandlerMap.insert({ONE_CHAT_MSG, std::bind(&OceanIMService::oneChat, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+    _msgHandlerMap.insert({GROUP_CHAT_MSG, std::bind(&OceanIMService::groupChat, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
 }
 
 // 获取单例对象的接口函数
@@ -28,40 +31,69 @@ OceanIMService *OceanIMService::instance()
 void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
 {
     printf("do login service!\n");
-    int id = js["id"];
-    std::string password = js["password"];
-
-    User user = _userModel.queryById(id);
     nlohmann::json response;
-    if (user.getId() == id && user.getPassword() == password)
+    try
     {
-        if (user.getState() == "online")
+        int id = js["id"].get<int>();
+        std::string password = js["password"];
+
+        User user = _userModel.queryById(id);
+
+        if (user.getId() == id && user.getPassword() == password)
         {
-            // 不允许重复登录
-            response["msgcate"] = LOGIN_MSG_ACK;
-            response["id"] = user.getId();
-            response["errno"] = 2;
-            response["errmsg"] = "该账号已登录,请登录其他账号使用";
+            if (user.getState() == "online")
+            {
+                // 不允许重复登录
+                response["msgcate"] = LOGIN_MSG_ACK;
+                response["id"] = user.getId();
+                response["errno"] = 2;
+                response["errmsg"] = "该账号已登录,请登录其他账号使用";
+            }
+            else
+            {
+                // 登录成功， 需要更新用户状态信息 state:offline->online
+                user.setState("online");
+                _userModel.update(user);
+
+                response["msgcate"] = LOGIN_MSG_ACK;
+                response["id"] = user.getId();
+                response["name"] = user.getName();
+                response["errno"] = 0;
+
+                { // 加{}就表示作用域, 加锁解锁操作
+                    std::lock_guard<std::mutex> lock(_connMutex);
+                    _userConnMap.insert({id, conn});
+                }
+
+                // 登录成功之后则查询是否有未接收的离线消息
+                std::vector<OneChat> vec = _oneChatModel.queryByUserId(id);
+
+                if (!vec.empty())
+                {
+                    OneChats temp = OneChats(vec);
+                    OneChats::to_json(response, temp);
+                    for (int i = 0; i < vec.size(); i++)
+                    {
+                        // 消息读取之后修改消息状态
+                        _oneChatModel.update(vec.at(i).getId());
+                    }
+                }
+            }
         }
         else
         {
-            // 登录成功， 需要更新用户状态信息 state:offline->online
-            user.setState("online");
-            _userModel.update(user);
-
+            // 账号密码错误
             response["msgcate"] = LOGIN_MSG_ACK;
             response["id"] = user.getId();
-            response["name"] = user.getName();
-            response["errno"] = 0;
+            response["errno"] = 1;
+            response["errmsg"] = "账号或密码错误";
         }
     }
-    else
+    catch (const std::exception &e)
     {
-        // 账号密码错误
-        response["msgcate"] = LOGIN_MSG_ACK;
-        response["id"] = user.getId();
-        response["errno"] = 1;
-        response["errmsg"] = "账号或密码错误";
+        LOG_ERROR << e.what() << '\n';
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
     }
     conn->send(response.dump());
 }
@@ -70,29 +102,95 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
 void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
 {
     printf("do regist service!\n");
-    std::string name = js["name"];
-    std::string password = js["password"];
-    User user;
-    user.setName(name);
-    user.setPassword(password);
-    bool state = _userModel.insert(user);
-
     nlohmann::json response;
-    if (state)
+    try
     {
-        // 注册成功
-        response["msgcate"] = REGIST_MSG_ACK;
-        response["id"] = user.getId();
-        response["errno"] = 0;
+        std::string name = js["name"];
+        std::string password = js["password"];
+        User user;
+        user.setName(name);
+        user.setPassword(password);
+        bool state = _userModel.insert(user);
+
+        if (state)
+        {
+            // 注册成功
+            response["msgcate"] = REGIST_MSG_ACK;
+            response["id"] = user.getId();
+            response["errno"] = 0;
+        }
+        else
+        {
+            // 注册失败
+            response["msgcate"] = REGIST_MSG_ACK;
+            response["id"] = user.getId();
+            response["errno"] = 1;
+            response["errmsg"] = "注册失败";
+        }
     }
-    else
+    catch (const std::exception &e)
     {
-        // 注册失败
-        response["msgcate"] = REGIST_MSG_ACK;
-        response["id"] = user.getId();
-        response["errno"] = 1;
+        LOG_ERROR << e.what() << '\n';
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
     }
     conn->send(response.dump()); // 返回消息
+}
+// 请求参数异常
+void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+{
+    LOG_ERROR << "请求参数异常";
+    nlohmann::json response;
+    response["errno"] = 999;
+    response["errmsg"] = "请求参数异常";
+    conn->send(response.dump());
+}
+
+// 一对一聊天
+void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+{
+    printf("do oneChat service!\n");
+    nlohmann::json response;
+    try
+    {
+        int toid = js["to"].get<int>();
+        int fromid = js["from"].get<int>();
+        std::string msgtype = js["msgtype"];
+        std::string message = js["message"];
+        std::string readtype = "noread";
+        OneChat temp;
+        temp.setFromId(fromid);
+        temp.setToId(toid);
+        temp.setMsgType(msgtype);
+        temp.setMessage(message);
+        { // 该部分作用域，可以并发执行
+            std::lock_guard<std::mutex> lock(_connMutex);
+            auto it = _userConnMap.find(toid);
+            if (it != _userConnMap.end()) // 在_userConnMap找到这个用户
+            {
+                // toid在线,转发消息
+                it->second->send(js.dump());
+                readtype = "read";
+                return;
+            }
+        }
+        temp.setReadType(readtype);
+        _oneChatModel.insert(temp);
+    }
+    catch (const std::exception &e)
+    {
+        LOG_ERROR << e.what() << '\n';
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
+        conn->send(response.dump()); // 返回消息
+    }
+}
+
+// 群聊天
+void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+{
+    printf("do groupChat service!\n");
+    nlohmann::json response;
 }
 
 MsgHandler OceanIMService::getHandler(int msgcate)
@@ -111,4 +209,38 @@ MsgHandler OceanIMService::getHandler(int msgcate)
     {
         return _msgHandlerMap.at(msgcate);
     }
+}
+
+void OceanIMService::clientCloseException(const muduo::net::TcpConnectionPtr &conn)
+{
+    LOG_INFO << "客户端异常退出了！\n";
+    User user;
+    { // 加{}就表示作用域, 加锁解锁操作
+        std::lock_guard<std::mutex> lock(_connMutex);
+
+        for (auto it = _userConnMap.begin(); it != _userConnMap.end(); it++)
+        {
+            if (it->second == conn)
+            {
+                // 从map表删除用户的连接信息
+                user.setId(it->first);
+                _userConnMap.erase(it);
+                break;
+            }
+        }
+    }
+    if (user.getId() != -1) // 保护判断
+    {
+        printf("更新用状态为离线!");
+        // 更新用户的状态信息
+        user.setState("offline");
+        _userModel.update(user);
+    }
+}
+
+// 服务器异常后，业务状态的重置方法
+void OceanIMService::reset()
+{
+    // 把online用户修改为offline
+    _userModel.resetState();
 }

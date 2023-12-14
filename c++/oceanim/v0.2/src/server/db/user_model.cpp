@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 14:05:19
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-12 00:46:39
+ * @LastEditTime: 2023-12-14 02:20:03
  * @FilePath: /c++/oceanim/v0.2/src/server/db/user_model.cpp
  * @Description: 注释信息
  */
@@ -72,7 +72,7 @@ bool UserModel::update(User &user)
 {
     // 组装sql语句
     char sql[1024];
-    sprintf(sql, "update user set state=%s where id =%d", user.getState().c_str(), user.getId());
+    sprintf(sql, "update user set state='%s' where id =%d", user.getState().c_str(), user.getId());
 
     MySQLDB _mysqldb;
 
@@ -84,4 +84,18 @@ bool UserModel::update(User &user)
         }
     }
     return false;
+}
+
+// 重置用户状态
+void UserModel::resetState()
+{
+    // 组装sql语句
+    char sql[1024] = {0};
+    sprintf(sql, "update user set state='offline' where state='online'");
+
+    MySQLDB _mysqldb;
+    if (_mysqldb.connect())
+    {
+        _mysqldb.update(sql);
+    }
 }

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 05:52:22
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 09:37:04
+ * @LastEditTime: 2023-12-12 03:49:58
  * @FilePath: /c++/oceanim/v0.2/include/oceanim_server.h
  * @Description: server服务器
  */
@@ -10,6 +10,7 @@
 
 #include "muduo/net/TcpServer.h"
 #include "muduo/net/EventLoop.h"
+#include "muduo/base/Logging.h"
 
 class OceanIMServer
 {
@@ -28,6 +29,6 @@ public:
                   const muduo::net::InetAddress &listenAddr, // IP +Port
                   const std::string &nameArg                 // 服务器的名字
     );                                                       // 初始化聊天服务器对象
-    void start();                                            // 启动服务
+    void start();                                           // 启动服务
     ~OceanIMServer();
 };

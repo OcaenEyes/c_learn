@@ -7,7 +7,7 @@ CREATE TABLE user(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,
-    state ENUM('oneline', 'offline') DEFAULT 'offline'
+    state ENUM('online', 'offline') DEFAULT 'offline'
 );
 -- COMMENT 好友表
 DROP TABLE IF EXISTS friend;
@@ -31,8 +31,8 @@ CREATE TABLE groupuser(
     grouprole ENUM('creator', 'admin', 'normal') DEFAULT 'normal'
 );
 -- COMMENT 单聊消息表
-DROP TABLE IF EXISTS singlmessage;
-CREATE TABLE singlmessage(
+DROP TABLE IF EXISTS onechat;
+CREATE TABLE onechat(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fromid INT NOT NULL,
     toid INT NOT NULL,
@@ -41,8 +41,8 @@ CREATE TABLE singlmessage(
     message VARCHAR(500) NOT NULL
 );
 -- COMMENT 群聊消息表
-DROP TABLE IF EXISTS groupmessage;
-CREATE TABLE groupmessage(
+DROP TABLE IF EXISTS groupchat;
+CREATE TABLE groupchat(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fromid INT NOT NULL,
     groupid INT NOT NULL,

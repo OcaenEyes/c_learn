@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 07:15:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 11:54:28
+ * @LastEditTime: 2023-12-12 07:21:11
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_server.cpp
  * @Description: 注释信息
  */
@@ -17,6 +17,7 @@ void OceanIMServer::onConnection(const muduo::net::TcpConnectionPtr &conn)
     // 客户断开连接
     if (!conn->connected())
     {
+        OceanIMService::instance()->clientCloseException(conn);
         conn->shutdown();
     }
 }
@@ -24,13 +25,22 @@ void OceanIMServer::onConnection(const muduo::net::TcpConnectionPtr &conn)
 void OceanIMServer::onMessage(const muduo::net::TcpConnectionPtr &conn, muduo::net::Buffer *buffer, muduo::Timestamp time)
 {
     std::string buf = buffer->retrieveAllAsString();
-    // 数据的反序列化
-    nlohmann::json js = nlohmann::json::parse(buf);
-    // 用于实现：完全解耦合 网络模块代码与业务模块代码
-    // 通过js["msgid"] 获取---->业务handler---->回调conn js time
-    auto msgHandler = OceanIMService::instance()->getHandler(js["msgcate"].get<int>());
+    MsgHandler _msgHandler;
+    nlohmann::json _js;
+    try
+    {
+        // 数据的反序列化
+        _js = nlohmann::json::parse(buf);
+        // 用于实现：完全解耦合 网络模块代码与业务模块代码
+        // 通过js["msgid"] 获取---->业务handler---->回调conn js time
+        _msgHandler = OceanIMService::instance()->getHandler(_js["msgcate"].get<int>());
+    }
+    catch (const std::exception &e)
+    {
+        _msgHandler = OceanIMService::instance()->getHandler(0);
+    }
     // 回调消息category绑定的事件处理器， 来执行业务处理
-    msgHandler(conn, js, time);
+    _msgHandler(conn, _js, time);
 }
 
 OceanIMServer::OceanIMServer(muduo::net::EventLoop *loop, const muduo::net::InetAddress &listenAddr, const std::string &nameArg) : _server(loop, listenAddr, nameArg), _loop(loop)

@@ -1,0 +1,16 @@
+【注册】
+{"msgcate":2,"name":"gzy","password":"123456"}
+{"msgcate":2,"name":"zy","password":"123456"}
+{"msgcate":2,"name":"y","password":"123456"}
+
+【登录】
+{"msgcate":1,"id":1,"password":"123456"}
+{"msgcate":1,"id":2,"password":"123456"}
+
+【一对一聊天】
+{"msgcate":3,"from":2,"to":1,"msgtype":"text","message":"hello,gzy"}
+{"msgcate":3,"from":2,"to":1,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}
+{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"hello,zy"}
+{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"1234test"}
+{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好"}
+{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}

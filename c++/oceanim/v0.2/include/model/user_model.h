@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 14:02:36
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-12 00:41:12
+ * @LastEditTime: 2023-12-14 02:18:05
  * @FilePath: /c++/oceanim/v0.2/include/model/user_model.h
  * @Description: User表的操作类
  */
@@ -25,4 +25,7 @@ public:
 
     // 更新用户信息
     bool update(User &user);
+
+    // 重置用户状态
+    void resetState();
 };
