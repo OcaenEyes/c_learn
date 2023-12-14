@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-14 02:33:41
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 02:59:46
+ * @LastEditTime: 2023-12-14 08:46:36
  * @FilePath: /c++/oceanim/v0.2/include/model/friend.hpp
  * @Description: 好友ORM类
  */
@@ -14,7 +14,7 @@ private:
     int friendid;
 
 public:
-    Friend(int userid, int friendid)
+    Friend(int userid = -1, int friendid = -1)
     {
         this->userid = userid;
         this->friendid = friendid;

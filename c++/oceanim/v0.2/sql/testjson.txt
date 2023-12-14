@@ -14,3 +14,9 @@
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"1234test"}
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好"}
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}
+
+【好友请求】
+{"msgcate":5,"from":1,"to":2,"optype":0} --发送请求
+{"msgcate":5,"from":1,"to":2,"optype":1} --接受请求
+{"msgcate":5,"from":1,"to":2,"optype":2} --拒绝请求
+{"msgcate":5,"from":1,"to":2,"optype":3} --忽略请求

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-14 02:41:00
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 02:46:40
+ * @LastEditTime: 2023-12-14 07:56:24
  * @FilePath: /c++/oceanim/v0.2/include/common/common.h
  * @Description: 注释信息
  */
@@ -18,4 +18,12 @@ enum EnMsgCategory
     FRIEND_REQ_RES, // 发送好友请求/处理好友请求/添加成功好友
     LOGIN_MSG_ACK,  // 登录响应消息
     REGIST_MSG_ACK  // 注册响应消息
+};
+
+enum EnOpFriendReqType
+{
+    SEND = 0, // 发送请求
+    ACCEPT,   // 接受请求
+    REFUSE,   // 拒绝请求
+    IGNORE,   // 忽略请求
 };

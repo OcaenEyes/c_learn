@@ -2,13 +2,14 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-14 03:02:19
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 03:08:28
+ * @LastEditTime: 2023-12-14 07:12:35
  * @FilePath: /c++/oceanim/v0.2/include/model/friend_model.h
  * @Description: friend表的操作类
  */
 #pragma once
 
 #include "model/friend.hpp"
+#include <vector>
 
 class FriendModel
 {
@@ -22,5 +23,5 @@ public:
     void insert(Friend &f);
 
     // 查询数据
-    void query(int userid);
+    std::vector<int> query(int userid);
 };

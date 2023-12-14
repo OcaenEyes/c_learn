@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 02:21:10
+ * @LastEditTime: 2023-12-14 09:33:30
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -18,6 +18,7 @@ OceanIMService::OceanIMService()
     _msgHandlerMap.insert({REGIST_MSG, std::bind(&OceanIMService::regist, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     _msgHandlerMap.insert({ONE_CHAT_MSG, std::bind(&OceanIMService::oneChat, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     _msgHandlerMap.insert({GROUP_CHAT_MSG, std::bind(&OceanIMService::groupChat, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+    _msgHandlerMap.insert({FRIEND_REQ_RES, std::bind(&OceanIMService::addFriend, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
 }
 
 // 获取单例对象的接口函数
@@ -136,6 +137,7 @@ void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::
     }
     conn->send(response.dump()); // 返回消息
 }
+
 // 请求参数异常
 void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
 {
@@ -144,6 +146,86 @@ void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::
     response["errno"] = 999;
     response["errmsg"] = "请求参数异常";
     conn->send(response.dump());
+}
+
+// 处理好友请求逻辑
+void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+{
+    printf("do addFriend service!\n");
+    std::map<int, std::string> states = {{SEND, "send"}, {ACCEPT, "accept"}, {REFUSE, "refuse"}, {IGNORE, "ignore"}};
+    try
+    {
+        int optype = js["optype"].get<int>();
+        int toid = js["to"].get<int>();
+        int fromid = js["from"].get<int>();
+        switch (optype)
+        {
+        case SEND:
+        {
+            FriendReq temp;
+            temp.setFromId(fromid);
+            temp.setToId(toid);
+            _friendReqModel.insert(temp);
+
+            { // 该部分作用域，可以并发执行
+                std::lock_guard<std::mutex> lock(_connMutex);
+                auto it = _userConnMap.find(toid);
+                if (it != _userConnMap.end()) // 在_userConnMap找到这个用户
+                {
+                    // toid在线,转发消息
+                    it->second->send(js.dump());
+                    return;
+                }
+            }
+            break;
+        }
+        case ACCEPT:
+        {
+            std::string state = states.at(optype);
+            _friendReqModel.update(toid, state);
+            Friend temp;
+            temp.setUserId(toid);
+            temp.setFriendId(fromid);
+            _friendModel.insert(temp);
+            { // 该部分作用域，可以并发执行
+                std::lock_guard<std::mutex> lock(_connMutex);
+                auto it = _userConnMap.find(fromid);
+                if (it != _userConnMap.end()) // 在_userConnMap找到这个用户
+                {
+                    // toid在线,转发消息
+                    it->second->send(js.dump());
+                    return;
+                }
+            }
+            break;
+        }
+
+        default:
+        {
+            std::string state = states.at(optype);
+            _friendReqModel.update(toid, state);
+            { // 该部分作用域，可以并发执行
+                std::lock_guard<std::mutex> lock(_connMutex);
+                auto it = _userConnMap.find(fromid);
+                if (it != _userConnMap.end()) // 在_userConnMap找到这个用户
+                {
+                    // toid在线,转发消息
+                    it->second->send(js.dump());
+                    return;
+                }
+            }
+            break;
+        }
+        }
+    }
+    catch (const std::exception &e)
+    {
+        LOG_ERROR << e.what() << '\n';
+        nlohmann::json response;
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
+        conn->send(response.dump()); // 返回消息
+    }
 }
 
 // 一对一聊天
@@ -211,6 +293,7 @@ MsgHandler OceanIMService::getHandler(int msgcate)
     }
 }
 
+// 客户端异常退出
 void OceanIMService::clientCloseException(const muduo::net::TcpConnectionPtr &conn)
 {
     LOG_INFO << "客户端异常退出了！\n";

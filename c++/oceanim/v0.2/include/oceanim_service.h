@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:37:22
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 02:38:56
+ * @LastEditTime: 2023-12-14 07:49:32
  * @FilePath: /c++/oceanim/v0.2/include/oceanim_service.h
  * @Description: service服务【业务类】
  */
@@ -13,6 +13,8 @@
 #include "muduo/net/TcpConnection.h"
 #include <nlohmann/json.hpp>
 #include "model/user_model.h"
+#include "model/friendreq_model.h"
+#include "model/friend_model.h"
 #include "model/onechat_model.h"
 
 using MsgHandler = std::function<void(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)>;
@@ -33,6 +35,8 @@ private:
     // 数据操作类对象
     UserModel _userModel;
     OneChatModel _oneChatModel;
+    FriendReqModel _friendReqModel;
+    FriendModel _friendModel;
 
 public:
     // 获取单例对象的接口函数
@@ -50,7 +54,6 @@ public:
 
     // 发送好友请求\处理好友请求、添加成功
     void addFriend(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
-
 
     // 群聊天
     void groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);

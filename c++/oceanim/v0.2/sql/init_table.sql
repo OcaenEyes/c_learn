@@ -9,6 +9,16 @@ CREATE TABLE user(
     password VARCHAR(50) NOT NULL,
     state ENUM('online', 'offline') DEFAULT 'offline'
 );
+
+-- COMMENT 好友请求表
+DROP TABLE IF EXISTS friendreq;
+CREATE TABLE friendreq(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fromid INT NOT NULL,
+    toid INT NOT NULL,
+    state ENUM('noop','send','accept','refuse','ignore') DEFAULT 'noop'
+);
+
 -- COMMENT 好友表
 DROP TABLE IF EXISTS friend;
 CREATE TABLE friend(
