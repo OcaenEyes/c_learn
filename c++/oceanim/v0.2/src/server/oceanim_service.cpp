@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 08:54:31
+ * @LastEditTime: 2023-12-15 12:08:08
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -72,14 +72,14 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
                 std::vector<User> friends_vec = _friendModel.query(id);
                 if (!friends_vec.empty())
                 {
-                    Friends temp = Friends(friends_vec);
-                    Friends::to_json(response, temp);
+                    Friend::to_json(response, friends_vec);
                 }
 
                 // 登录成功之后查询群列表
                 std::vector<Group> groups_vec = _groupModel.qeuryGroups(id);
                 if (!groups_vec.empty())
                 {
+                    Group::to_json(response, groups_vec);
                 }
 
                 // 登录成功之后则查询是否有未接收的离线消息
@@ -87,8 +87,7 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
 
                 if (!onechats_vec.empty())
                 {
-                    OneChats temp = OneChats(onechats_vec);
-                    OneChats::to_json(response, temp);
+                    OneChat::to_json(response, onechats_vec);
                     for (int i = 0; i < onechats_vec.size(); i++)
                     {
                         // 消息读取之后修改消息状态

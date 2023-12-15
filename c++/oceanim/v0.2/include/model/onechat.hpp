@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-12 11:49:19
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 00:46:37
+ * @LastEditTime: 2023-12-15 12:07:25
  * @FilePath: /c++/oceanim/v0.2/include/model/onechat.hpp
  * @Description: 一对一消息
  */
@@ -75,33 +75,20 @@ public:
             {"message", onechat.message},
         };
     }
-};
 
-class OneChats
-{
-private:
-    std::vector<OneChat> messages;
-
-public:
-    OneChats(std::vector<OneChat> messages)
-    {
-        this->messages = messages;
-    }
-   ~OneChats(){}
-
-    static void from_json(const nlohmann::json &js, OneChats &onechats)
+    static void from_json(const nlohmann::json &js, std::vector<OneChat> &onechats)
     {
         for (auto &onechat_t : js["messages"])
         {
             OneChat temp;
             OneChat::from_json(onechat_t, temp);
-            onechats.messages.push_back(temp);
+            onechats.push_back(temp);
         }
     }
 
-    static void to_json(nlohmann::json &js, const OneChats &onechats)
+    static void to_json(nlohmann::json &js, const std::vector<OneChat> &onechats)
     {
-        for (auto &onechat : onechats.messages)
+        for (auto &onechat : onechats)
         {
             nlohmann::json temp;
             OneChat::to_json(temp, onechat);
