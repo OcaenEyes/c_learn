@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 09:33:30
+ * @LastEditTime: 2023-12-15 00:05:13
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -66,17 +66,25 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
                     _userConnMap.insert({id, conn});
                 }
 
-                // 登录成功之后则查询是否有未接收的离线消息
-                std::vector<OneChat> vec = _oneChatModel.queryByUserId(id);
-
-                if (!vec.empty())
+                // 登录成功之后则查询好友列表
+                std::vector<User> friends_vec = _friendModel.query(id);
+                if (!friends_vec.empty())
                 {
-                    OneChats temp = OneChats(vec);
+                    Friends temp = Friends(friends_vec);
+                    Friends::to_json(response, temp);
+                }
+
+                // 登录成功之后则查询是否有未接收的离线消息
+                std::vector<OneChat> onechats_vec = _oneChatModel.queryByUserId(id);
+
+                if (!onechats_vec.empty())
+                {
+                    OneChats temp = OneChats(onechats_vec);
                     OneChats::to_json(response, temp);
-                    for (int i = 0; i < vec.size(); i++)
+                    for (int i = 0; i < onechats_vec.size(); i++)
                     {
                         // 消息读取之后修改消息状态
-                        _oneChatModel.update(vec.at(i).getId());
+                        _oneChatModel.update(onechats_vec.at(i).getId());
                     }
                 }
             }
@@ -187,6 +195,11 @@ void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohman
             temp.setUserId(toid);
             temp.setFriendId(fromid);
             _friendModel.insert(temp);
+
+            temp.setUserId(fromid);
+            temp.setFriendId(toid);
+            _friendModel.insert(temp);
+
             { // 该部分作用域，可以并发执行
                 std::lock_guard<std::mutex> lock(_connMutex);
                 auto it = _userConnMap.find(fromid);
