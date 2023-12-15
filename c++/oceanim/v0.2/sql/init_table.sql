@@ -30,15 +30,16 @@ CREATE TABLE friend(
 DROP TABLE IF EXISTS allgroup;
 CREATE TABLE allgroup(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    groupname VARCHAR(50) NOT NULL,
+    groupname VARCHAR(50) NOT NULL UNIQUE,
     groupdesc VARCHAR(200) DEFAULT '..'
 );
 -- COMMENT 群组成员表
 DROP TABLE IF EXISTS groupuser;
 CREATE TABLE groupuser(
-    groupid INT PRIMARY KEY,
+    groupid INT NOT NULL,
     userid INT NOT NULL,
-    grouprole ENUM('creator', 'admin', 'normal') DEFAULT 'normal'
+    grouprole ENUM('creator', 'admin', 'normal') DEFAULT 'normal',
+    PRIMARY KEY(groupid,userid)
 );
 -- COMMENT 单聊消息表
 DROP TABLE IF EXISTS onechat;

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:37:22
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 07:49:32
+ * @LastEditTime: 2023-12-15 05:52:08
  * @FilePath: /c++/oceanim/v0.2/include/oceanim_service.h
  * @Description: service服务【业务类】
  */
@@ -16,6 +16,7 @@
 #include "model/friendreq_model.h"
 #include "model/friend_model.h"
 #include "model/onechat_model.h"
+#include "model/group_model.h"
 
 using MsgHandler = std::function<void(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)>;
 
@@ -37,6 +38,7 @@ private:
     OneChatModel _oneChatModel;
     FriendReqModel _friendReqModel;
     FriendModel _friendModel;
+    GroupModel _groupModel;
 
 public:
     // 获取单例对象的接口函数
@@ -57,6 +59,12 @@ public:
 
     // 群聊天
     void groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+
+    // 创建群
+    void createGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+
+    // 加入群
+    void addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
 
     // 获取消息对应的处理器
     MsgHandler getHandler(int msgcate);

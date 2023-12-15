@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 13:12:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 14:18:03
+ * @LastEditTime: 2023-12-15 07:57:43
  * @FilePath: /c++/oceanim/v0.2/src/server/db/mysqldb.cpp
  * @Description: 注释信息
  */
@@ -30,7 +30,7 @@ bool MySQLDB::connect()
     if (p != nullptr)
     {
         // c和c++代码默认的字符是ASCII， 如果不设置，则从mysql取到的数据会变成乱码
-        mysql_query(_conn, "set names gbk");
+        mysql_query(_conn, "set names utf8mb4");
         LOG_INFO << "mysql数据库连接成功～";
     }
     else

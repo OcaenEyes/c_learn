@@ -2,21 +2,49 @@
 {"msgcate":2,"name":"gzy","password":"123456"}
 {"msgcate":2,"name":"zy","password":"123456"}
 {"msgcate":2,"name":"y","password":"123456"}
+{"msgcate":2,"name":"wsq","password":"123456"}
+{"msgcate":2,"name":"sq","password":"123456"}
+{"msgcate":2,"name":"q","password":"123456"}
 
 【登录】
 {"msgcate":1,"id":1,"password":"123456"}
 {"msgcate":1,"id":2,"password":"123456"}
+{"msgcate":1,"id":3,"password":"123456"}
+{"msgcate":1,"id":4,"password":"123456"}
+{"msgcate":1,"id":5,"password":"123456"}
+{"msgcate":1,"id":6,"password":"123456"}
 
 【一对一聊天】
 {"msgcate":3,"from":2,"to":1,"msgtype":"text","message":"hello,gzy"}
 {"msgcate":3,"from":2,"to":1,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}
+
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"hello,zy"}
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"1234test"}
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好"}
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}
+
+
+
+{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"hello,zy"}
+{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"1234test"}
+{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"你好"}
+{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}
+
 
 【好友请求】
 {"msgcate":5,"from":1,"to":2,"optype":0} --发送请求
 {"msgcate":5,"from":1,"to":2,"optype":1} --接受请求
 {"msgcate":5,"from":1,"to":2,"optype":2} --拒绝请求
 {"msgcate":5,"from":1,"to":2,"optype":3} --忽略请求
+
+【创建群】
+{"msgcate":6,"userid":3,"groupname":"读书城南","groupdesc":"符读书城南"}
+{"msgcate":6,"userid":2,"groupname":"dushuchengnan","groupdesc":"dushuchengnana"}
+
+【加入群】
+{"msgcate":7,"userid":2,"groupid":1}
+{"msgcate":7,"userid":3,"groupid":2}
+
+
+【群聊天】
+{"msgcate":4,"userid":2,"groupid":1,"msgtype":"text","message":"hello,zy"}

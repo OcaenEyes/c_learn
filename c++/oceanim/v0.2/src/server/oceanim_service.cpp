@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 00:05:13
+ * @LastEditTime: 2023-12-15 08:54:31
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -19,6 +19,8 @@ OceanIMService::OceanIMService()
     _msgHandlerMap.insert({ONE_CHAT_MSG, std::bind(&OceanIMService::oneChat, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     _msgHandlerMap.insert({GROUP_CHAT_MSG, std::bind(&OceanIMService::groupChat, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
     _msgHandlerMap.insert({FRIEND_REQ_RES, std::bind(&OceanIMService::addFriend, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+    _msgHandlerMap.insert({CREATE_GROUP_MSG, std::bind(&OceanIMService::createGroup, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
+    _msgHandlerMap.insert({ADD_GROUP_MSG, std::bind(&OceanIMService::addGroup, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)});
 }
 
 // 获取单例对象的接口函数
@@ -72,6 +74,12 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
                 {
                     Friends temp = Friends(friends_vec);
                     Friends::to_json(response, temp);
+                }
+
+                // 登录成功之后查询群列表
+                std::vector<Group> groups_vec = _groupModel.qeuryGroups(id);
+                if (!groups_vec.empty())
+                {
                 }
 
                 // 登录成功之后则查询是否有未接收的离线消息
@@ -132,7 +140,6 @@ void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::
         {
             // 注册失败
             response["msgcate"] = REGIST_MSG_ACK;
-            response["id"] = user.getId();
             response["errno"] = 1;
             response["errmsg"] = "注册失败";
         }
@@ -286,6 +293,67 @@ void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohman
 {
     printf("do groupChat service!\n");
     nlohmann::json response;
+}
+
+// 创建群
+void OceanIMService::createGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+{
+    printf("do createGroup service!\n");
+    nlohmann::json response;
+    try
+    {
+        Group temp;
+        temp.setGroupName(js["groupname"]);
+        temp.setGroupDesc(js["groupdesc"]);
+        bool state = _groupModel.createGroup(temp);
+        if (state)
+        {
+            // 创建成功、
+            response["msgcate"] = CREATE_GROUP_MSG_ACK;
+            response["errno"] = 0;
+            response["groupid"] = temp.getId();
+            _groupModel.addGroup(js["userid"].get<int>(), temp.getId(), "creator");
+        }
+        else
+        {
+            // 创建失败
+            response["msgcate"] = CREATE_GROUP_MSG_ACK;
+            response["errno"] = 1;
+            response["errmsg"] = "创建群失败";
+        }
+    }
+    catch (const std::exception &e)
+    {
+        LOG_ERROR << e.what() << '\n';
+        response["msgcate"] = CREATE_GROUP_MSG_ACK;
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
+    }
+    conn->send(response.dump()); // 返回消息
+}
+
+// 加入群
+void OceanIMService::addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+{
+    printf("do addGroup service!\n");
+    nlohmann::json response;
+    try
+    {
+        int userid = js["userid"].get<int>();
+        int groupid = js["groupid"].get<int>();
+        _groupModel.addGroup(userid, groupid, "normal");
+        response["msgcate"] = ADD_GROUP_MSG_ACK;
+        response["errno"] = 0;
+        response["errmsg"] = "加群成功";
+    }
+    catch (const std::exception &e)
+    {
+        LOG_ERROR << e.what() << '\n';
+        response["msgcate"] = ADD_GROUP_MSG_ACK;
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
+    }
+    conn->send(response.dump()); // 返回消息
 }
 
 MsgHandler OceanIMService::getHandler(int msgcate)
