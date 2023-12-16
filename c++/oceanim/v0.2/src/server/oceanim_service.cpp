@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-16 09:16:37
+ * @LastEditTime: 2023-12-16 21:04:09
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -370,7 +370,6 @@ void OceanIMService::addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann
         _groupModel.addGroup(userid, groupid, "normal");
         response["msgcate"] = ADD_GROUP_MSG_ACK;
         response["errno"] = 0;
-        response["errmsg"] = "加群成功";
     }
     catch (const std::exception &e)
     {

@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS oceanim;
-CREATE DATABASE oceanim;
+-- DROP DATABASE IF EXISTS oceanim;
+-- CREATE DATABASE oceanim;
 USE oceanim;
 -- COMMENT  用户表
 DROP TABLE IF EXISTS user;
@@ -59,8 +59,5 @@ CREATE TABLE groupchat(
     -- readtype ENUM('read', 'noread') DEFAULT 'noread',
     message VARCHAR(500) NOT NULL
 );
-
-
 -- 查看数据库字符集
-show variables like "%character%";
-
+-- show variables like "%character%";
