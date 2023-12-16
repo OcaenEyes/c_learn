@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-14 02:33:41
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 12:05:20
+ * @LastEditTime: 2023-12-15 14:46:09
  * @FilePath: /c++/oceanim/v0.2/include/model/friend.hpp
  * @Description: 好友ORM类
  */

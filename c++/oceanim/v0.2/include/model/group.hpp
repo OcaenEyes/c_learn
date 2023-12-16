@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 11:40:46
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 12:01:04
+ * @LastEditTime: 2023-12-15 15:11:22
  * @FilePath: /c++/oceanim/v0.2/include/model/group.hpp
  * @Description: allgroup的orm类
  */
@@ -37,6 +37,26 @@ public:
     std::string getGroupName() { return groupname; }
     std::string getGroupDesc() { return groupdesc; }
     std::vector<GroupUser> getGroupUsers() { return groupusers; }
+
+    static void from_json(const nlohmann::json &js, std::vector<Group> &groups)
+    {
+        Group group;
+        GroupUser groupuser;
+        for (auto i : js["groups"])
+        {
+            group.setId(i["groupid"].get<int>());
+            group.setGroupName(i["groupname"]);
+            group.setGroupDesc(i["groupdesc"]);
+            for (auto j : i["groupusers"])
+            {
+                groupuser.setId(j["userid"].get<int>());
+                groupuser.setName(j["name"]);
+                groupuser.setState(j["state"]);
+                groupuser.setRole(j["grouprole"]);
+                group.getGroupUsers().push_back(groupuser);
+            }
+        }
+    }
 
     static void to_json(nlohmann::json &js, const std::vector<Group> &groups)
     {

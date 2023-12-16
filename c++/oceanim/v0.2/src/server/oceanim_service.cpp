@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 12:08:08
+ * @LastEditTime: 2023-12-16 09:16:37
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -70,10 +70,7 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
 
                 // 登录成功之后则查询好友列表
                 std::vector<User> friends_vec = _friendModel.query(id);
-                if (!friends_vec.empty())
-                {
-                    Friend::to_json(response, friends_vec);
-                }
+                Friend::to_json(response, friends_vec);
 
                 // 登录成功之后查询群列表
                 std::vector<Group> groups_vec = _groupModel.qeuryGroups(id);
@@ -82,18 +79,18 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
                     Group::to_json(response, groups_vec);
                 }
 
-                // 登录成功之后则查询是否有未接收的离线消息
+                // 登录成功之后则查询是否有未接收的one to one离线消息
                 std::vector<OneChat> onechats_vec = _oneChatModel.queryByUserId(id);
-
-                if (!onechats_vec.empty())
+                OneChat::to_json(response, onechats_vec);
+                for (int i = 0; i < onechats_vec.size(); i++)
                 {
-                    OneChat::to_json(response, onechats_vec);
-                    for (int i = 0; i < onechats_vec.size(); i++)
-                    {
-                        // 消息读取之后修改消息状态
-                        _oneChatModel.update(onechats_vec.at(i).getId());
-                    }
+                    // 消息读取之后修改消息状态
+                    _oneChatModel.update(onechats_vec.at(i).getId());
                 }
+
+                // 登录成功之后则查询group chat消息
+                std::vector<GroupChat> groupchats_vec = _groupChatModel.queryByToUserId(id);
+                GroupChat::to_json(response, groupchats_vec);
             }
         }
         else
@@ -292,6 +289,36 @@ void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohman
 {
     printf("do groupChat service!\n");
     nlohmann::json response;
+    try
+    {
+        GroupChat temp;
+        GroupChat::from_json(js, temp);
+        _groupChatModel.insert(temp);
+        GroupChat::to_json(js, temp);
+
+        std::vector<int> toids = _groupModel.qeuryGroupUsers(temp.getFromId(), temp.getGroupId());
+
+        {
+            std::lock_guard<std::mutex> lock(_connMutex);
+            for (auto &&i : toids)
+            {
+
+                auto it = _userConnMap.find(i);
+                if (it != _userConnMap.end())
+                {
+                    // 将群消息发送给toid
+                    it->second->send(js.dump());
+                }
+            }
+        }
+    }
+    catch (const std::exception &e)
+    {
+        LOG_ERROR << e.what() << '\n';
+        response["errno"] = 999;
+        response["errmsg"] = "请求参数异常";
+        conn->send(response.dump()); // 返回消息
+    }
 }
 
 // 创建群

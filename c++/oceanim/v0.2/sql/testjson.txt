@@ -24,6 +24,8 @@
 {"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好"}
 
 
+{"msgcate":3,"from":2,"to":3,"msgtype":"text","message":"发给的消息"}
+{"msgcate":3,"from":2,"to":3,"msgtype":"text","message":"hello,gzy"}
 
 {"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"hello,zy"}
 {"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"1234test"}
@@ -40,6 +42,7 @@
 【创建群】
 {"msgcate":6,"userid":3,"groupname":"读书城南","groupdesc":"符读书城南"}
 {"msgcate":6,"userid":2,"groupname":"dushuchengnan","groupdesc":"dushuchengnana"}
+{"msgcate":6,"userid":2,"groupname":"测试群2","groupdesc":"测试群2"}
 
 【加入群】
 {"msgcate":7,"userid":2,"groupid":1}
@@ -47,4 +50,6 @@
 
 
 【群聊天】
-{"msgcate":4,"userid":2,"groupid":1,"msgtype":"text","message":"hello,zy"}
+{"msgcate":4,"userid":2,"groupid":1,"msgtype":"text","message":"hello,z121245"}
+
+{"msgcate":4,"userid":2,"groupid":1,"msgtype":"text","message":"hello,all"}
