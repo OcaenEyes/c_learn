@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 14:53:56
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-16 04:22:04
+ * @LastEditTime: 2023-12-17 13:50:07
  * @FilePath: /c++/oceanim/v0.2/include/model/groupchat.hpp
  * @Description: groupchat的orm类
  */
@@ -60,12 +60,14 @@ public:
 
     static void from_json(const nlohmann::json &js, GroupChat &groupchat)
     {
-        groupchat.setId(js["id"].get<int>());
+        printf("from_json:%s", js.dump().c_str());
+
+        js.at("id").get_to(groupchat.id);
+        js.at("toid").get_to(groupchat.toid);
         groupchat.setFromId(js["fromid"].get<int>());
         groupchat.setGroupId(js["groupid"].get<int>());
-        groupchat.setToId(js["toid"].get<int>());
         groupchat.setMsgType(js["msgtype"]);
-        // groupchat.setReadType(js["readtype"]);
+        // // groupchat.setReadType(js["readtype"]);
         groupchat.setMessage(js["message"]);
     }
 
@@ -79,10 +81,12 @@ public:
         js["msgtype"] = groupchat.msgtype;
         // js["readtype"] = groupchat.readtype;
         js["message"] = groupchat.message;
+        // printf("to_json:%s", js.dump().c_str());
     }
 
     static void from_json(const nlohmann::json &js, std::vector<GroupChat> &groupchats)
     {
+        // printf("from_json groupchats:%s", js.dump().c_str());
         GroupChat groupchat;
         for (auto temp : js["groupchats"])
         {
@@ -97,7 +101,8 @@ public:
         for (auto groupchat_t : groupchats)
         {
             to_json(temp, groupchat_t);
-            js["groupchat"].push_back(temp);
+            js["groupchats"].push_back(temp);
         }
+        // printf("to_json groupchats:%s", js.dump().c_str());
     }
 };

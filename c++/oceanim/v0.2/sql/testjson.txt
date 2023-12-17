@@ -40,7 +40,6 @@
 {"msgcate":5,"from":1,"to":2,"optype":2} --拒绝请求
 {"msgcate":5,"from":1,"to":2,"optype":3} --忽略请求
 
-
 {"msgcate":5,"from":2,"to":3,"optype":0} --发送请求
 {"msgcate":5,"from":2,"to":3,"optype":1} --接受请求
 
@@ -56,6 +55,6 @@
 
 
 【群聊天】
-{"msgcate":4,"userid":2,"groupid":1,"msgtype":"text","message":"hello,z121245"}
+{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello,z121245"}
 
-{"msgcate":4,"userid":2,"groupid":1,"msgtype":"text","message":"hello,all"}
+{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello,all"}

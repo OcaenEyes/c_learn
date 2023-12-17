@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-16 21:04:09
+ * @LastEditTime: 2023-12-17 12:47:50
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -292,6 +292,7 @@ void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohman
     try
     {
         GroupChat temp;
+        printf("groupchat:%s",js.dump().c_str());
         GroupChat::from_json(js, temp);
         _groupChatModel.insert(temp);
         GroupChat::to_json(js, temp);
