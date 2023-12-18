@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-12 14:03:35
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-13 13:22:00
+ * @LastEditTime: 2023-12-18 07:38:14
  * @FilePath: /c++/oceanim/v0.2/src/server/db/onechat_model.cpp
  * @Description: onechat_model的数据增改查
  */
@@ -22,8 +22,8 @@ void OneChatModel::insert(OneChat &onechat)
 {
     // 组装sql语句
     char sql[1024] = {0};
-    sprintf(sql, "insert into onechat(fromid,toid,msgtype,readtype,message) values(%d,%d,'%s','%s','%s')",
-            onechat.getFromId(), onechat.getToId(), onechat.getMsgType().c_str(), onechat.getReadType().c_str(), onechat.getMessage().c_str());
+    sprintf(sql, "insert into onechat(fromid,toid,msgtype,readtype,message,sendtime) values(%d,%d,'%s','%s','%s','%s')",
+            onechat.getFromId(), onechat.getToId(), onechat.getMsgType().c_str(), onechat.getReadType().c_str(), onechat.getMessage().c_str(), onechat.getSendTime().c_str());
     MySQLDB _mysqldb;
     if (_mysqldb.connect())
     {
@@ -49,7 +49,7 @@ std::vector<OneChat> OneChatModel::queryByUserId(int userid)
 {
     // 组装sql语句
     char sql[1024] = {0};
-    sprintf(sql, "select id,fromid,toid,msgtype,readtype,message from onechat where toid=%d and readtype='noread'", userid);
+    sprintf(sql, "select id,fromid,toid,msgtype,readtype,message,sendtime from onechat where toid=%d and readtype='noread'", userid);
 
     MySQLDB _mysqldb;
     std::vector<OneChat> vec;
@@ -69,6 +69,7 @@ std::vector<OneChat> OneChatModel::queryByUserId(int userid)
                 temp.setMsgType(row[3]);
                 temp.setReadType(row[4]);
                 temp.setMessage(row[5]);
+                temp.setSendTime(row[6]);
                 vec.push_back(temp);
             }
             mysql_free_result(res);

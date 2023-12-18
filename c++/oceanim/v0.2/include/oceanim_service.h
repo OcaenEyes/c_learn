@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:37:22
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-16 03:49:03
+ * @LastEditTime: 2023-12-18 07:18:30
  * @FilePath: /c++/oceanim/v0.2/include/oceanim_service.h
  * @Description: service服务【业务类】
  */
@@ -19,7 +19,7 @@
 #include "model/group_model.h"
 #include "model/groupchat_model.h"
 
-using MsgHandler = std::function<void(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)>;
+using MsgHandler = std::function<void(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string  &time)>;
 
 class OceanIMService
 {
@@ -46,27 +46,27 @@ public:
     // 获取单例对象的接口函数
     static OceanIMService *instance();
     // 登录业务
-    void login(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void login(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time);
     // 注册业务
-    void regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time);
 
     // 请求参数异常
-    void errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js,std::string &time);
 
     // 一对一聊天
-    void oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js,std::string &time);
 
     // 发送好友请求\处理好友请求、添加成功
-    void addFriend(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void addFriend(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time);
 
     // 群聊天
-    void groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time);
 
     // 创建群
-    void createGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void createGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time);
 
     // 加入群
-    void addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time);
+    void addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time);
 
     // 获取消息对应的处理器
     MsgHandler getHandler(int msgcate);

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-10 13:19:02
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-11 12:02:13
+ * @LastEditTime: 2023-12-18 03:37:04
  * @FilePath: /c++/oceanim/v0.2/readme.md
  * @Description: 注释信息
 -->
@@ -16,3 +16,6 @@
   - 该方式可以mysql -h 127.0.0.1 -P 3306 -u root -p登录
     - ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
 ![Alt text](static/mysql安装配置.png)
+
+- 发送方：序列化
+- 接收方：反序列化

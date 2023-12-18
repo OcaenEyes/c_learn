@@ -2,12 +2,13 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 01:00:13
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 09:49:26
+ * @LastEditTime: 2023-12-18 12:12:50
  * @FilePath: /c++/oceanim/v0.2/src/server/db/group_model.cpp
  * @Description: allgroup、groupuser表的操作类
  */
 #include "model/group_model.h"
 #include "db/mysqldb.h"
+#include <iostream>
 
 GroupModel::GroupModel()
 {
@@ -56,51 +57,47 @@ std::vector<Group> GroupModel::qeuryGroups(int userid)
     char sql[1024] = {0};
     MySQLDB _mysqldb;
     std::vector<Group> groups_vec;
+    std::vector<Group> groups_vec_new;
     sprintf(sql, "select a.* from allgroup a inner join groupuser b on a.id=b.groupid  where b.userid=%d", userid);
 
     if (_mysqldb.connect())
     {
 
+        MYSQL_RES *res = _mysqldb.query(sql); // 查询群组信息
+        if (res != nullptr)
         {
-            MYSQL_RES *res = _mysqldb.query(sql); // 查询群组信息
+            MYSQL_ROW row;
+            Group temp;
+            while ((row = mysql_fetch_row(res)) != nullptr)
+            {
+                temp.setId(atoi(row[0]));
+                temp.setGroupName(row[1]);
+                temp.setGroupDesc(row[2]);
+                groups_vec.push_back(temp);
+            }
+            mysql_free_result(res);
+        }
+
+        for (auto &i : groups_vec)
+        {
+            std::cout << "查询群成员中\n";
+            std::cout << "查询到群XX" << i.getGroupName() << "中\n";
+            sprintf(sql, "select a.id,a.name,a.state,b.grouprole from user a inner join groupuser b on b.userid = a.id where b.groupid=%d", i.getId());
+            MYSQL_RES *res = _mysqldb.query(sql);
             if (res != nullptr)
             {
                 MYSQL_ROW row;
-                Group temp;
                 while ((row = mysql_fetch_row(res)) != nullptr)
                 {
-                    temp.setId(atoi(row[0]));
-                    temp.setGroupName(row[1]);
-                    temp.setGroupDesc(row[2]);
-                    groups_vec.push_back(temp);
+                    GroupUser tmp;
+                    tmp.setId(atoi(row[0]));
+                    tmp.setName(row[1]);
+                    tmp.setState(row[2]);
+                    tmp.setRole(row[3]);
+                    i.getGroupUsers().push_back(tmp);
+                    // groups_vec_new.push_back(i);
                 }
                 mysql_free_result(res);
-            }
-        }
-
-        {
-            if (groups_vec.size() > 0)
-            {
-
-                for (auto &i : groups_vec)
-                {
-                    sprintf(sql, "select a.id,a.name,a.state,b.grouprole from user a inner join groupuser b on b.userid = a.id where b.groupid=%d", i.getId());
-                    MYSQL_RES *res = _mysqldb.query(sql);
-                    if (res != nullptr)
-                    {
-                        MYSQL_ROW row;
-                        GroupUser tmp;
-                        while ((row = mysql_fetch_row(res)) != nullptr)
-                        {
-                            tmp.setId(atoi(row[0]));
-                            tmp.setName(row[1]);
-                            tmp.setState(row[2]);
-                            tmp.setRole(row[3]);
-                            i.getGroupUsers().push_back(tmp);
-                        }
-                        mysql_free_result(res);
-                    }
-                }
             }
         }
     }

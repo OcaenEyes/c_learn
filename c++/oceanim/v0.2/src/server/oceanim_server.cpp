@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 07:15:32
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-12 07:21:11
+ * @LastEditTime: 2023-12-18 07:21:37
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_server.cpp
  * @Description: 注释信息
  */
@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 #include <functional>
 #include <string>
+#include <ctime>
 #include "oceanim_service.h"
 
 void OceanIMServer::onConnection(const muduo::net::TcpConnectionPtr &conn)
@@ -27,6 +28,12 @@ void OceanIMServer::onMessage(const muduo::net::TcpConnectionPtr &conn, muduo::n
     std::string buf = buffer->retrieveAllAsString();
     MsgHandler _msgHandler;
     nlohmann::json _js;
+
+    // 获取时间部分的秒数
+    int64_t seconds = time.secondsSinceEpoch();
+    char *dt = std::ctime(&seconds);
+    std::string _datetime(dt);
+    _datetime.pop_back();
     try
     {
         // 数据的反序列化
@@ -39,8 +46,9 @@ void OceanIMServer::onMessage(const muduo::net::TcpConnectionPtr &conn, muduo::n
     {
         _msgHandler = OceanIMService::instance()->getHandler(0);
     }
+    printf("当前消息的时间是：%s\n", _datetime.c_str());
     // 回调消息category绑定的事件处理器， 来执行业务处理
-    _msgHandler(conn, _js, time);
+    _msgHandler(conn, _js, _datetime);
 }
 
 OceanIMServer::OceanIMServer(muduo::net::EventLoop *loop, const muduo::net::InetAddress &listenAddr, const std::string &nameArg) : _server(loop, listenAddr, nameArg), _loop(loop)

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-12 11:49:19
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-15 12:07:25
+ * @LastEditTime: 2023-12-18 07:31:22
  * @FilePath: /c++/oceanim/v0.2/include/model/onechat.hpp
  * @Description: 一对一消息
  */
@@ -21,6 +21,7 @@ private:
     std::string msgtype;
     std::string readtype;
     std::string message;
+    std::string sendtime;
 
 public:
     OneChat(int id = -1,
@@ -28,7 +29,8 @@ public:
             int toid = -1,
             std::string msgtype = "text",
             std::string readtype = "noread",
-            std::string message = "")
+            std::string message = "",
+            std::string sendtime = "")
     {
         this->id = id;
         this->fromid = fromid;
@@ -36,6 +38,7 @@ public:
         this->msgtype = msgtype;
         this->readtype = readtype;
         this->message = message;
+        this->sendtime = sendtime;
     }
     ~OneChat()
     {
@@ -47,6 +50,7 @@ public:
     void setMsgType(std::string msgtype) { this->msgtype = msgtype; }
     void setReadType(std::string readtype) { this->readtype = readtype; }
     void setMessage(std::string message) { this->message = message; }
+    void setSendTime(std::string sendtime) { this->sendtime = sendtime; }
 
     int getId() { return id; }
     int getFromId() { return fromid; }
@@ -54,6 +58,7 @@ public:
     std::string getMsgType() { return msgtype; }
     std::string getReadType() { return readtype; }
     std::string getMessage() { return message; }
+    std::string getSendTime() { return sendtime; }
 
     static void from_json(const nlohmann::json &js, OneChat &onechat)
     {
@@ -63,6 +68,7 @@ public:
         js.at("msgtype").get_to(onechat.msgtype);
         js.at("readtype").get_to(onechat.readtype);
         js.at("message").get_to(onechat.message);
+        js.at("sendtime").get_to(onechat.sendtime);
     }
     static void to_json(nlohmann::json &js, const OneChat &onechat)
     {
@@ -73,12 +79,12 @@ public:
             {"msgtype", onechat.msgtype},
             {"readtype", onechat.readtype},
             {"message", onechat.message},
-        };
+            {"sendtime", onechat.sendtime}};
     }
 
     static void from_json(const nlohmann::json &js, std::vector<OneChat> &onechats)
     {
-        for (auto &onechat_t : js["messages"])
+        for (auto &onechat_t : js["onechats"])
         {
             OneChat temp;
             OneChat::from_json(onechat_t, temp);
@@ -92,7 +98,7 @@ public:
         {
             nlohmann::json temp;
             OneChat::to_json(temp, onechat);
-            js["messages"].push_back(temp);
+            js["onechats"].push_back(temp);
         }
     }
 };

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-17 12:47:50
+ * @LastEditTime: 2023-12-18 08:59:56
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -31,7 +31,7 @@ OceanIMService *OceanIMService::instance()
 }
 
 // 登录
-void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do login service!\n");
     nlohmann::json response;
@@ -112,7 +112,7 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
 }
 
 // 注册
-void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do regist service!\n");
     nlohmann::json response;
@@ -123,6 +123,7 @@ void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::
         User user;
         user.setName(name);
         user.setPassword(password);
+        user.setRegistime(time);
         bool state = _userModel.insert(user);
 
         if (state)
@@ -150,7 +151,7 @@ void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::
 }
 
 // 请求参数异常
-void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     LOG_ERROR << "请求参数异常";
     nlohmann::json response;
@@ -160,7 +161,7 @@ void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::
 }
 
 // 处理好友请求逻辑
-void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do addFriend service!\n");
     std::map<int, std::string> states = {{SEND, "send"}, {ACCEPT, "accept"}, {REFUSE, "refuse"}, {IGNORE, "ignore"}};
@@ -245,7 +246,7 @@ void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohman
 }
 
 // 一对一聊天
-void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do oneChat service!\n");
     nlohmann::json response;
@@ -261,6 +262,7 @@ void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann:
         temp.setToId(toid);
         temp.setMsgType(msgtype);
         temp.setMessage(message);
+        temp.setSendTime(time);
         { // 该部分作用域，可以并发执行
             std::lock_guard<std::mutex> lock(_connMutex);
             auto it = _userConnMap.find(toid);
@@ -285,15 +287,16 @@ void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann:
 }
 
 // 群聊天
-void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do groupChat service!\n");
     nlohmann::json response;
     try
     {
         GroupChat temp;
-        printf("groupchat:%s",js.dump().c_str());
+        printf("groupchat:%s", js.dump().c_str());
         GroupChat::from_json(js, temp);
+        temp.setSendTime(time);
         _groupChatModel.insert(temp);
         GroupChat::to_json(js, temp);
 
@@ -323,7 +326,7 @@ void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohman
 }
 
 // 创建群
-void OceanIMService::createGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::createGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do createGroup service!\n");
     nlohmann::json response;
@@ -360,7 +363,7 @@ void OceanIMService::createGroup(const muduo::net::TcpConnectionPtr &conn, nlohm
 }
 
 // 加入群
-void OceanIMService::addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+void OceanIMService::addGroup(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
     printf("do addGroup service!\n");
     nlohmann::json response;
@@ -389,7 +392,7 @@ MsgHandler OceanIMService::getHandler(int msgcate)
     if (it == _msgHandlerMap.end()) // 没有找到
     {
         // 返回一个默认的空处理器
-        return [=](const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, muduo::Timestamp &time)
+        return [=](const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
         {
             LOG_ERROR << "msgcate:" << msgcate << "can not find handler!\n";
         };

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 14:53:56
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-17 13:50:07
+ * @LastEditTime: 2023-12-18 07:34:48
  * @FilePath: /c++/oceanim/v0.2/include/model/groupchat.hpp
  * @Description: groupchat的orm类
  */
@@ -21,6 +21,7 @@ private:
     std::string msgtype;
     // std::string readtype;
     std::string message;
+    std::string sendtime;
 
 public:
     GroupChat(
@@ -30,7 +31,8 @@ public:
         int toid = -1,
         std::string msgtype = "text",
         // std::string readtype = "noread",
-        std::string message = "")
+        std::string message = "",
+        std::string sendtime = "")
     {
         this->id = id;
         this->fromid = fromid;
@@ -39,6 +41,7 @@ public:
         this->msgtype = msgtype;
         // this->readtype = readtype;
         this->message = message;
+        this->sendtime = sendtime;
     }
     ~GroupChat() {}
 
@@ -49,6 +52,7 @@ public:
     void setMsgType(std::string msgtype) { this->msgtype = msgtype; }
     // void setReadType(std::string readtype) { this->readtype = readtype; }
     void setMessage(std::string message) { this->message = message; }
+    void setSendTime(std::string sendtime) { this->sendtime = sendtime; }
 
     int getId() { return id; }
     int getFromId() { return fromid; }
@@ -57,6 +61,7 @@ public:
     std::string getMsgType() { return msgtype; }
     // std::string getReadType() { return readtype; }
     std::string getMessage() { return message; }
+    std::string getSendTime() { return sendtime; }
 
     static void from_json(const nlohmann::json &js, GroupChat &groupchat)
     {
@@ -69,6 +74,7 @@ public:
         groupchat.setMsgType(js["msgtype"]);
         // // groupchat.setReadType(js["readtype"]);
         groupchat.setMessage(js["message"]);
+        groupchat.setSendTime(js["sendtime"]);
     }
 
     static void to_json(nlohmann::json &js, const GroupChat &groupchat)
@@ -81,6 +87,7 @@ public:
         js["msgtype"] = groupchat.msgtype;
         // js["readtype"] = groupchat.readtype;
         js["message"] = groupchat.message;
+        js["sendtime"] = groupchat.sendtime;
         // printf("to_json:%s", js.dump().c_str());
     }
 

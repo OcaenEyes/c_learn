@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 14:05:19
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 02:20:03
+ * @LastEditTime: 2023-12-18 07:28:11
  * @FilePath: /c++/oceanim/v0.2/src/server/db/user_model.cpp
  * @Description: 注释信息
  */
@@ -23,7 +23,7 @@ bool UserModel::insert(User &user)
 {
     // 组装sql语句
     char sql[1024] = {0};
-    sprintf(sql, "insert into user(name,password,state) values('%s','%s','%s')", user.getName().c_str(), user.getPassword().c_str(), user.getState().c_str());
+    sprintf(sql, "insert into user(name,password,state,registime) values('%s','%s','%s','%s')", user.getName().c_str(), user.getPassword().c_str(), user.getState().c_str(), user.getRegistime().c_str());
     MySQLDB _mysqldb;
     if (_mysqldb.connect())
     {
@@ -58,6 +58,7 @@ User UserModel::queryById(int id)
                 user.setName(row[1]);
                 user.setPassword(row[2]);
                 user.setState(row[3]);
+                user.setRegistime(row[4]);
                 mysql_free_result(res);
                 return user;
             }

@@ -7,7 +7,8 @@ CREATE TABLE user(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,
-    state ENUM('online', 'offline') DEFAULT 'offline'
+    state ENUM('online', 'offline') DEFAULT 'offline',
+    registime VARCHAR(50)
 );
 -- COMMENT 好友请求表
 DROP TABLE IF EXISTS friendreq;
@@ -47,7 +48,8 @@ CREATE TABLE onechat(
     toid INT NOT NULL,
     msgtype ENUM('text', 'audio', 'video', 'image') DEFAULT 'text',
     readtype ENUM('read', 'noread') DEFAULT 'noread',
-    message VARCHAR(500) NOT NULL
+    message VARCHAR(500) NOT NULL,
+    sendtime VARCHAR(50)
 );
 -- COMMENT 群聊消息表
 DROP TABLE IF EXISTS groupchat;
@@ -57,7 +59,8 @@ CREATE TABLE groupchat(
     groupid INT NOT NULL,
     msgtype ENUM('text', 'audio', 'video', 'image') DEFAULT 'text',
     -- readtype ENUM('read', 'noread') DEFAULT 'noread',
-    message VARCHAR(500) NOT NULL
+    message VARCHAR(500) NOT NULL,
+    sendtime VARCHAR(50)
 );
 -- 查看数据库字符集
 -- show variables like "%character%";
