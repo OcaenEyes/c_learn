@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 01:00:13
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 12:12:50
+ * @LastEditTime: 2023-12-18 13:43:25
  * @FilePath: /c++/oceanim/v0.2/src/server/db/group_model.cpp
  * @Description: allgroup、groupuser表的操作类
  */
@@ -57,7 +57,7 @@ std::vector<Group> GroupModel::qeuryGroups(int userid)
     char sql[1024] = {0};
     MySQLDB _mysqldb;
     std::vector<Group> groups_vec;
-    std::vector<Group> groups_vec_new;
+    // std::vector<Group> groups_vec_new;
     sprintf(sql, "select a.* from allgroup a inner join groupuser b on a.id=b.groupid  where b.userid=%d", userid);
 
     if (_mysqldb.connect())
@@ -80,8 +80,8 @@ std::vector<Group> GroupModel::qeuryGroups(int userid)
 
         for (auto &i : groups_vec)
         {
-            std::cout << "查询群成员中\n";
-            std::cout << "查询到群XX" << i.getGroupName() << "中\n";
+            // std::cout << "查询群成员中\n";
+            // std::cout << "查询到群XX" << i.getGroupName() << "中\n";
             sprintf(sql, "select a.id,a.name,a.state,b.grouprole from user a inner join groupuser b on b.userid = a.id where b.groupid=%d", i.getId());
             MYSQL_RES *res = _mysqldb.query(sql);
             if (res != nullptr)

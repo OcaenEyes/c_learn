@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 08:54:36
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 11:26:33
+ * @LastEditTime: 2023-12-19 02:28:12
  * @FilePath: /c++/oceanim/v0.2/src/client/main.cpp
  * @Description: 注释信息
  */
@@ -42,14 +42,14 @@ std::vector<Group> g_currentUserGroups;
 void showCurrentUserData()
 {
     std::cout << "=====================当前登录用户===================\n";
-    std::cout << "用户ID:   " << g_currentUser.getId() << "昵称:  " << g_currentUser.getName() << "\n";
+    std::cout << "【用户ID】:" << g_currentUser.getId() << "    【昵称】:" << g_currentUser.getName() << "\n";
 
     std::cout << "=====================好友列表========================\n";
     if (!g_currentUserFriends.empty())
     {
         for (auto &&i : g_currentUserFriends)
         {
-            std::cout << "【好友】:" << i.getId() << "【昵称】:" << i.getName() << "【状态】:" << i.getState() << "\n";
+            std::cout << "【好友】:" << i.getId() << "    【昵称】:" << i.getName() << "    【状态】:" << i.getState() << "\n";
         }
     }
 
@@ -58,10 +58,11 @@ void showCurrentUserData()
     {
         for (auto &&i : g_currentUserGroups)
         {
-            std::cout << "【群】:" << i.getId() << "【群名称】:" << i.getGroupName() << "【群介绍】:" << i.getGroupDesc() << "\n";
+            std::cout << "*********************\n";
+            std::cout << "【群】:" << i.getId() << "    【群名称】:" << i.getGroupName() << "    【群介绍】:" << i.getGroupDesc() << "\n";
             for (auto &&j : i.getGroupUsers())
             {
-                std::cout << "用户ID:   " << j.getId() << "昵称:  " << j.getName() << "【状态】:" << j.getState() << "【角色】:" << j.getRole() << "\n";
+                std::cout << "【用户ID】:" << j.getId() << "    【昵称】:" << j.getName() << "    【状态】:" << j.getState() << "    【角色】:" << j.getRole() << "\n";
             }
         }
     }
@@ -102,8 +103,10 @@ int main(int argc, char **argv)
     // 解析参数中的ip和port
     // char *ip = argv[1];
     // uint16_t port = atoi(argv[2]);
-    char *ip = "127.0.0.1";
+    char ip[20] = {0};
+    sprintf(ip, "127.0.0.1");
     uint16_t port = 12345;
+
     // 创建client端端socket
     int clientfd = socket(AF_INET, SOCK_STREAM, 0);
     if (clientfd == -1)
@@ -137,7 +140,7 @@ int main(int argc, char **argv)
         std::cout << "2.注册      \n";
         std::cout << "3.退出      \n";
         std::cout << "======================\n";
-        std::cout << "请选择要执行的操作,可输入序号数字:0或1或2\n";
+        std::cout << "请选择要执行的操作,可输入序号数字:1或2或3\n";
         int choice = 0;
         std::cin >> choice;
         std::cin.get(); // 读掉缓冲区残留的回车
@@ -169,8 +172,8 @@ int main(int argc, char **argv)
             }
             else
             {
-                char buffer[1024] = {0};
-                ret = recv(clientfd, buffer, 1024, 0);
+                char buffer[65535] = {0};
+                ret = recv(clientfd, buffer, 65535, 0);
                 if (ret == -1)
                 {
                     std::cerr << "读取登录响应消息失败\n";
@@ -178,6 +181,7 @@ int main(int argc, char **argv)
                 else
                 {
                     nlohmann::json res = nlohmann::json::parse(buffer);
+                    // std::cout << "登录后的服务器响应:" << res.dump() << "\n";
                     if (res["errno"] == 0)
                     {
                         // 登录成功
@@ -188,12 +192,14 @@ int main(int argc, char **argv)
                         // 记录当前用户的好友列表信息
                         if (res.contains("friends"))
                         {
+                            // std::cout << "查到了好友信息\n";
                             Friend::from_json(res, g_currentUserFriends);
                         }
 
                         // 记录当前用户的群组信息
                         if (res.contains("groups"))
                         {
+                            // std::cout << "查到了群组信息\n";
                             Group::from_json(res, g_currentUserGroups);
                         }
 
@@ -203,28 +209,39 @@ int main(int argc, char **argv)
                         // 判断用户是否有未读的单聊消息
                         if (res.contains("onechats"))
                         {
-                            std::vector<std::string> onechats_str_vec = res["onechats"];
-                            for (auto &&onechat_str : onechats_str_vec)
+                            // std::cout << "查到了单聊信息\n";
+                            std::cout << "---------单聊消息-------\n";
+                            // std::cout << res["onechats"] << "\n";
+                            std::vector<OneChat> temp;
+                            OneChat::from_json(res, temp);
+                            for (auto &&i : temp)
                             {
-                                nlohmann::json _chat = nlohmann::json::parse(onechat_str);
-                                std::cout << _chat["time"] << "[" << _chat["id"] << "]" << _chat["name"] << ":" << _chat["message"] << "\n";
+                                std::cout
+                                    << "【" << i.getSendTime() << "】"
+                                    << "【用户" << i.getFromId() << "】"
+                                    << ":" << i.getMessage() << "\n";
                             }
                         }
 
                         // 判断用户是否有群聊消息
                         if (res.contains("groupchats"))
                         {
-                            std::vector<std::string> groupchats_str_vec = res["groupchats"];
-                            for (auto &&groupchat_str : groupchats_str_vec)
+                            // std::cout << "查到了群聊信息\n";
+                            std::cout << "---------群聊消息-------\n";
+                            std::vector<GroupChat> temp;
+                            GroupChat::from_json(res, temp);
+                            for (auto &&i : temp)
                             {
-                                nlohmann::json _chat = nlohmann::json::parse(groupchat_str);
-                                // std::cout << _chat["time"] << "[群:" << _chat["groupname"] << "]"
-                                //           << "[用户:" << _chat["name"] << "]"
-                                //           << ":" << _chat["message"] << "\n";
-                                std::cout << _chat << "\n";
+                                std::cout << "【" << i.getSendTime() << "】"
+                                          << "【群" << i.getGroupId() << "-"
+                                          << "用户" << i.getFromId() << "】"
+                                          << ":" << i.getMessage() << "\n";
                             }
                         }
+
+                        std::cout << "=======================================================\n";
                     }
+
                     else
                     {
                         // 登录失败
@@ -232,6 +249,7 @@ int main(int argc, char **argv)
                     }
                 }
             }
+
             break;
         }
         case 2:

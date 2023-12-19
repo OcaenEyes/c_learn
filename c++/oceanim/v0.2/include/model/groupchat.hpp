@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 14:53:56
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 07:34:48
+ * @LastEditTime: 2023-12-18 15:09:19
  * @FilePath: /c++/oceanim/v0.2/include/model/groupchat.hpp
  * @Description: groupchat的orm类
  */
@@ -65,7 +65,7 @@ public:
 
     static void from_json(const nlohmann::json &js, GroupChat &groupchat)
     {
-        printf("from_json:%s", js.dump().c_str());
+        // printf("from_json:%s", js.dump().c_str());
 
         js.at("id").get_to(groupchat.id);
         js.at("toid").get_to(groupchat.toid);
