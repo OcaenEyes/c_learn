@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 08:54:36
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-19 02:28:12
+ * @LastEditTime: 2023-12-19 11:56:16
  * @FilePath: /c++/oceanim/v0.2/src/client/main.cpp
  * @Description: 注释信息
  */
@@ -28,6 +28,8 @@
 #include "model/groupchat.hpp"
 
 #include "common/common.h"
+#include <functional>
+#include <fstream>
 
 // 记录当前系统登录的用户信息
 User g_currentUser;
@@ -37,6 +39,19 @@ std::vector<User> g_currentUserFriends;
 
 // 记录当前登录用户的群组列表信息
 std::vector<Group> g_currentUserGroups;
+
+// 打印banner
+void prtinBanner()
+{
+    std::ifstream inFile("./banner.txt");
+    std::string str;
+    while (inFile.good())
+    {
+        getline(inFile, str);
+        printf("\033[0m\033[1;32m%s\033[0m", str.c_str());
+        std::cout << "\n";
+    }
+}
 
 // 显示当前登录用户的基本信息
 void showCurrentUserData()
@@ -69,9 +84,6 @@ void showCurrentUserData()
     std::cout << "=======================================================\n";
 }
 
-// 接收线程
-void readTaskHandler(int clientfd);
-
 // 获取系统时间（聊天信息需要增加时间戳）
 std::string getCurrentTime()
 {
@@ -87,13 +99,79 @@ std::string getCurrentTime()
             (int)ptm->tm_sec);
     return std::string(date);
 }
+// 接收线程
+void readTaskHandler(int clientfd)
+{
+    for (;;)
+    {
+        char buffer[1024] = {0};
+        int ret = recv(clientfd, buffer, 1024, 0);
+        if (ret == -1 || ret == 0)
+        {
+            close(clientfd);
+            exit(-1);
+        }
+
+        nlohmann::json temp = nlohmann::json::parse(buffer);
+        if (ONE_CHAT_MSG == temp["msgcate"].get<int>())
+        {
+            std::cout
+                << "【" << temp["sendtime"].get<std::string>() << "】"
+                << "【用户" << temp["fromid"] << "】"
+                << ":" << temp["message"].get<std::string>() << "\n";
+            continue;
+        }
+
+        if (GROUP_CHAT_MSG == temp["msgcate"].get<int>())
+        {
+            std::cout << "【" << temp["sendtime"].get<std::string>() << "】"
+                      << "【群" << temp["groupid"] << "-"
+                      << "用户" << temp["fromid"] << "】"
+                      << ":" << temp["message"].get<std::string>() << "\n";
+            continue;
+        }
+    }
+}
+
+void help(int = 0, std::string = "") {}
+void onechat(int, std::string) {}
+void addfriend(int, std::string) {}
+void addgroup(int, std::string) {}
+void creategroup(int, std::string) {}
+void groupchat(int, std::string) {}
+void logout(int, std::string) {}
+
+// 注册系统支持的客户端命令列表
+std::unordered_map<std::string, std::string> commandMap = {
+    {"help", "显示所有支持的命令,格式为help"},
+    {"chat", "一对一聊天,格式为chat:friendid:message"},
+    {"sfriendreq", "发送好友请求,格式为sfriendreq:friendid"},
+    {"dfriendreq", "处理好友请求,格式为dfriendreq:friendid:dealtype"},
+    {"addgroup", "加入群,格式为addgroup:groupid"},
+    {"creategroup", "创建群,格式为creategroup:groupname:groupdesc"},
+    {"groupchat", "群聊天,格式为groupchat:groupid:message"},
+    {"logout", "退出登录,格式为logout"}};
+
+// 注册系统支持的客户端命令处理
+std::unordered_map<std::string, std::function<void(int, std::string)>> commandHandlerMap = {
+    {"help", help},
+    {"chat", onechat},
+    {"addfriend", addfriend},
+    {"addgroup", addgroup},
+    {"creategroup", creategroup},
+    {"groupchat", groupchat},
+    {"logout", logout}};
 
 // 主页聊天页面程序
-void mainMenu();
+void mainMenu()
+{
+    help();
+}
 
 // 聊天客户端的时间，main线程用户发送线程， 子线程用作接收线程
 int main(int argc, char **argv)
 {
+    prtinBanner();
     // if (argc < 3)
     // {
     //     std::cerr << "执行错误,需要ip地址 和port端口\n";
@@ -135,11 +213,13 @@ int main(int argc, char **argv)
     for (;;)
     {
         // 显示首页面菜单: 登录、注册、退出
-        std::cout << "======================\n";
+        std::cout << "===========================\n";
+        std::cout << "      欢迎使用OCEAN IM      \n";
+        std::cout << "\n";
         std::cout << "1.登录      \n";
         std::cout << "2.注册      \n";
         std::cout << "3.退出      \n";
-        std::cout << "======================\n";
+        std::cout << "===========================\n";
         std::cout << "请选择要执行的操作,可输入序号数字:1或2或3\n";
         int choice = 0;
         std::cin >> choice;
@@ -240,6 +320,13 @@ int main(int argc, char **argv)
                         }
 
                         std::cout << "=======================================================\n";
+
+                        // 登录成功后，启动线程负责接收数据
+                        std::thread readTask(readTaskHandler, clientfd); // 创建线程对象，并设置线程函数，及线程函数参数
+                        readTask.detach();
+
+                        // 进入主菜单
+                        mainMenu();
                     }
 
                     else

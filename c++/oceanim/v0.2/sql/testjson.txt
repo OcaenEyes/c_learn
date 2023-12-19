@@ -58,3 +58,5 @@
 {"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello,z121245","sendtime":""}
 
 {"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello,all","sendtime":""}
+
+{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello测试一下","sendtime":""}

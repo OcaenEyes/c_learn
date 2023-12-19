@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 08:59:56
+ * @LastEditTime: 2023-12-19 08:34:25
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -263,6 +263,9 @@ void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann:
         temp.setMsgType(msgtype);
         temp.setMessage(message);
         temp.setSendTime(time);
+
+        OneChat::to_json(js, temp);
+
         { // 该部分作用域，可以并发执行
             std::lock_guard<std::mutex> lock(_connMutex);
             auto it = _userConnMap.find(toid);
@@ -294,7 +297,7 @@ void OceanIMService::groupChat(const muduo::net::TcpConnectionPtr &conn, nlohman
     try
     {
         GroupChat temp;
-        printf("groupchat:%s", js.dump().c_str());
+        // printf("groupchat:%s", js.dump().c_str());
         GroupChat::from_json(js, temp);
         temp.setSendTime(time);
         _groupChatModel.insert(temp);

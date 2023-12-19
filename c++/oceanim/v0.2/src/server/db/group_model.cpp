@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 01:00:13
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 13:43:25
+ * @LastEditTime: 2023-12-19 08:16:32
  * @FilePath: /c++/oceanim/v0.2/src/server/db/group_model.cpp
  * @Description: allgroup、groupuser表的操作类
  */
@@ -111,7 +111,7 @@ std::vector<int> GroupModel::qeuryGroupUsers(int userid, int groupid)
     char sql[1024] = {0};
     MySQLDB _mysqldb;
     std::vector<int> userids_vec;
-    sprintf(sql, "select userid from groupuser where groupid=%d and userid != %d", userid, groupid);
+    sprintf(sql, "select userid from groupuser where groupid=%d and userid != %d", groupid, userid);
 
     if (_mysqldb.connect())
     {
