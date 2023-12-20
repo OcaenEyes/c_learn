@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 14:53:56
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 15:09:19
+ * @LastEditTime: 2023-12-20 02:51:10
  * @FilePath: /c++/oceanim/v0.2/include/model/groupchat.hpp
  * @Description: groupchat的orm类
  */
@@ -18,6 +18,7 @@ private:
     int fromid;
     int groupid;
     int toid;
+    std::string fromname;
     std::string msgtype;
     // std::string readtype;
     std::string message;
@@ -29,6 +30,7 @@ public:
         int fromid = -1,
         int groupid = -1,
         int toid = -1,
+        std::string fromname = "",
         std::string msgtype = "text",
         // std::string readtype = "noread",
         std::string message = "",
@@ -38,6 +40,7 @@ public:
         this->fromid = fromid;
         this->groupid = groupid;
         this->toid = toid;
+        this->fromname = fromname;
         this->msgtype = msgtype;
         // this->readtype = readtype;
         this->message = message;
@@ -49,6 +52,7 @@ public:
     void setFromId(int fromid) { this->fromid = fromid; }
     void setGroupId(int groupid) { this->groupid = groupid; }
     void setToId(int toid) { this->toid = toid; }
+    void setFromName(std::string fromname) { this->fromname = fromname; }
     void setMsgType(std::string msgtype) { this->msgtype = msgtype; }
     // void setReadType(std::string readtype) { this->readtype = readtype; }
     void setMessage(std::string message) { this->message = message; }
@@ -58,6 +62,7 @@ public:
     int getFromId() { return fromid; }
     int getGroupId() { return groupid; }
     int getToId() { return toid; }
+    std::string getFromName() { return fromname; }
     std::string getMsgType() { return msgtype; }
     // std::string getReadType() { return readtype; }
     std::string getMessage() { return message; }
@@ -71,6 +76,7 @@ public:
         js.at("toid").get_to(groupchat.toid);
         groupchat.setFromId(js["fromid"].get<int>());
         groupchat.setGroupId(js["groupid"].get<int>());
+        groupchat.setFromName(js["fromname"]);
         groupchat.setMsgType(js["msgtype"]);
         // // groupchat.setReadType(js["readtype"]);
         groupchat.setMessage(js["message"]);
@@ -84,6 +90,7 @@ public:
         js["fromid"] = groupchat.fromid;
         js["groupid"] = groupchat.groupid;
         js["toid"] = groupchat.toid;
+        js["fromname"] = groupchat.fromname;
         js["msgtype"] = groupchat.msgtype;
         // js["readtype"] = groupchat.readtype;
         js["message"] = groupchat.message;

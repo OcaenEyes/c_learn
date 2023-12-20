@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 09:53:29
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-19 08:34:25
+ * @LastEditTime: 2023-12-20 11:49:23
  * @FilePath: /c++/oceanim/v0.2/src/server/oceanim_service.cpp
  * @Description: service服务类的实现
  */
@@ -37,12 +37,16 @@ void OceanIMService::login(const muduo::net::TcpConnectionPtr &conn, nlohmann::j
     nlohmann::json response;
     try
     {
-        int id = js["id"].get<int>();
+        // int id = js["id"].get<int>();
+        std::string name = js["name"];
         std::string password = js["password"];
 
-        User user = _userModel.queryById(id);
+        // User user = _userModel.queryById(id);
 
-        if (user.getId() == id && user.getPassword() == password)
+        User user = _userModel.queryByName(name);
+        int id = user.getId();
+
+        if (user.getName() == name && user.getPassword() == password)
         {
             if (user.getState() == "online")
             {
@@ -153,11 +157,12 @@ void OceanIMService::regist(const muduo::net::TcpConnectionPtr &conn, nlohmann::
 // 请求参数异常
 void OceanIMService::errreq(const muduo::net::TcpConnectionPtr &conn, nlohmann::json &js, std::string &time)
 {
-    LOG_ERROR << "请求参数异常";
+    printf("%s\n", js.dump().c_str());
     nlohmann::json response;
     response["errno"] = 999;
     response["errmsg"] = "请求参数异常";
     conn->send(response.dump());
+    LOG_ERROR << "请求参数异常";
 }
 
 // 处理好友请求逻辑
@@ -170,6 +175,8 @@ void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohman
         int optype = js["optype"].get<int>();
         int toid = js["to"].get<int>();
         int fromid = js["from"].get<int>();
+        std::string fromname = js["fromname"];
+
         switch (optype)
         {
         case SEND:
@@ -177,6 +184,7 @@ void OceanIMService::addFriend(const muduo::net::TcpConnectionPtr &conn, nlohman
             FriendReq temp;
             temp.setFromId(fromid);
             temp.setToId(toid);
+            temp.setFromName(fromname);
             _friendReqModel.insert(temp);
 
             { // 该部分作用域，可以并发执行
@@ -254,17 +262,20 @@ void OceanIMService::oneChat(const muduo::net::TcpConnectionPtr &conn, nlohmann:
     {
         int toid = js["to"].get<int>();
         int fromid = js["from"].get<int>();
+        std::string fromname = js["fromname"];
         std::string msgtype = js["msgtype"];
         std::string message = js["message"];
         std::string readtype = "noread";
         OneChat temp;
         temp.setFromId(fromid);
         temp.setToId(toid);
+        temp.setFromName(fromname);
         temp.setMsgType(msgtype);
         temp.setMessage(message);
         temp.setSendTime(time);
+        js["sendtime"] = time;
 
-        OneChat::to_json(js, temp);
+        // OneChat::to_json(js, temp);
 
         { // 该部分作用域，可以并发执行
             std::lock_guard<std::mutex> lock(_connMutex);

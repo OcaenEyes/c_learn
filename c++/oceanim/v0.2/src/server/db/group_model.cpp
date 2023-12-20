@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-15 01:00:13
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-19 08:16:32
+ * @LastEditTime: 2023-12-20 08:57:46
  * @FilePath: /c++/oceanim/v0.2/src/server/db/group_model.cpp
  * @Description: allgroup、groupuser表的操作类
  */
@@ -99,9 +99,10 @@ std::vector<Group> GroupModel::qeuryGroups(int userid)
                 }
                 mysql_free_result(res);
             }
+
+            // std::cout << "sql查询的结果--->群名字:" << i.getGroupName() << "群成员数量:" << i.getGroupUsers().size() << "\n";
         }
     }
-
     return groups_vec;
 }
 

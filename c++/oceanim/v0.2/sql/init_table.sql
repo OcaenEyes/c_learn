@@ -1,5 +1,5 @@
--- DROP DATABASE IF EXISTS oceanim;
--- CREATE DATABASE oceanim;
+DROP DATABASE IF EXISTS oceanim;
+CREATE DATABASE oceanim;
 USE oceanim;
 -- COMMENT  用户表
 DROP TABLE IF EXISTS user;
@@ -16,6 +16,7 @@ CREATE TABLE friendreq(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fromid INT NOT NULL,
     toid INT NOT NULL,
+    fromname VARCHAR(50),
     state ENUM('noop', 'send', 'accept', 'refuse', 'ignore') DEFAULT 'noop'
 );
 -- COMMENT 好友表
@@ -46,6 +47,7 @@ CREATE TABLE onechat(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fromid INT NOT NULL,
     toid INT NOT NULL,
+    fromname VARCHAR(50),
     msgtype ENUM('text', 'audio', 'video', 'image') DEFAULT 'text',
     readtype ENUM('read', 'noread') DEFAULT 'noread',
     message VARCHAR(500) NOT NULL,
@@ -57,6 +59,7 @@ CREATE TABLE groupchat(
     id INT AUTO_INCREMENT PRIMARY KEY,
     fromid INT NOT NULL,
     groupid INT NOT NULL,
+    fromname VARCHAR(50),
     msgtype ENUM('text', 'audio', 'video', 'image') DEFAULT 'text',
     -- readtype ENUM('read', 'noread') DEFAULT 'noread',
     message VARCHAR(500) NOT NULL,

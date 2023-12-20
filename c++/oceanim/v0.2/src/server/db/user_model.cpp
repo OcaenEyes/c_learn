@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-11 14:05:19
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-18 07:28:11
+ * @LastEditTime: 2023-12-20 03:27:46
  * @FilePath: /c++/oceanim/v0.2/src/server/db/user_model.cpp
  * @Description: 注释信息
  */
@@ -44,6 +44,36 @@ User UserModel::queryById(int id)
     // 组装sql语句
     char sql[1024] = {0};
     sprintf(sql, "select * from user where id=%d", id);
+    MySQLDB _mysqldb;
+    if (_mysqldb.connect())
+    {
+        MYSQL_RES *res = _mysqldb.query(sql);
+        if (res != nullptr)
+        {
+            MYSQL_ROW row = mysql_fetch_row(res);
+            if (row != nullptr)
+            {
+                User user;
+                user.setId(atoi(row[0]));
+                user.setName(row[1]);
+                user.setPassword(row[2]);
+                user.setState(row[3]);
+                user.setRegistime(row[4]);
+                mysql_free_result(res);
+                return user;
+            }
+        }
+    }
+
+    return User();
+}
+
+// 根据用户昵称查询用户信息
+User UserModel::queryByName(std::string name)
+{
+    // 组装sql语句
+    char sql[1024] = {0};
+    sprintf(sql, "select * from user where name='%s'", name.c_str());
     MySQLDB _mysqldb;
     if (_mysqldb.connect())
     {

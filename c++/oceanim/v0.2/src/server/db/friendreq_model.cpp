@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-14 03:50:24
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-14 08:47:18
+ * @LastEditTime: 2023-12-20 09:54:25
  * @FilePath: /c++/oceanim/v0.2/src/server/db/friendreq_model.cpp
  * @Description: friendreq表的操作类实现
  */
@@ -22,7 +22,7 @@ void FriendReqModel::insert(FriendReq &friendReq)
 {
     // 组装sql
     char sql[1024] = {0};
-    sprintf(sql, "insert into friendreq(fromid,toid,state) values(%d,%d,'%s')", friendReq.getFromId(), friendReq.getToId(), friendReq.getState().c_str());
+    sprintf(sql, "insert into friendreq(fromid,toid,fromname,state) values(%d,%d,'%s','%s')", friendReq.getFromId(), friendReq.getToId(), friendReq.getFromName().c_str(), friendReq.getState().c_str());
 
     MySQLDB _mysqldb;
     if (_mysqldb.connect())
@@ -50,7 +50,7 @@ std::vector<FriendReq> FriendReqModel::query(int userid)
 {
     // 组装sql
     char sql[1024] = {0};
-    sprintf(sql, "select id,fromid,toid,state from friendreq where toid=%d and state='no'", userid); // 查询接收到的未处理好友请求
+    sprintf(sql, "select id,fromid,toid,fromname,state from friendreq where toid=%d and state='send' or state='noop' ", userid); // 查询接收到的未处理好友请求
 
     MySQLDB _mysqldb;
     FriendReq temp;
@@ -67,7 +67,8 @@ std::vector<FriendReq> FriendReqModel::query(int userid)
                 temp.setId(atoi(row[0]));
                 temp.setFromId(atoi(row[1]));
                 temp.setToId(atoi(row[2]));
-                temp.setState(row[3]);
+                temp.setFromName(row[3]);
+                temp.setState(row[4]);
                 vec.push_back(temp);
             }
             mysql_free_result(res); // 释放res资源

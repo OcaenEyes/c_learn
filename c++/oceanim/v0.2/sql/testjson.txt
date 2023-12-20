@@ -1,62 +1,56 @@
 【注册】
 {"msgcate":2,"name":"gzy","password":"123456"}
+{"msgcate":2,"name":"wsq","password":"123456"}
 {"msgcate":2,"name":"zy","password":"123456"}
 {"msgcate":2,"name":"y","password":"123456"}
-{"msgcate":2,"name":"wsq","password":"123456"}
 {"msgcate":2,"name":"sq","password":"123456"}
 {"msgcate":2,"name":"q","password":"123456"}
 
 【登录】
-{"msgcate":1,"id":1,"password":"123456"}
-{"msgcate":1,"id":2,"password":"123456"}
-{"msgcate":1,"id":3,"password":"123456"}
-{"msgcate":1,"id":4,"password":"123456"}
-{"msgcate":1,"id":5,"password":"123456"}
-{"msgcate":1,"id":6,"password":"123456"}
+{"msgcate":1,"name":"gzy","password":"123456"}
+{"msgcate":1,"name":"wsq","password":"123456"}
+{"msgcate":1,"name":"zy","password":"123456"}
+{"msgcate":1,"name":"y","password":"123456"}
+{"msgcate":1,"name":"sq","password":"123456"}
+{"msgcate":1,"name":"q","password":"123456"}
 
 【一对一聊天】
-{"msgcate":3,"from":2,"to":1,"msgtype":"text","message":"hello,gzy","sendtime":""}
-{"msgcate":3,"from":2,"to":1,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好","sendtime":""}
+{"msgcate":3,"from":2,"to":1,"fromname":"wsq","msgtype":"text","message":"hello,gzy","sendtime":""}
+{"msgcate":3,"from":2,"to":1,"fromname":"wsq","msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好","sendtime":""}
 
-{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"hello,zy","sendtime":""}
-{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"1234test","sendtime":""}
-{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好","sendtime":""}
-{"msgcate":3,"from":1,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好","sendtime":""}
-
-
-{"msgcate":3,"from":2,"to":3,"msgtype":"text","message":"你还哦","sendtime":""}
-{"msgcate":3,"from":2,"to":3,"msgtype":"text","message":"hello,gzy","sendtime":""}
+{"msgcate":3,"from":1,"to":2,"fromname":"gzy","msgtype":"text","message":"hello,zy","sendtime":""}
+{"msgcate":3,"from":1,"to":2,"fromname":"gzy","msgtype":"text","message":"1234test","sendtime":""}
+{"msgcate":3,"from":1,"to":2,"fromname":"gzy","msgtype":"text","message":"你好","sendtime":""}
+{"msgcate":3,"from":1,"to":2,"fromname":"gzy","msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好","sendtime":""}
 
 
-{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"hello,zy","sendtime":""}
-{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"1234test","sendtime":""}
-{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"你好","sendtime":""}
-{"msgcate":3,"from":3,"to":2,"msgtype":"text","message":"你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好","sendtime":""}
+{"msgcate":3,"from":2,"to":3,"fromname":"wsq","msgtype":"text","message":"你还哦","sendtime":""}
+{"msgcate":3,"from":2,"to":3,"fromname":"wsq","msgtype":"text","message":"hello,gzy","sendtime":""}
+
 
 
 【好友请求】
-{"msgcate":5,"from":1,"to":2,"optype":0} --发送请求
-{"msgcate":5,"from":1,"to":2,"optype":1} --接受请求
-{"msgcate":5,"from":1,"to":2,"optype":2} --拒绝请求
-{"msgcate":5,"from":1,"to":2,"optype":3} --忽略请求
-
-{"msgcate":5,"from":2,"to":3,"optype":0} --发送请求
-{"msgcate":5,"from":2,"to":3,"optype":1} --接受请求
+{"msgcate":5,"from":1,"fromname":"gzy","to":2,"optype":0} --发送请求
+{"msgcate":5,"from":1,"fromname":"gzy","to":2,"optype":1} --接受请求
+{"msgcate":5,"from":1,"fromname":"gzy","to":2,"optype":2} --拒绝请求
+{"msgcate":5,"from":1,"fromname":"gzy","to":2,"optype":3} --忽略请求
 
 
 【创建群】
-{"msgcate":6,"userid":3,"groupname":"读书城南","groupdesc":"符读书城南"}
-{"msgcate":6,"userid":2,"groupname":"dushuchengnan","groupdesc":"dushuchengnana"}
-{"msgcate":6,"userid":2,"groupname":"测试群2","groupdesc":"测试群2"}
+{"msgcate":6,"userid":1,"groupname":"读书城南","groupdesc":"符读书城南"}
+{"msgcate":6,"userid":2,"groupname":"测试群1","groupdesc":"测试群1述述"}
+{"msgcate":6,"userid":1,"groupname":"测试群2","groupdesc":"测试群2"}
+{"msgcate":6,"userid":1,"groupname":"测试群3","groupdesc":"测试群3"}
+{"msgcate":6,"userid":2,"groupname":"测试群4","groupdesc":"测试群4demiaoshu"}
+{"msgcate":6,"userid":2,"groupname":"测试群5","groupdesc":"测试群5de 述miaoshu"}
+{"msgcate":6,"userid":2,"groupname":"测试群6","groupdesc":"测试群6de 述miaoshu"}
 
 【加入群】
 {"msgcate":7,"userid":2,"groupid":1}
-{"msgcate":7,"userid":3,"groupid":2}
+{"msgcate":7,"userid":3,"groupid":1}
 
 
 【群聊天】
-{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello,z121245","sendtime":""}
-
-{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello,all","sendtime":""}
-
-{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"msgtype":"text","message":"hello测试一下","sendtime":""}
+{"msgcate":4,"id":-1,"toid":-1,"fromid":1,"groupid":1,"fromname":"gzy","msgtype":"text","message":"hello我是GZY","sendtime":""}
+{"msgcate":4,"id":-1,"toid":-1,"fromid":2,"groupid":1,"fromname":"wsq","msgtype":"text","message":"hello我是WSQ","sendtime":""}
+{"msgcate":4,"id":-1,"toid":-1,"fromid":1,"groupid":1,"fromname":"gzy","msgtype":"text","message":"测试消息","sendtime":""}
