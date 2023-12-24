@@ -1,3 +1,4 @@
+#include <iostream>
 
 /**
  * 容器的空间配置器allocator
@@ -10,22 +11,26 @@
 
 // 定义容器的空间配置器， 和c++标准库的allocator实现一样
 template <typename T>
-class Allocator
+struct Allocator
 {
     T *allocate(size_t n) // 开辟内存
     {
+        std::cout << "allocate" << std::endl;
         return static_cast<T *>(malloc(n * sizeof(T)));
     }
     void deallocate(T *p, size_t n) // 内存释放
     {
+        std::cout << "deallocate" << std::endl;
         free(p);
     }
     void construct(T *p, const T &t) // 对象构造
     {
+        std::cout << "construct" << std::endl;
         new (p) T(t); // 定位new
     }
     void destroy(T *p) // 对象析构
     {
+        std::cout << "destroy" << std::endl;
         p->~T(); //~T() 代表T类型的析构函数
     }
 };
@@ -35,7 +40,7 @@ template <typename T, typename Alloc = Allocator<T>>
 class vector
 {
 public:
-    vector<T>(int size = 10)
+    vector<T, Alloc>(int size = 10)
     {
         // 需要把内存开辟和对象构造分开处理
         _first = _last = _end = _alloc.allocate(size);
@@ -43,7 +48,7 @@ public:
         std::cout << "vector(int size = 10)" << std::endl;
     }
 
-    ~vector<T>()
+    ~vector<T, Alloc>()
     {
         // 析构容器有效的元素，然后释放容器的堆内存
         for (T *p = _first; p != _last; ++p)
@@ -60,7 +65,7 @@ public:
     }
 
     // 自定义拷贝构造函数
-    vector<T>(const vector<T> &other)
+    vector<T, Alloc>(const vector<T, Alloc> &other)
     {
         int size = other._end - other._first; // other._end - other._first 空间大小
         // _first = new T[size];
@@ -79,7 +84,7 @@ public:
     }
 
     // 赋值重载
-    vector<T> &operator=(const vector<T> &other)
+    vector<T, Alloc> &operator=(const vector<T> &other)
     {
         if (this != &other)
         {
@@ -126,7 +131,12 @@ public:
         {
             throw std::out_of_range("empty");
         }
+        // --_last;
+        // 不仅要_last指针--， 还要析构删除的元素
+        std::cout << "   --_last之前的： " << _last << "\n";
         --_last;
+        std::cout << "   --_last之后的： " << _last << "\n";
+        _alloc.destroy(_last);
     }
     // 判断容器是否已满
     bool full() const
@@ -160,16 +170,27 @@ private:
     T *_last;  // 指向数组中有效元素的后继位置
     T *_end;   // 指向数组空间的后继位置
 
+    Allocator<T> _alloc; // 定义容器的空间配置器对象
+
     // 容器的二倍扩容操作
     void expand()
     {
         int size = _end - _first;
-        T *ptmp = new T[2 * size];
+        // T *ptmp = new T[2 * size];
+        T *ptmp = _alloc.allocate(2 * size);
+
         for (int i = 0; i < size; i++)
         {
-            ptmp[i] = _first[i];
+            // ptmp[i] = _first[i];
+            _alloc.construct(ptmp + i, _first[i]);
         }
-        delete[] _first;
+        // delete[] _first;
+        for (T *p = _first; p != _last; p++)
+        {
+            _alloc.destroy(p);
+        }
+        _alloc.deallocate(_first, _last - _first);
+
         _first = ptmp;
         _last = _first + size;
         _end = _first + 2 * size;
@@ -177,3 +198,17 @@ private:
         std::cout << "expand" << std::endl;
     }
 };
+
+int main()
+{
+    vector<int> v;
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+
+    std::cout << "\n==========\n";
+    v.pop_back();
+    std::cout << "\n==========\n";
+
+    return 0;
+}
