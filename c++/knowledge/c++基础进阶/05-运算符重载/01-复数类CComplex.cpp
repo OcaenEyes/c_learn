@@ -22,6 +22,31 @@ public:
     //     return CComplex(this->mreal + c.mreal, this->mimage + c.mimage);
     // }
 
+    // 后置++
+    CComplex operator++(int)
+    {
+        // CComplex temp = *this;
+        // mreal += 1;
+        // mimage += 1;
+        // return temp;
+
+        return CComplex(mreal++, mimage++);
+    }
+
+    // 前置++
+    CComplex &operator++()
+    {
+        mreal += 1;
+        mimage += 1;
+        return *this;
+    }
+
+    void operator+=(const CComplex &c)
+    {
+        mreal += c.mreal;
+        mimage += c.mimage;
+    }
+
     void show()
     {
         std::cout << "real:" << mreal << "  image:" << mimage << std::endl;
@@ -54,7 +79,19 @@ int main()
     comp4.show();
 
     // 编译器做对象运算时候，会调用对象的运算符重载函数(优先调用成员方法)； 如果没有成员方法，就在全局作用域找合适的运算符重载函数
-    CComplex comp5 = 30 + comp1; 
+    CComplex comp5 = 30 + comp1;
+    comp5.show();
+
+    std::cout << " comp5 = comp1++: " << std::endl;
+    comp5 = comp1++;
+    comp5.show();
+
+    std::cout << " comp4 = ++comp1: " << std::endl;
+    comp4 = ++comp1;
+    comp4.show();
+
+    std::cout << " comp5 = comp1+=20: " << std::endl;
+    comp5 += 20;
     comp5.show();
 
     return 0;
