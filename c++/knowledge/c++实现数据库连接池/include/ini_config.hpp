@@ -2,8 +2,8 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-27 08:49:23
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-27 12:03:36
- * @FilePath: /c++/knowledge/c++实现数据库连接池/include/config.hpp
+ * @LastEditTime: 2023-12-27 15:29:02
+ * @FilePath: /c++/knowledge/c++实现数据库连接池/include/ini_config.hpp
  * @Description: 注释信息
  *
  * 借鉴学习自：https://blog.csdn.net/ljjjjjjjjjjj/article/details/125873100
@@ -109,8 +109,8 @@ private:
         {
             return false;
         }
-        std::string key = new_line.substr(0, pos);
-        std::string value = new_line.substr(pos + 1);
+        key = new_line.substr(0, pos);
+        value = new_line.substr(pos + 1);
         trim(key);
         if (key.empty())
         {
@@ -159,8 +159,83 @@ public:
                     m_mapConfig.insert(std::make_pair(section, k_v));
                 }
             }
+            key.clear();
+            value.clear();
+        }
+        ifs.close();
+        return true;
+    }
+
+    std::string readString(const std::string &section, const std::string &item, const std::string &default_value = "")
+    {
+        std::string tmp_s(section);
+        std::string tmp_i(item);
+        std::string def_v(default_value);
+
+        std::map<std::string, std::map<std::string, std::string>>::iterator it_section;
+        std::map<std::string, std::string>::iterator it_item;
+        std::map<std::string, std::string> k_v;
+        it_section = m_mapConfig.find(tmp_s);
+        if (it_section == m_mapConfig.end())
+        {
+            return def_v;
         }
 
-        return true;
+        k_v = it_section->second;
+        it_item = k_v.find(tmp_i);
+        if (it_item == k_v.end())
+        {
+            return def_v;
+        }
+
+        return it_item->second;
+    }
+
+    int readInt(const std::string &section, const std::string &item, int default_value = 0)
+    {
+        std::string tmp_s(section);
+        std::string tmp_i(item);
+
+        std::map<std::string, std::map<std::string, std::string>>::iterator it_section;
+        std::map<std::string, std::string>::iterator it_item;
+        std::map<std::string, std::string> k_v;
+        it_section = m_mapConfig.find(tmp_s);
+        if (it_section == m_mapConfig.end())
+        {
+            return default_value;
+        }
+
+        k_v = it_section->second;
+        it_item = k_v.find(tmp_i);
+        if (it_item == k_v.end())
+        {
+            return default_value;
+        }
+
+        return atoi(it_item->second.c_str());
+    }
+
+    float readFloat(const std::string &section, const std::string &item, float default_value = 0.0f)
+    {
+        std::string tmp_s(section);
+        std::string tmp_i(item);
+
+        std::map<std::string, std::map<std::string, std::string>>::iterator it_section;
+        std::map<std::string, std::string>::iterator it_item;
+        std::map<std::string, std::string> k_v;
+        it_section = m_mapConfig.find(tmp_s);
+        if (it_section == m_mapConfig.end())
+        {
+            return default_value;
+        }
+
+        k_v = it_section->second;
+        it_item = k_v.find(tmp_i);
+        if (it_item == k_v.end())
+        {
+            return default_value;
+        }
+
+        return atof(it_item->second.c_str());
     }
 };
