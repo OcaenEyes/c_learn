@@ -18,4 +18,4 @@ configure_file(${PROJECT_SOURCE_DIR}/conf/config.ini ${EXECUTABLE_OUTPUT_PATH}/c
 
 add_executable(mysqlpool ${SRC_LIST}) # 生成可执行文件mysqlpool
 
-target_link_libraries(mysqlpool mysqlclient) # 链接mysqlclient库
+target_link_libraries(mysqlpool mysqlclient pthread) # 链接mysqlclient库

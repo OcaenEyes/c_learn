@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-26 14:44:47
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-27 03:00:24
+ * @LastEditTime: 2023-12-28 07:42:52
  * @FilePath: /c++/knowledge/c++实现数据库连接池/include/db/mysql_connection.hpp
  * @Description: 注释信息
  */
@@ -11,11 +11,13 @@
 #include <string>
 #include "common/public.h"
 #include <mysql/mysql.h>
+#include <ctime>
 
 class MysqlConnection
 {
 private:
-    MYSQL *_conn;
+    MYSQL *_conn;            // 表示和mysql的一条连接
+    std::clock_t _startTime; // 记录进入队列的时间【从进入队列的时间开始，计算进入空闲状态后的存活时间】
 
 public:
     MysqlConnection(/* args */)
@@ -72,4 +74,12 @@ public:
 
     // 获取连接
     MYSQL *getConnection() { return _conn; }
+
+    // 更新存活时间
+    void refreshAliveTime() { _startTime = clock(); }
+
+    // 获取存活时间
+    std::time_t getAliveTime() const { return clock() - _startTime; }
+
+private:
 };
