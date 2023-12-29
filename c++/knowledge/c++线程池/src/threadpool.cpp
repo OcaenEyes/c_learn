@@ -1,0 +1,157 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2023-12-29 02:58:10
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2023-12-29 07:45:15
+ * @FilePath: /c++/knowledge/c++线程池/src/threadpool.cpp
+ * @Description: 注释信息
+ */
+#include "../include/threadpool.h"
+#include <iostream>
+
+const int TASK_MAX_THRESHOLD = 10;
+
+// 构造线程池
+ThreadPool::ThreadPool() : init_thread_num_(0),
+                           task_cnt_(0),
+                           task_queue_max_threshold_(TASK_MAX_THRESHOLD),
+                           thread_pool_mode_(ThreadPoolMode::FIXED)
+
+{
+}
+
+// 析构线程池
+ThreadPool::~ThreadPool()
+{
+}
+
+// 启动线程池
+void ThreadPool::start(int num)
+{
+    init_thread_num_ = num;
+
+    // 记录初始线程个数
+
+    // 创建线程对象,并插入std::vector<Thread *> threads_;
+    for (int i = 0; i < init_thread_num_; i++)
+    {
+        std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
+        // auto ptr = std::make_unique<Thread>(std::bind(&ThreadPool::thread_func, this)); // 创建线程对象，并绑定;【方式二】  
+        // threads_.emplace_back(std::move(ptr));
+        threads_.emplace_back(std::move(ptr)); // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
+    }
+
+    // 启动所有线程, 遍历std::vector<Thread *> threads_;执行
+    for (int i = 0; i < init_thread_num_; i++)
+    {
+        threads_[i]->start();
+    }
+}
+
+// 设置线程池工作模式
+void ThreadPool::set_mode(ThreadPoolMode mode)
+{
+    thread_pool_mode_ = mode;
+}
+
+// 设置任务队列的最大上限阈值
+void ThreadPool::set_task_queue_max_hold(int max_hold)
+{
+    task_queue_max_threshold_ = max_hold;
+}
+
+// 提交任务到线程池
+void ThreadPool::submit_task(std::shared_ptr<Task> task)
+{
+    // 获取锁
+    std::unique_lock<std::mutex> lock(task_queue_mutex_);
+    // 线程通信， 等待任务队列有空余，把当前任务加入 任务队列
+    /**
+     *  等待任务队列有空余
+     *   1) wait(lock,条件)                    一直等
+     *   2）wait_for(lock,超时时长N,条件)        等待了N时长后，就不再等了 ;
+     *          - 如果返回值是 false， 说明等待了N时长后，依然条件不满足
+     *   3) wait_until(lock,超时截止时间N,条件)  截止第N时间，就不再等
+     *
+     */
+    bool state_ = cond_task_not_full_.wait_for(lock, std::chrono::seconds(max_wait_time_), [&]() -> bool
+                                               { return task_queue_.size() < task_queue_max_threshold_; }); // 等待任务队列未满， 即等待cond_task_not_full_条件变量 ; 进入等待状态后释放锁; 等待1S
+    if (!state_)
+    {
+        // 等待超时， 任务队列依然未空， 提交任务失败
+        std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task) task_queue_ is full, submit task fail!" << std::endl;
+        return;
+    }
+
+    std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task)  submit task success! thread id :" << std::this_thread::get_id() << std::endl;
+
+    // 任务队列未满， 即cond_task_not_full_条件变量满足， 将任务加入task_queue_
+    task_queue_.emplace(task);
+    task_cnt_++;
+
+    // 因为新放入任务，则任务队列不为空，cond_task_not_empty_进行通知
+    cond_task_not_empty_.notify_all();
+}
+
+// 线程池内部的 线程函数， 用于线程对象去执行 【通过std::bind 在 new Thread对象时】
+void ThreadPool::thread_func()
+{
+    // std::cout << "begin thread_func():" << std::this_thread::get_id() << "\n ";
+    // std::cout << "end thread_func():" << std::this_thread::get_id() << "\n ";
+
+    // 线程内部循环， 不断从任务队列中取出任务，并执行
+    while (true)
+    {
+        // 从任务队列中取出任务
+        std::shared_ptr<Task> task_;
+        {
+            // 取锁
+            std::unique_lock<std::mutex> lock(task_queue_mutex_);
+
+            std::cout << "ThreadPool::thread_func() try to get task , thread id :" << std::this_thread::get_id() << std::endl;
+            // 等待任务队列不为空，即等待cond_task_not_empty_条件变量
+            cond_task_not_empty_.wait(lock, [&]() -> bool
+                                      { return !task_queue_.empty(); }); // 进入等待状态后释放锁; 等待直到cond_task_not_empty_条件变量满足， 即等待任务队列
+
+            task_ = task_queue_.front(); // 任务队列不为空， 即cond_task_not_empty_条件变量满足， 将任务从任务队列中取出
+            task_queue_.pop();           // 出队
+            task_cnt_--;                 // task数量减减
+
+            std::cout << "ThreadPool::thread_func() get task success , thread id :" << std::this_thread::get_id() << std::endl;
+
+            // 任务队列已空， 即cond_task_not_empty_条件变量不满足， 通知其他线程继续 提取任务
+            if (!task_queue_.empty())
+            {
+                cond_task_not_empty_.notify_all();
+            }
+
+            // 取出任务之后需要cond_task_not_full_通知
+            cond_task_not_full_.notify_all();
+        }
+
+        // 执行任务 【应该在锁外执行】
+        if (task_ != nullptr)
+        {
+            std::cout << "ThreadPool::thread_func()  run task  , thread id :" << std::this_thread::get_id() << std::endl;
+            task_->run();
+        }
+    }
+}
+
+// 线程构造
+Thread::Thread(std::function<void()> func) : func_(func)
+{
+}
+
+// 线程析构
+Thread::~Thread()
+{
+}
+
+// 线程启动
+void Thread::start()
+{
+    // 创建一个线程，来执行一个线程函数
+    std::thread t(func_); // c++11  线程对象t  和线程函数func_
+    t.detach();           // 线程分离
+}
