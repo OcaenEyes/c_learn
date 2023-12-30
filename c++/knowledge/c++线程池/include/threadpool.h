@@ -70,6 +70,10 @@ private:
     std::vector<std::unique_ptr<Thread>> threads_; // 线程容器【存放线程的指针】  std::unique_ptr 独享资源的智能指针
     ThreadPoolMode thread_pool_mode_;              // 线程池的模式
     int init_thread_num_;                          // 初始线程数量
+    std::atomic_int thread_busy_num_;              // 线程忙数量
+    std::atomic_int thread_alive_num_;             // 线程存活数量
+    std::atomic_int thread_exit_num_;              // 线程退出数量
+    std::atomic_int thread_idle_num_;              //  空闲线程数量
 
     std::queue<std::shared_ptr<Task>> task_queue_; // 任务队列【存放任务的指针】 ， 值类型是无法多态的； 但是使用Task裸指针,有可能会出现指针指向的任务对象被析构的情况【无法确保任务对象生命周期】， ===> 使用智能指针来实现，std::shared_ptr<Task>保持拉长对象生命周期 ，且可以自动释放资源 ;std::shared_ptr 共享资源的智能指针
     std::atomic_uint task_cnt_;                    // 任务数量【原子操作】
@@ -81,7 +85,14 @@ private:
 
     int max_wait_time_; // 最大等待时间【秒】
 
+    std::atomic_bool stop_;    // 停止标志【原子操作】
+    std::atomic_bool running_; // 运行标志【原子操作】
+    std::atomic_bool init_;    // 初始化标志【原子操作】
+    std::atomic_bool exit_;    // 退出标志【原子操作】
+
     void thread_func(); // 线程函数
+
+    bool check_pool_running() const; // 检查线程池是否在运行
 
 public:
     ThreadPool(/* args */);

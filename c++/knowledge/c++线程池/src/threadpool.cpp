@@ -15,7 +15,8 @@ const int TASK_MAX_THRESHOLD = 10;
 ThreadPool::ThreadPool() : init_thread_num_(0),
                            task_cnt_(0),
                            task_queue_max_threshold_(TASK_MAX_THRESHOLD),
-                           thread_pool_mode_(ThreadPoolMode::FIXED)
+                           thread_pool_mode_(ThreadPoolMode::FIXED),
+                           running_(false)
 
 {
 }
@@ -28,6 +29,9 @@ ThreadPool::~ThreadPool()
 // 启动线程池
 void ThreadPool::start(int num)
 {
+    running_ = true;
+
+    // 设置初始线程个数
     init_thread_num_ = num;
 
     // 记录初始线程个数
@@ -44,18 +48,35 @@ void ThreadPool::start(int num)
     for (int i = 0; i < init_thread_num_; i++)
     {
         threads_[i]->start();
+
+        // 在启动线程后，就记录初始空闲线程数量
+        thread_idle_num_++;
     }
+}
+
+// 检查线程池运行状态
+bool ThreadPool::check_pool_running() const
+{
+    return running_;
 }
 
 // 设置线程池工作模式
 void ThreadPool::set_mode(ThreadPoolMode mode)
 {
+    if (check_pool_running())
+    {
+        return;
+    }
     thread_pool_mode_ = mode;
 }
 
 // 设置任务队列的最大上限阈值
 void ThreadPool::set_task_queue_max_hold(int max_hold)
 {
+    if (check_pool_running())
+    {
+        return;
+    }
     task_queue_max_threshold_ = max_hold;
 }
 
@@ -91,6 +112,9 @@ Result ThreadPool::submit_task(std::shared_ptr<Task> task)
 
     // 因为新放入任务，则任务队列不为空，cond_task_not_empty_进行通知
     cond_task_not_empty_.notify_all();
+
+
+    // 需要根据任务数量和空闲线程数量，判断是否需要创建新的线程出来 【cached模式， 任务处理比较紧急 ，场景小而快的任务】
 
     // 返回Result对象
     // 思路一：Result是属于某个任务的 task->getResult()  ----  XX ---此路不通，  由于线程执行完task之后，task对象就被析构掉了，此时已经无法进行 task->getResult()
