@@ -57,9 +57,27 @@ int main()
     // 问题二：如何设计Result机制 来接收提交任务之后的线程处理结果呢？
     // 需要先有submit提交，执行之后有结果res，才能有结果res.get, 需要用到线程通信，使用信号量实现
 
-    Result res = pool.submit_task(std::make_shared<MyTask>(1,10));
-    int sum = res.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
+    Result res1 = pool.submit_task(std::make_shared<MyTask>(1, 10));
+    int sum1 = res1.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
+
+    Result res2 = pool.submit_task(std::make_shared<MyTask>(11, 20));
+    int sum2 = res2.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
+
+    Result res3 = pool.submit_task(std::make_shared<MyTask>(21, 30));
+    int sum3 = res3.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
+
+    Result res4 = pool.submit_task(std::make_shared<MyTask>(31, 40));
+    int sum4 = res4.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
+
+    int sum = sum1 + sum2 + sum3 + sum4;
     std::cout << "sum = " << sum << std::endl;
+
+    /**
+     * Master - Slave线程模型
+     * 1.Master线程用来分解任务，然后给各个Slave线程分配任务
+     * 2.等待各个Slave线程执行完成任务，返回结果
+     * 3.Master线程合并各个任务结果，输出
+     */
 
     getchar();
     return 0;
