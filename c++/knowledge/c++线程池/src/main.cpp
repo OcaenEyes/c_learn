@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-28 09:49:21
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-29 09:44:33
+ * @LastEditTime: 2023-12-29 14:15:48
  * @FilePath: /c++/knowledge/c++线程池/src/main.cpp
  * @Description: 注释信息
  */
@@ -55,9 +55,10 @@ int main()
 
     // 提交任务到线程池
     // 问题二：如何设计Result机制 来接收提交任务之后的线程处理结果呢？
+    // 需要先有submit提交，执行之后有结果res，才能有结果res.get, 需要用到线程通信，使用信号量实现
 
     Result res = pool.submit_task(std::make_shared<MyTask>());
-    res.get(); // 读取到task在线程调度运行之后的结果
+    int sum = res.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
 
     pool.submit_task(std::make_shared<MyTask>());
     pool.submit_task(std::make_shared<MyTask>());

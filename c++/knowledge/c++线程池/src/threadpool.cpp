@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 02:58:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-29 07:45:15
+ * @LastEditTime: 2023-12-29 15:20:21
  * @FilePath: /c++/knowledge/c++线程池/src/threadpool.cpp
  * @Description: 注释信息
  */
@@ -35,10 +35,9 @@ void ThreadPool::start(int num)
     // 创建线程对象,并插入std::vector<Thread *> threads_;
     for (int i = 0; i < init_thread_num_; i++)
     {
-        std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
-        // auto ptr = std::make_unique<Thread>(std::bind(&ThreadPool::thread_func, this)); // 创建线程对象，并绑定;【方式二】  
-        // threads_.emplace_back(std::move(ptr));
-        threads_.emplace_back(std::move(ptr)); // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
+        // std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
+        std::unique_ptr<Thread> ptr = std::make_unique<Thread>(std::bind(&ThreadPool::thread_func, this)); // 创建线程对象，并绑定;【方式二】
+        threads_.emplace_back(std::move(ptr));                                                             // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
     }
 
     // 启动所有线程, 遍历std::vector<Thread *> threads_;执行
@@ -61,7 +60,7 @@ void ThreadPool::set_task_queue_max_hold(int max_hold)
 }
 
 // 提交任务到线程池
-void ThreadPool::submit_task(std::shared_ptr<Task> task)
+Result ThreadPool::submit_task(std::shared_ptr<Task> task)
 {
     // 获取锁
     std::unique_lock<std::mutex> lock(task_queue_mutex_);
@@ -80,7 +79,7 @@ void ThreadPool::submit_task(std::shared_ptr<Task> task)
     {
         // 等待超时， 任务队列依然未空， 提交任务失败
         std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task) task_queue_ is full, submit task fail!" << std::endl;
-        return;
+        return Result(task, false);
     }
 
     std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task)  submit task success! thread id :" << std::this_thread::get_id() << std::endl;
@@ -91,6 +90,11 @@ void ThreadPool::submit_task(std::shared_ptr<Task> task)
 
     // 因为新放入任务，则任务队列不为空，cond_task_not_empty_进行通知
     cond_task_not_empty_.notify_all();
+
+    // 返回Result对象
+    // 思路一：Result是属于某个任务的 task->getResult()  ----  XX ---此路不通，  由于线程执行完task之后，task对象就被析构掉了，此时已经无法进行 task->getResult()
+    // 思路二：Result(task),  用户Result把task包装起来
+    return Result(task, true);
 }
 
 // 线程池内部的 线程函数， 用于线程对象去执行 【通过std::bind 在 new Thread对象时】
@@ -133,7 +137,7 @@ void ThreadPool::thread_func()
         if (task_ != nullptr)
         {
             std::cout << "ThreadPool::thread_func()  run task  , thread id :" << std::this_thread::get_id() << std::endl;
-            task_->run();
+            task_->exec();
         }
     }
 }
@@ -154,4 +158,15 @@ void Thread::start()
     // 创建一个线程，来执行一个线程函数
     std::thread t(func_); // c++11  线程对象t  和线程函数func_
     t.detach();           // 线程分离
+}
+
+//
+void Task::exec()
+{
+    result_->set_val(run()); // 此处发生多态调用
+}
+
+void Task::set_result(Result *result)
+{
+    result_ = result;
 }

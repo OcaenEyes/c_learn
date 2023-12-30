@@ -2,12 +2,14 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 09:33:23
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-29 09:57:52
+ * @LastEditTime: 2023-12-29 15:13:12
  * @FilePath: /c++/knowledge/c++线程池/include/common/public.hpp
  * @Description: 注释信息
  */
 
 #include <memory>
+#include <condition_variable>
+#include <mutex>
 
 // Any类型：可以接受任意数据的类型
 class Any
@@ -33,9 +35,21 @@ private:
     };
 
 public:
+    // 构造函数 , 可以让Any类型 接受其他任意类型的数据
     template <typename T>
-    Any(T value) : pBase_(new Derived<T>(value)) {}
-    Any() {}
+    Any(T value) : pBase_(std::make_unique<Derived<T>>(value)) {}
+
+    // 把Any对象里存储的data数据提取出来
+    template <typename T>
+    T cast_()
+    {
+        // 基类指针指向派生类对象 【将Base基类指针转为Derived派生类指针】
+        return static_cast<Derived<T> *>(pBase_.get())->data_;
+    }
+
+    Any()
+    {
+    }
     ~Any() {}
 
     // 禁用拷贝构造
@@ -69,4 +83,69 @@ public:
 private:
     // 定一个一个基类指针
     std::unique_ptr<Base> pBase_;
+};
+
+// 实现一个信号量类
+class Semaphore
+{
+private:
+    int res_limit_;
+    std::mutex mtx_;
+    std::condition_variable cond_;
+
+public:
+    Semaphore(int res_limit = 0) : res_limit_(res_limit) {}
+    ~Semaphore() {}
+
+    // 获取一个信号量资源
+    void wait()
+    {
+        std::unique_lock<std::mutex> lock(mtx_);
+        // 等待带信号量有资源，没有资源的话，会阻塞当前线程
+        cond_.wait(lock, [&]() -> bool
+                   { return res_limit_ > 0; });
+        res_limit_--;
+    }
+    // 增加一个信号量资源
+    void post()
+    {
+        std::lock_guard<std::mutex> lock(mtx_);
+        res_limit_++;
+        cond_.notify_all();
+    }
+};
+
+class Task; // Task类型的前置声明
+// 实现接收  提交到线程池的task任务 在执行完成后的返回值 类型Result
+class Result
+{
+private:
+    Any any_;                    // 存储任务的返回值
+    Semaphore sem_;              // 信号量,用于线程通信
+    std::shared_ptr<Task> task_; // 指向对应获取返回值的 任务对象
+    std::atomic_bool is_valid_;  // 原子变量, 用于判断任务返回值是否有效
+
+public:
+    Result(std::shared_ptr<Task> task, bool is_valid = true) : task_(task), is_valid_(is_valid) {}
+
+    ~Result() {}
+
+    // set_val方法， 获取任务执行完的返回值, task->run()之后 把run的返回值 通过set_val 存入any_
+    void set_val(Any &&val)
+    {
+        any_ = std::move(val);
+        sem_.post(); // 执行完任务，通知信号量，增加一个资源
+    }
+
+    // get方法，用户调用这个方法 获取task的返回值
+    Any get()
+    {
+        if (!is_valid_)
+        {
+            return "";
+        }
+
+        sem_.wait(); // 等待信号量, task任务如果没有执行完，这里会阻塞用户的线程
+        return std::move(any_);
+    }
 };

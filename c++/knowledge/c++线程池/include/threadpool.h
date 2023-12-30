@@ -1,3 +1,11 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2023-12-29 14:44:13
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2023-12-29 15:21:55
+ * @FilePath: /c++/knowledge/c++线程池/include/threadpool.h
+ * @Description: 注释信息
+ */
 #ifndef __THREADPOOL_H__
 #define __THREADPOOL_H__
 
@@ -17,13 +25,16 @@
 class Task
 {
 private:
-    /* data */
+    Result *result_; // 任务结果
 public:
-    Task(/* args */) {}
+    Task(/* args */) : result_(nullptr) {}
     ~Task() {}
 
+    void exec();           // 执行
     virtual Any run() = 0; // 任务处理方法， 子类必须重写
     // virtual Task *clone() = 0; // 创建当前任务的副本， 用于线程池调度
+
+    void set_result(Result *result);
 };
 
 // 自定义线程类
@@ -80,10 +91,10 @@ public:
     // 禁用赋值
     ThreadPool &operator=(const ThreadPool &) = delete;
 
-    void start(int num = 4);                      // 启动线程池， 在启动的时候填入初始化的线程数量，默认值是4
-    void set_mode(ThreadPoolMode mode);           // 设置线程池的模式
-    void set_task_queue_max_hold(int max_hold);   // 设置任务队列的最大上限阈值
-    void submit_task(std::shared_ptr<Task> task); // 提交任务到线程池 【智能指针的方式】
+    void start(int num = 4);                        // 启动线程池， 在启动的时候填入初始化的线程数量，默认值是4
+    void set_mode(ThreadPoolMode mode);             // 设置线程池的模式
+    void set_task_queue_max_hold(int max_hold);     // 设置任务队列的最大上限阈值
+    Result submit_task(std::shared_ptr<Task> task); // 提交任务到线程池 【智能指针的方式】
 };
 
 #endif
