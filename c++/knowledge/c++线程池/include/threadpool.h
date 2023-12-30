@@ -30,7 +30,8 @@ public:
     Task(/* args */) : result_(nullptr) {}
     ~Task() {}
 
-    void exec();           // 执行
+    void exec(); // 执行
+
     virtual Any run() = 0; // 任务处理方法， 子类必须重写
     // virtual Task *clone() = 0; // 创建当前任务的副本， 用于线程池调度
 

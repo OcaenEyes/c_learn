@@ -35,9 +35,9 @@ void ThreadPool::start(int num)
     // 创建线程对象,并插入std::vector<Thread *> threads_;
     for (int i = 0; i < init_thread_num_; i++)
     {
-        // std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
-        std::unique_ptr<Thread> ptr = std::make_unique<Thread>(std::bind(&ThreadPool::thread_func, this)); // 创建线程对象，并绑定;【方式二】
-        threads_.emplace_back(std::move(ptr));                                                             // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
+        std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
+        // std::unique_ptr<Thread> ptr = std::make_unique<Thread>(std::bind(&ThreadPool::thread_func, this)); // 创建线程对象，并绑定;【方式二 】c++14之后才有
+        threads_.emplace_back(std::move(ptr)); // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
     }
 
     // 启动所有线程, 遍历std::vector<Thread *> threads_;执行
@@ -78,12 +78,13 @@ Result ThreadPool::submit_task(std::shared_ptr<Task> task)
     if (!state_)
     {
         // 等待超时， 任务队列依然未空， 提交任务失败
-        std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task) task_queue_ is full, submit task fail!" << std::endl;
+        // std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task) task_queue_ is full, submit task fail!" << std::endl;
+        std::cout << "submit_task fail \n";
         return Result(task, false);
     }
 
-    std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task)  submit task success! thread id :" << std::this_thread::get_id() << std::endl;
-
+    // std::cout << "ThreadPool::submit_task(std::shared_ptr<Task> task)  submit task success! thread id :" << std::this_thread::get_id() << std::endl;
+    std::cout << "submit_task success:" << std::this_thread::get_id() << "\n";
     // 任务队列未满， 即cond_task_not_full_条件变量满足， 将任务加入task_queue_
     task_queue_.emplace(task);
     task_cnt_++;
@@ -112,7 +113,8 @@ void ThreadPool::thread_func()
             // 取锁
             std::unique_lock<std::mutex> lock(task_queue_mutex_);
 
-            std::cout << "ThreadPool::thread_func() try to get task , thread id :" << std::this_thread::get_id() << std::endl;
+            // std::cout << "ThreadPool::thread_func() try to get task , thread id :" << std::this_thread::get_id() << std::endl;
+            std::cout << "thread_func start exec:" << std::this_thread::get_id() << "\n";
             // 等待任务队列不为空，即等待cond_task_not_empty_条件变量
             cond_task_not_empty_.wait(lock, [&]() -> bool
                                       { return !task_queue_.empty(); }); // 进入等待状态后释放锁; 等待直到cond_task_not_empty_条件变量满足， 即等待任务队列
@@ -121,7 +123,8 @@ void ThreadPool::thread_func()
             task_queue_.pop();           // 出队
             task_cnt_--;                 // task数量减减
 
-            std::cout << "ThreadPool::thread_func() get task success , thread id :" << std::this_thread::get_id() << std::endl;
+            // std::cout << "ThreadPool::thread_func() get task success , thread id :" << std::this_thread::get_id() << std::endl;
+            std::cout << "thread_func get task success:" << std::this_thread::get_id() << "\n";
 
             // 任务队列已空， 即cond_task_not_empty_条件变量不满足， 通知其他线程继续 提取任务
             if (!task_queue_.empty())
@@ -136,7 +139,8 @@ void ThreadPool::thread_func()
         // 执行任务 【应该在锁外执行】
         if (task_ != nullptr)
         {
-            std::cout << "ThreadPool::thread_func()  run task  , thread id :" << std::this_thread::get_id() << std::endl;
+            // std::cout << "ThreadPool::thread_func()  run task  , thread id :" << std::this_thread::get_id() << std::endl;
+            std::cout << "thread_func run task at:" << std::this_thread::get_id() << "\n";
             task_->exec();
         }
     }
@@ -160,13 +164,18 @@ void Thread::start()
     t.detach();           // 线程分离
 }
 
-//
-void Task::exec()
-{
-    result_->set_val(run()); // 此处发生多态调用
-}
-
 void Task::set_result(Result *result)
 {
+    std::cout << "Task::set_result\n";
     result_ = result;
+}
+
+void Task::exec()
+{ // 执行
+    std::cout << "task exec\n";
+    if (result_ != nullptr)
+    {
+        std::cout << "开始调用result_->set_val(run())\n";
+        result_->set_val(run()); // 此处发生多态调用
+    }
 }

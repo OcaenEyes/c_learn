@@ -51,19 +51,15 @@ private:
 int main()
 {
     ThreadPool pool; // 创建一个的线程池
-    pool.start(5);   // 启动5个工作线程
+    pool.start(1);   // 启动5个工作线程
 
     // 提交任务到线程池
     // 问题二：如何设计Result机制 来接收提交任务之后的线程处理结果呢？
     // 需要先有submit提交，执行之后有结果res，才能有结果res.get, 需要用到线程通信，使用信号量实现
 
-    Result res = pool.submit_task(std::make_shared<MyTask>());
+    Result res = pool.submit_task(std::make_shared<MyTask>(1,10));
     int sum = res.get().cast_<int>(); // 读取到task在线程调度运行之后的结果
-
-    pool.submit_task(std::make_shared<MyTask>());
-    pool.submit_task(std::make_shared<MyTask>());
-    pool.submit_task(std::make_shared<MyTask>());
-    pool.submit_task(std::make_shared<MyTask>());
+    std::cout << "sum = " << sum << std::endl;
 
     getchar();
     return 0;

@@ -6,10 +6,14 @@
  * @FilePath: /c++/knowledge/c++线程池/include/common/public.hpp
  * @Description: 注释信息
  */
+#ifndef __THREADPOOL_PUBLIC_HPP__
+#define __THREADPOOL_PUBLIC_HPP__
 
 #include <memory>
 #include <condition_variable>
 #include <mutex>
+#include <iostream>
+#include<atomic>
 
 // Any类型：可以接受任意数据的类型
 class Any
@@ -29,15 +33,16 @@ private:
     public:
         Derived(T value) : data_(value) {}
         ~Derived() {}
-
-    private:
         T data_;
     };
 
 public:
     // 构造函数 , 可以让Any类型 接受其他任意类型的数据
     template <typename T>
-    Any(T value) : pBase_(std::make_unique<Derived<T>>(value)) {}
+    // Any(T value) : pBase_(std::make_unique<Derived<T>>(value)) {}
+    Any(T value) : pBase_(std::unique_ptr<Base>(new Derived<T>(value)))
+    {
+    }
 
     // 把Any对象里存储的data数据提取出来
     template <typename T>
@@ -116,6 +121,7 @@ public:
 };
 
 class Task; // Task类型的前置声明
+
 // 实现接收  提交到线程池的task任务 在执行完成后的返回值 类型Result
 class Result
 {
@@ -126,8 +132,21 @@ private:
     std::atomic_bool is_valid_;  // 原子变量, 用于判断任务返回值是否有效
 
 public:
-    Result(std::shared_ptr<Task> task, bool is_valid = true) : task_(task), is_valid_(is_valid) {}
+    Result(std::shared_ptr<Task> task, bool is_valid = true);
 
+    // 拷贝构造
+    Result(const Result &other);
+
+    // 拷贝赋值运算符
+    Result &operator=(const Result &other);
+
+    // 移动构造函数
+    Result(Result &&other) noexcept;
+
+    // 移动赋值运算符
+    Result &operator=(Result &&other) noexcept;
+
+    Result() {}
     ~Result() {}
 
     // set_val方法， 获取任务执行完的返回值, task->run()之后 把run的返回值 通过set_val 存入any_
@@ -135,6 +154,7 @@ public:
     {
         any_ = std::move(val);
         sem_.post(); // 执行完任务，通知信号量，增加一个资源
+        std::cout << "sem_.post\n";
     }
 
     // get方法，用户调用这个方法 获取task的返回值
@@ -144,8 +164,11 @@ public:
         {
             return "";
         }
-
+        std::cout << "sem_.wait\n";
         sem_.wait(); // 等待信号量, task任务如果没有执行完，这里会阻塞用户的线程
+
         return std::move(any_);
     }
 };
+
+#endif
