@@ -2,18 +2,22 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 02:58:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-29 15:20:21
+ * @LastEditTime: 2023-12-30 14:20:08
  * @FilePath: /c++/knowledge/c++线程池/src/threadpool.cpp
  * @Description: 注释信息
  */
 #include "../include/threadpool.h"
 #include <iostream>
+#include "threadpool.h"
 
-const int TASK_MAX_THRESHOLD = 10;
+const int TASK_MAX_THRESHOLD = 4;
+const int THREAD_MAX_THRESHOLD = 10;
+const int THREAD_MAX_IDLE_TIME = 60; // 60s空闲时间
 
 // 构造线程池
 ThreadPool::ThreadPool() : init_thread_num_(0),
                            task_cnt_(0),
+                           max_thread_num_(THREAD_MAX_THRESHOLD),
                            task_queue_max_threshold_(TASK_MAX_THRESHOLD),
                            thread_pool_mode_(ThreadPoolMode::FIXED),
                            running_(false)
@@ -69,6 +73,28 @@ void ThreadPool::set_mode(ThreadPoolMode mode)
     }
     thread_pool_mode_ = mode;
 }
+// 设置线程池的最大线程数量【cached模式下使用】
+void ThreadPool::set_max_thread_num(int max_thread_num)
+{
+    if (check_pool_running())
+    {
+        return;
+    }
+    if (thread_pool_mode_ == ThreadPoolMode::CACHED)
+    {
+        max_thread_num_ = max_thread_num;
+    }
+}
+
+// 设置线程池的最大空闲时间【cached模式下使用】
+void ThreadPool::set_max_idle_time(int max_idle_time)
+{
+    if (check_pool_running())
+    {
+        return;
+    }
+    max_thread_idle_time_ = max_idle_time\
+}
 
 // 设置任务队列的最大上限阈值
 void ThreadPool::set_task_queue_max_hold(int max_hold)
@@ -113,8 +139,13 @@ Result ThreadPool::submit_task(std::shared_ptr<Task> task)
     // 因为新放入任务，则任务队列不为空，cond_task_not_empty_进行通知
     cond_task_not_empty_.notify_all();
 
-
     // 需要根据任务数量和空闲线程数量，判断是否需要创建新的线程出来 【cached模式， 任务处理比较紧急 ，场景小而快的任务】
+    if (thread_pool_mode_ == ThreadPoolMode::CACHED &&
+        task_cnt_ >= init_thread_num_ &&
+        init_thread_num_ < max_thread_num_)
+    {
+        // 创建新线程
+    }
 
     // 返回Result对象
     // 思路一：Result是属于某个任务的 task->getResult()  ----  XX ---此路不通，  由于线程执行完task之后，task对象就被析构掉了，此时已经无法进行 task->getResult()
@@ -128,6 +159,8 @@ void ThreadPool::thread_func()
     // std::cout << "begin thread_func():" << std::this_thread::get_id() << "\n ";
     // std::cout << "end thread_func():" << std::this_thread::get_id() << "\n ";
 
+    auto last_time = std::chrono::high_resolution_clock::now();
+
     // 线程内部循环， 不断从任务队列中取出任务，并执行
     while (true)
     {
@@ -139,25 +172,52 @@ void ThreadPool::thread_func()
 
             // std::cout << "ThreadPool::thread_func() try to get task , thread id :" << std::this_thread::get_id() << std::endl;
             std::cout << "thread_func start exec:" << std::this_thread::get_id() << "\n";
-            // 等待任务队列不为空，即等待cond_task_not_empty_条件变量
-            cond_task_not_empty_.wait(lock, [&]() -> bool
-                                      { return !task_queue_.empty(); }); // 进入等待状态后释放锁; 等待直到cond_task_not_empty_条件变量满足， 即等待任务队列
 
-            task_ = task_queue_.front(); // 任务队列不为空， 即cond_task_not_empty_条件变量满足， 将任务从任务队列中取出
-            task_queue_.pop();           // 出队
-            task_cnt_--;                 // task数量减减
+            // cached模式下，有可能创建了很多线程； 但空闲时间超过了60s, 应把多余的线程结束回收掉（超过 初始数量的其他线程）
+            // 当前时间 -  上一次线程执行的时间 >60S
 
-            // std::cout << "ThreadPool::thread_func() get task success , thread id :" << std::this_thread::get_id() << std::endl;
-            std::cout << "thread_func get task success:" << std::this_thread::get_id() << "\n";
-
-            // 任务队列已空， 即cond_task_not_empty_条件变量不满足， 通知其他线程继续 提取任务
-            if (!task_queue_.empty())
+            if (thread_pool_mode_ == ThreadPoolMode::CACHED)
             {
-                cond_task_not_empty_.notify_all();
+                //  每秒返回一次，  需要区分：超时返回、任务执行返回
+                while (!task_queue_.empty())
+                {
+                    if (std::cv_status::timeout == cond_task_not_empty_.wait_for(lock, std::chrono::seconds(1)))
+                    {
+                        // 超时返回
+                        auto now = std::chrono::high_resolution_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - last_time);
+                        if (duration.count() >= 60)
+                        {
+                            // 执行超时任务
+                            std::cout << "开始回收当前线程, thread id :" << std::this_thread::get_id() << std::endl;
+                            return;
+                        }
+                    }
+                }
             }
+            else
+            {
 
-            // 取出任务之后需要cond_task_not_full_通知
-            cond_task_not_full_.notify_all();
+                // 等待任务队列不为空，即等待cond_task_not_empty_条件变量
+                cond_task_not_empty_.wait(lock, [&]() -> bool
+                                          { return !task_queue_.empty(); }); // 进入等待状态后释放锁; 等待直到cond_task_not_empty_条件变量满足， 即等待任务队列
+
+                task_ = task_queue_.front(); // 任务队列不为空， 即cond_task_not_empty_条件变量满足， 将任务从任务队列中取出
+                task_queue_.pop();           // 出队
+                task_cnt_--;                 // task数量减减
+
+                // std::cout << "ThreadPool::thread_func() get task success , thread id :" << std::this_thread::get_id() << std::endl;
+                std::cout << "thread_func get task success:" << std::this_thread::get_id() << "\n";
+
+                // 任务队列已空， 即cond_task_not_empty_条件变量不满足， 通知其他线程继续 提取任务
+                if (!task_queue_.empty())
+                {
+                    cond_task_not_empty_.notify_all();
+                }
+
+                // 取出任务之后需要cond_task_not_full_通知
+                cond_task_not_full_.notify_all();
+            }
         }
 
         // 执行任务 【应该在锁外执行】
@@ -167,6 +227,9 @@ void ThreadPool::thread_func()
             std::cout << "thread_func run task at:" << std::this_thread::get_id() << "\n";
             task_->exec();
         }
+
+        thread_idle_num_++;                                    // 执行完后 空闲线程++
+        last_time = std::chrono::high_resolution_clock::now(); // 线程执行完后， 最新的当前时间
     }
 }
 
