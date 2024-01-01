@@ -13,7 +13,7 @@
 #include <condition_variable>
 #include <mutex>
 #include <iostream>
-#include<atomic>
+#include <atomic>
 
 // Any类型：可以接受任意数据的类型
 class Any
@@ -98,13 +98,23 @@ private:
     std::mutex mtx_;
     std::condition_variable cond_;
 
+    std::atomic_bool exited_; //
+
 public:
-    Semaphore(int res_limit = 0) : res_limit_(res_limit) {}
-    ~Semaphore() {}
+    Semaphore(int res_limit = 0) : res_limit_(res_limit), exited_(false) {}
+    ~Semaphore()
+    {
+        exited_ = true;
+    }
 
     // 获取一个信号量资源
     void wait()
     {
+        if (exited_)
+        {
+            return;
+        }
+
         std::unique_lock<std::mutex> lock(mtx_);
         // 等待带信号量有资源，没有资源的话，会阻塞当前线程
         cond_.wait(lock, [&]() -> bool
@@ -114,9 +124,14 @@ public:
     // 增加一个信号量资源
     void post()
     {
+        if (exited_)
+        {
+            return;
+        }
+
         std::lock_guard<std::mutex> lock(mtx_);
         res_limit_++;
-        cond_.notify_all();
+        cond_.notify_all(); //
     }
 };
 

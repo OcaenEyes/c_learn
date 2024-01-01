@@ -13,7 +13,7 @@
 
 const int TASK_MAX_THRESHOLD = 4;
 const int THREAD_MAX_THRESHOLD = 10;
-const int THREAD_MAX_IDLE_TIME = 60; // 60s空闲时间【线程最大空闲时间】
+const int THREAD_MAX_IDLE_TIME = 10; // 60s空闲时间【线程最大空闲时间】
 
 // 构造线程池
 ThreadPool::ThreadPool() : init_thread_num_(0),
