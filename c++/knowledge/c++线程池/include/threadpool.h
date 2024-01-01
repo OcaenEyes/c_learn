@@ -43,7 +43,7 @@ public:
 class Thread
 {
 private:
-    std::function<void()> func_;    // 线程函数
+    std::function<void(int)> func_;    // 线程函数
     static int generate_thread_id_; // 生成线程ID
     int thread_id_;                 // 保存线程ID
 public:
@@ -51,7 +51,7 @@ public:
     // using ThreadFunc = std::function<void()>;
 
     // 构造
-    Thread(std::function<void()> func); // Thread(ThreadFunc func);
+    Thread(std::function<void(int)> func); // Thread(ThreadFunc func);
 
     // 析构
     ~Thread();
@@ -97,8 +97,9 @@ private:
     std::atomic_bool running_; // 运行标志【原子操作】
     // std::atomic_bool init_;    // 初始化标志【原子操作】
     // std::atomic_bool exit_;    // 退出标志【原子操作】
+    std::condition_variable cond_exit_; // 退出条件变量
 
-    void thread_func(); // 线程函数
+    void thread_func(int thread_id); // 线程函数
 
     bool check_pool_running() const; // 检查线程池是否在运行
 

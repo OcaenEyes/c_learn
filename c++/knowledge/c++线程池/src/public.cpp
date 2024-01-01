@@ -4,7 +4,7 @@
 
 Result::Result(std::shared_ptr<Task> task, bool is_valid) : task_(task), is_valid_(is_valid)
 {
-    std::cout << " Result(std::shared_ptr<Task> task, bool is_valid = true)\n";
+    std::cout << " Result(std::shared_ptr<Task> task, bool is_valid)\n";
     task_->set_result(this);
 }
 

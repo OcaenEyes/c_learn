@@ -56,7 +56,7 @@ int main()
     pool.set_mode(ThreadPoolMode::CACHED); // 在线程池start之前可以设置
 
     // 启动5个工作线程
-    pool.start(5);
+    pool.start(1);
 
     // 提交任务到线程池
     // 问题二：如何设计Result机制 来接收提交任务之后的线程处理结果呢？
