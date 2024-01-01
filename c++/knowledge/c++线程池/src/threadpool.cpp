@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 02:58:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-30 14:20:08
+ * @LastEditTime: 2023-12-31 14:46:24
  * @FilePath: /c++/knowledge/c++线程池/src/threadpool.cpp
  * @Description: 注释信息
  */
@@ -12,7 +12,7 @@
 
 const int TASK_MAX_THRESHOLD = 4;
 const int THREAD_MAX_THRESHOLD = 10;
-const int THREAD_MAX_IDLE_TIME = 60; // 60s空闲时间
+const int THREAD_MAX_IDLE_TIME = 60; // 60s空闲时间【线程最大空闲时间】
 
 // 构造线程池
 ThreadPool::ThreadPool() : init_thread_num_(0),
@@ -20,6 +20,7 @@ ThreadPool::ThreadPool() : init_thread_num_(0),
                            max_thread_num_(THREAD_MAX_THRESHOLD),
                            task_queue_max_threshold_(TASK_MAX_THRESHOLD),
                            thread_pool_mode_(ThreadPoolMode::FIXED),
+                           max_thread_idle_time_(THREAD_MAX_IDLE_TIME),
                            running_(false)
 
 {
@@ -37,15 +38,16 @@ void ThreadPool::start(int num)
 
     // 设置初始线程个数
     init_thread_num_ = num;
-
-    // 记录初始线程个数
+    thread_current_num_ = num;
 
     // 创建线程对象,并插入std::vector<Thread *> threads_;
     for (int i = 0; i < init_thread_num_; i++)
     {
         std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
         // std::unique_ptr<Thread> ptr = std::make_unique<Thread>(std::bind(&ThreadPool::thread_func, this)); // 创建线程对象，并绑定;【方式二 】c++14之后才有
-        threads_.emplace_back(std::move(ptr)); // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
+
+        int thread_id = ptr->get_thread_id();
+        threads_.emplace(thread_id, std::move(ptr)); // 在 C++11 之后，vector 容器中添加了新的方法：emplace_back() ，和 push_back() 一样的是都是在容器末尾添加一个新的元素进去，不同的是 emplace_back() 在效率上相比较于 push_back() 有了一定的提升。
     }
 
     // 启动所有线程, 遍历std::vector<Thread *> threads_;执行
@@ -93,7 +95,7 @@ void ThreadPool::set_max_idle_time(int max_idle_time)
     {
         return;
     }
-    max_thread_idle_time_ = max_idle_time\
+    max_thread_idle_time_ = max_idle_time;
 }
 
 // 设置任务队列的最大上限阈值
@@ -141,10 +143,14 @@ Result ThreadPool::submit_task(std::shared_ptr<Task> task)
 
     // 需要根据任务数量和空闲线程数量，判断是否需要创建新的线程出来 【cached模式， 任务处理比较紧急 ，场景小而快的任务】
     if (thread_pool_mode_ == ThreadPoolMode::CACHED &&
-        task_cnt_ >= init_thread_num_ &&
-        init_thread_num_ < max_thread_num_)
+        task_cnt_ >= thread_idle_num_ &&
+        thread_current_num_ < max_thread_num_)
     {
         // 创建新线程
+        std::unique_ptr<Thread> ptr(new Thread(std::bind(&ThreadPool::thread_func, this))); // 创建线程对象，并绑定【方式一】
+        int thread_id = ptr->get_thread_id();
+        threads_.emplace(thread_id, std::move(ptr));
+        thread_current_num_++;
     }
 
     // 返回Result对象
@@ -186,10 +192,14 @@ void ThreadPool::thread_func()
                         // 超时返回
                         auto now = std::chrono::high_resolution_clock::now();
                         auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - last_time);
-                        if (duration.count() >= 60)
+                        if (duration.count() >= max_thread_idle_time_ && thread_current_num_ > init_thread_num_)
                         {
                             // 执行超时任务
+                            // 开始回收当前线程， 记录线程数量的相关变量值修改
+                            // 把线程对象，从线程池的容器中删除
+
                             std::cout << "开始回收当前线程, thread id :" << std::this_thread::get_id() << std::endl;
+                            thread_current_num_--;
                             return;
                         }
                     }
@@ -233,8 +243,10 @@ void ThreadPool::thread_func()
     }
 }
 
+int Thread::generate_thread_id_ = 0;
+
 // 线程构造
-Thread::Thread(std::function<void()> func) : func_(func)
+Thread::Thread(std::function<void()> func) : func_(func), thread_id_(generate_thread_id_++)
 {
 }
 
@@ -249,6 +261,11 @@ void Thread::start()
     // 创建一个线程，来执行一个线程函数
     std::thread t(func_); // c++11  线程对象t  和线程函数func_
     t.detach();           // 线程分离
+}
+
+int Thread::get_thread_id() const
+{
+    return thread_id_;
 }
 
 void Task::set_result(Result *result)

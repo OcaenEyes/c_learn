@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 14:44:13
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-30 14:09:25
+ * @LastEditTime: 2023-12-31 14:24:01
  * @FilePath: /c++/knowledge/c++线程池/include/threadpool.h
  * @Description: 注释信息
  */
@@ -10,6 +10,7 @@
 #define __THREADPOOL_H__
 
 #include <vector>
+#include <unordered_map>
 #include <queue>
 #include <thread>
 #include <mutex>
@@ -42,7 +43,9 @@ public:
 class Thread
 {
 private:
-    std::function<void()> func_; // 线程函数
+    std::function<void()> func_;    // 线程函数
+    static int generate_thread_id_; // 生成线程ID
+    int thread_id_;                 // 保存线程ID
 public:
     // 线程函数对象类型
     // using ThreadFunc = std::function<void()>;
@@ -54,6 +57,9 @@ public:
     ~Thread();
 
     void start(); // 启动线程
+
+    // 获取线程ID
+    int get_thread_id() const;
 };
 
 // 线程池支持的模式
@@ -67,12 +73,15 @@ enum class ThreadPoolMode
 class ThreadPool
 {
 private:
-    std::vector<std::unique_ptr<Thread>> threads_; // 线程容器【存放线程的指针】  std::unique_ptr 独享资源的智能指针
-    ThreadPoolMode thread_pool_mode_;              // 线程池的模式
-    int init_thread_num_;                          // 初始线程数量
-    int max_thread_num_;                           // 最大线程数量
-    std::atomic_int thread_idle_num_;              //  空闲线程数量
-    int max_thread_idle_time_;                     // 最大空闲时间
+    // std::vector<std::unique_ptr<Thread>> threads_; // 线程容器【存放线程的指针】  std::unique_ptr 独享资源的智能指针
+    std::unordered_map<int, std::unique_ptr<Thread>> threads_; // 线程容器
+
+    ThreadPoolMode thread_pool_mode_;    // 线程池的模式
+    int init_thread_num_;                // 初始线程数量
+    int max_thread_num_;                 // 最大线程数量
+    std::atomic_int thread_current_num_; // 当前累计线程数量
+    std::atomic_int thread_idle_num_;    //  空闲线程数量
+    int max_thread_idle_time_;           // 最大空闲时间
 
     std::queue<std::shared_ptr<Task>> task_queue_; // 任务队列【存放任务的指针】 ， 值类型是无法多态的； 但是使用Task裸指针,有可能会出现指针指向的任务对象被析构的情况【无法确保任务对象生命周期】， ===> 使用智能指针来实现，std::shared_ptr<Task>保持拉长对象生命周期 ，且可以自动释放资源 ;std::shared_ptr 共享资源的智能指针
     std::atomic_uint task_cnt_;                    // 任务数量【原子操作】
