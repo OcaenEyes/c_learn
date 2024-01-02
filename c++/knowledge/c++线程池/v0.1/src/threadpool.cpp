@@ -2,8 +2,8 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 02:58:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-31 14:46:24
- * @FilePath: /c++/knowledge/c++线程池/src/threadpool.cpp
+ * @LastEditTime: 2024-01-02 11:51:50
+ * @FilePath: /c++/knowledge/c++线程池/v0.1/src/threadpool.cpp
  * @Description: 注释信息
  */
 #include "../include/threadpool.h"
@@ -45,6 +45,7 @@ ThreadPool::~ThreadPool()
 // 启动线程池
 void ThreadPool::start(int num)
 {
+    std::cout << "ThreadPool start" << std::endl;
     // 设置线程池运行状态
     running_ = true;
 
@@ -66,7 +67,7 @@ void ThreadPool::start(int num)
     for (int i = 0; i < init_thread_num_; i++)
     {
         threads_[i]->start();
-
+        
         // 在启动线程后，就记录初始空闲线程数量
         thread_idle_num_++;
     }

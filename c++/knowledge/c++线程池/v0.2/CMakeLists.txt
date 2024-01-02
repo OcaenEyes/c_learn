@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(threadpool CXX VERSION 1.0)
+project(threadpool VERSION 1.0 LANGUAGES CXX)
 
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 11)
@@ -11,7 +11,11 @@ set(LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)
 aux_source_directory(. SRC_LIST)
 
 # 生成动态库
-add_library(threadpool SHARED threadpool.cpp)
+add_library(threadpool SHARED threadpool.cpp threadpool.hpp)
+
+# 生成静态库
+add_library(threadpooll STATIC threadpool.cpp threadpool.hpp)
+
 # 安装头文件
 # install(FILES threadpool.h DESTINATION include)
 

@@ -2,8 +2,8 @@
  * @Author: OCEAN.GZY
  * @Date: 2023-12-29 14:44:13
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2023-12-31 14:24:01
- * @FilePath: /c++/knowledge/c++线程池/include/threadpool.h
+ * @LastEditTime: 2024-01-02 07:45:22
+ * @FilePath: /c++/knowledge/c++线程池/v0.1/include/threadpool.h
  * @Description: 注释信息
  */
 #ifndef __THREADPOOL_H__
@@ -109,7 +109,7 @@ public:
 
     // 禁用拷贝构造
     ThreadPool(const ThreadPool &) = delete;
-    // 禁用赋值
+    // 禁用赋值重载
     ThreadPool &operator=(const ThreadPool &) = delete;
 
     void start(int num = 4);                        // 启动线程池， 在启动的时候填入初始化的线程数量，默认值是4
