@@ -2,16 +2,12 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-02 09:16:55
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-02 11:56:45
+ * @LastEditTime: 2024-01-04 12:08:52
  * @FilePath: /c++/knowledge/c++线程池/v0.2/main.cpp
  * @Description: 注释信息
  */
 
-#include <thread>
-#include <functional>
-#include <iostream>
-#include <future>
-#include "threadpool.hpp"
+#include "threadpool.h"
 
 /**
  * 1.如何能让线程池提交任务更加方便
@@ -58,8 +54,9 @@ int main()
     ThreadPool pool;
     pool.start(4);
 
-    // getchar();
-
+    // auto r3 = pool.submit_task([](int answer)
+    //                            { return answer; },
+    //                            42);
 
     return 0;
 }
