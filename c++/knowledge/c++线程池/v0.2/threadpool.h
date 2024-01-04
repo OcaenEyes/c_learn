@@ -53,6 +53,7 @@ private:
 
 Thread::Thread(ThreadFunc func) : func_(func), thread_id_(generate_id_++)
 {
+    std::cout << "Thread ID: " << thread_id_ << "init\n";
 }
 
 Thread::~Thread()
@@ -214,37 +215,50 @@ bool ThreadPool::check_runing_state() const
 
 void ThreadPool::thread_func(int thread_id)
 {
+    std::cout << "Thread " << thread_id << " start thread_func." << std::endl;
     auto lasttime = std::chrono::high_resolution_clock::now(); // 获取当前时间
     while (true)
     {
         std::function<void()> task; // 定义任务函数
         {
             std::unique_lock<std::mutex> lock(task_queue_mutex_); // 取锁
-            if (!check_runing_state() && task_queue_.empty())
+            while (task_queue_.empty())
             {
-                threads_.erase(thread_id); // 删除线程
-                cond_exit_.notify_all();   // 通知所有等待线程
-                return;
-            }
-
-            if (
-                mode_ == ThreadPoolMode::MODE_CACHED && task_queue_.empty() && cur_thread_num_ > init_thread_num_ &&
-                std::cv_status::timeout == cond_not_empty_.wait_for(lock, std::chrono::seconds(1)))
-            {
-                auto now = std::chrono::high_resolution_clock::now();                             // 获取当前时间
-                auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - lasttime); // 计算时间
-                if (duration.count() >= thread_idle_time_)
+                std::cout << "任务为空,持续循环中。。。\n";
+                if (!check_runing_state())
                 {
+                    std::cout << "线程池关闭且任务为空\n";
                     threads_.erase(thread_id); // 删除线程
-                    cur_thread_num_--;         // 减少线程数
-                    thread_idle_count_--;      // 减少空闲线程数
-                    return;                    // 退出线程
+                    cond_exit_.notify_all();   // 通知所有等待线程
+                    return;
+                }
+
+                if (mode_ == ThreadPoolMode::MODE_CACHED)
+                {
+                    if (cur_thread_num_ > init_thread_num_ &&
+                        std::cv_status::timeout == cond_not_empty_.wait_for(lock, std::chrono::seconds(1)))
+                    {
+                        std::cout << "任务为空且是动态增加线程模式， 当前线程数量大于初始数量， 且等到任务超时了。。\n";
+                        auto now = std::chrono::high_resolution_clock::now();                             // 获取当前时间
+                        auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - lasttime); // 计算时间
+                        if (duration.count() >= thread_idle_time_)
+                        {
+                            threads_.erase(thread_id); // 删除线程
+                            cur_thread_num_--;         // 减少线程数
+                            thread_idle_count_--;      // 减少空闲线程数
+                            return;                    // 退出线程
+                        }
+                    }
+                }
+                else
+                {
+                    std::cout << "等待任务不为空\n";
+                    cond_not_empty_.wait(lock, [this]
+                                         { return !task_queue_.empty(); });
+                    std::cout << "等待任务结束\n";
                 }
             }
-
-            cond_not_empty_.wait(lock, [this]
-                                 { return running_ && !task_queue_.empty(); });
-
+            std::cout << "线程 " << thread_id << " 拿到任务\n";
             thread_idle_count_--;       // 减少空闲线程数
             task = task_queue_.front(); // 获取任务
             task_queue_.pop();          // 删除任务
@@ -252,13 +266,17 @@ void ThreadPool::thread_func(int thread_id)
 
             if (!task_queue_.empty())
             {
+                std::cout << "通知等待任务不为空的线程\n";
                 cond_not_empty_.notify_all(); // 通知其他等待线程
             }
+            std::cout << "通知等待任务不为满的线程\n";
             cond_not_full_.notify_all(); // 通知其他等待线程
         }
         if (task != nullptr)
         {
+            std::cout << "线程 " << thread_id << " 开始执行任务\n";
             task(); // 执行任务
+            std::cout << "线程 " << thread_id << " 执行任务结束\n";
         }
 
         thread_idle_count_++;                                 // 增加空闲线程数
@@ -276,7 +294,7 @@ void ThreadPool::start(int num)
     {
         std::unique_ptr<Thread> thread(new Thread(std::bind(&ThreadPool::thread_func, this, std::placeholders::_1))); // 创建线程
         int thread_id = thread->get_thread_id();                                                                      // 获取线程ID
-        threads_.emplace(thread_id, std::move(thread));                                                                          // 将线程加入线程池
+        threads_.emplace(thread_id, std::move(thread));                                                               // 将线程加入线程池
     }
 
     for (auto &&i : threads_)
@@ -287,14 +305,28 @@ void ThreadPool::start(int num)
     }
 }
 
-// template <typename F, typename... Args>
-// auto ThreadPool::submit_task(F &&f, Args &&...args) -> std::future<typename std::result_of<F(Args...)>::type>
-// {
-//     using return_type = typename std::result_of<F(Args...)>::type;
+template <typename F, typename... Args>
+auto ThreadPool::submit_task(F &&f, Args &&...args) -> std::future<typename std::result_of<F(Args...)>::type>
+{
+    std::cout << "submit task\n";
+    using return_type = typename std::result_of<F(Args...)>::type;
 
-//     auto task = std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...)); // 创建任务
+    auto task = std::make_shared<std::packaged_task<return_type()>>(std::bind(std::forward<F>(f), std::forward<Args>(args)...)); // 创建任务
 
-//     std::future<return_type> res = task->get_future(); // 获取任务结果
+    std::future<return_type> res = task->get_future(); // 获取任务结果
 
-//     return res;
-// }
+    std::unique_lock<std::mutex> lock(task_queue_mutex_); // 获取锁
+    if (!cond_not_full_.wait_for(lock, std::chrono::seconds(1), [this]
+                                { return task_queue_.size() < task_queue_threshold_; }))
+    {
+        /* code */
+    }
+
+
+    task_queue_.emplace([task]() { (*task)(); }); // 将任务加入队列
+    task_queue_size_++;
+
+    cond_not_empty_.notify_all(); // 通知有新的任务
+
+    return res;
+}
