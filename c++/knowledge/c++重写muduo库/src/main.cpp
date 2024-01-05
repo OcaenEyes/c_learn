@@ -7,11 +7,14 @@
  * @Description: 注释信息
  */
 
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include "logger.h"
+#include "timestamp.h"
 
-int main()
-{
+int main(){
+    std::cout << ocean_muduo::timestamp::now().to_string() <<"\n";
+
+
+    ocean_muduo::logger::instance().log("测试一下");
 
     return 0;
 }
