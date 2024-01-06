@@ -8,26 +8,50 @@
  */
 #include "inetaddress.h"
 
+#include <strings.h>
+
 namespace ocean_muduo
 {
 
+    // 构造函数
     inetaddress::inetaddress(/* args */)
     {
     }
-
+    // 析构函数
     inetaddress::~inetaddress()
     {
     }
 
-    inetaddress::inetaddress(uint16_t port, std::string ip) {}
+    // 有参构造
+    inetaddress::inetaddress(uint16_t port, std::string ip)
+    {
+        bzero(&addr_, sizeof(addr_));
+        addr_.sin_family = AF_INET;
+        addr_.sin_port = htons(port);
+        addr_.sin_addr.s_addr = inet_addr(ip.c_str());
+    }
 
+    // 有参构造
     inetaddress::inetaddress(const sockaddr_in &addr) : addr_(addr) {}
 
-    std::string inetaddress::to_ip() const {}
+    std::string inetaddress::to_ip() const {
+        // 从addr_中读取出ip地址
+        return inet_ntoa(addr_.sin_addr);
+        // 或者使用inet_ntop
+        // char ip[INET_ADDRSTRLEN];
+        // inet_ntop(AF_INET, &addr_.sin_addr, ip, INET_ADDRSTRLEN);
+        // return ip;
+    }
 
-    std::string inetaddress::to_ip_port() const {}
+    std::string inetaddress::to_ip_port() const {
+         // 从addr_中读取出ip地址和port端口
+        return std::string(to_ip()) + ":" + std::to_string(to_port());
+    }
 
-    uint16_t inetaddress::to_port() const {}
+    uint16_t inetaddress::to_port() const {
+        // 从addr_中读取出port端口
+        return ntohs(addr_.sin_port);
+    }
 
     const sockaddr_in *inetaddress::get_sock_addr() const
     {
