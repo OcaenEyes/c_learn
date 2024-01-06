@@ -28,7 +28,8 @@ namespace ocean_muduo
         channel(eventloop *loop, int fd);
         ~channel();
 
-        // fd得到Poller通知后，处理事件的
+        // fd得到Poller通知后，处理事件的。
+        // 调用相应的回调方法
         void handle_event(timestamp receive_time);
 
         // 设置读事件回调函数对象
@@ -41,7 +42,7 @@ namespace ocean_muduo
         void set_error_callback(const EventCallback &cb) { error_callback_ = cb; }
 
         // 防止当channel被手动remove掉， chanel还在执行回调操作
-        void tied(const std::shared_ptr<void> &obj);
+        void tie(const std::shared_ptr<void> &obj);
 
         // 返回fd_
         int fd() const { return fd_; }
@@ -59,11 +60,36 @@ namespace ocean_muduo
         int index() const { return index_; }
 
         // 设置fd相应的事件状态
-        void enable_reading() { events_ |= k_read_event_; }
-        void enable_writing() { events_ |= k_write_event_; }
-        void disable_reading() { events_ &= ~k_read_event_; }
-        void disable_writing() { events_ &= ~k_write_event_; }
-        void disable_all() { events_ = k_none_event_; }
+        // 开启读事件
+        void enable_reading()
+        {
+            events_ |= k_read_event_;
+            update();
+        }
+        // 开启写事件
+        void enable_writing()
+        {
+            events_ |= k_write_event_;
+            update();
+        }
+        // 关闭读事件
+        void disable_reading()
+        {
+            events_ &= ~k_read_event_;
+            update();
+        }
+        // 关闭写事件
+        void disable_writing()
+        {
+            events_ &= ~k_write_event_;
+            update();
+        }
+        // 关闭所有事件
+        void disable_all()
+        {
+            events_ = k_none_event_;
+            update();
+        }
 
         // 返回当前fd是否没有注册感兴趣的事件
         bool is_none_event() const { return events_ == k_none_event_; }
@@ -72,10 +98,13 @@ namespace ocean_muduo
         // 返回channel是否在监听写事件
         bool is_writing() const { return events_ & k_write_event_; }
 
-        // 返回channel所属的eventloop
+        // 返回channel所属的eventloop [one loop per thread]
         eventloop *owner_loop() { return loop_; }
         // 设置channel所属的eventloop
         void set_owner_loop(eventloop *loop) { loop_ = loop; }
+
+        // 移除channel
+        void remove();
 
     private:
         static const int k_none_event_;
@@ -96,6 +125,14 @@ namespace ocean_muduo
         EventCallback write_callback_;    // 写事件回调
         EventCallback close_callback_;    // 关闭事件回调
         EventCallback error_callback_;    // 错误事件回调
+
+        // 更新channel的revents_
+        void update();
+
+        // 处理事件with guard
+        void handle_event_with_guard(timestamp receive_time);
     };
+   
+    
 
 } // namespace ocean_muduo

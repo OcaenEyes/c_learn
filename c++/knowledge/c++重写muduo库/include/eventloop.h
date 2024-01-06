@@ -3,7 +3,7 @@
 namespace ocean_muduo
 {
     /**
-     * @brief 事件循环类， 主要包含 channel、poller(epoll的抽象) 
+     * @brief 事件循环类， 主要包含 channel（包含fd 和 感兴趣的事件）、poller(epoll的抽象) 
      * 
      */
     class eventloop
