@@ -10,8 +10,8 @@ namespace ocean_muduo
 #define LOG_INFO(logformat, ...)                              \
     do                                                        \
     {                                                         \
-        logger &logger__ = logger::instance();                 \
-        logger__.set_log_level(INFO);               \
+        logger &logger__ = logger::instance();                \
+        logger__.set_log_level(INFO);                         \
         char buf[1024] = {0};                                 \
         snprintf(buf, sizeof(buf), logformat, ##__VA_ARGS__); \
         logger__.log(buf);                                    \
@@ -21,8 +21,8 @@ namespace ocean_muduo
 #define LOG_ERROR(logformat, ...)                             \
     do                                                        \
     {                                                         \
-        logger &logger__ = logger::instance();                 \
-        logger__.set_log_level(ERROR);               \
+        logger &logger__ = logger::instance();                \
+        logger__.set_log_level(ERROR);                        \
         char buf[1024] = {0};                                 \
         snprintf(buf, sizeof(buf), logformat, ##__VA_ARGS__); \
         logger__.log(buf);                                    \
@@ -32,11 +32,12 @@ namespace ocean_muduo
 #define LOG_FATAL(logformat, ...)                             \
     do                                                        \
     {                                                         \
-        logger &logger__ = logger::instance();                 \
-        logger__.set_log_level(FATAL);               \
+        logger &logger__ = logger::instance();                \
+        logger__.set_log_level(FATAL);                        \
         char buf[1024] = {0};                                 \
         snprintf(buf, sizeof(buf), logformat, ##__VA_ARGS__); \
         logger__.log(buf);                                    \
+        exit(-1);                                             \
     } while (0)
 
 #ifdef MUDEBUG
@@ -44,8 +45,8 @@ namespace ocean_muduo
 #define LOG_DEBUG(logformat, ...)                             \
     do                                                        \
     {                                                         \
-        logger &logger__ = logger::instance();                 \
-        logger__.set_log_level(DEBUG);               \
+        logger &logger__ = logger::instance();                \
+        logger__.set_log_level(DEBUG);                        \
         char buf[1024] = {0};                                 \
         snprintf(buf, sizeof(buf), logformat, ##__VA_ARGS__); \
         logger__.log(buf);                                    \

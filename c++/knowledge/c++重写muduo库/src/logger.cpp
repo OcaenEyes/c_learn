@@ -1,3 +1,11 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2024-01-05 22:40:04
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2024-01-07 10:30:12
+ * @FilePath: /c++/knowledge/c++重写muduo库/src/logger.cpp
+ * @Description: 注释信息
+ */
 #include "logger.h"
 #include "timestamp.h"
 

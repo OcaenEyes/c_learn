@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-06 23:01:58
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-06 23:23:35
+ * @LastEditTime: 2024-01-07 12:02:11
  * @FilePath: /c++/knowledge/c++重写muduo库/src/channel.cpp
  * @Description: 注释信息
  */
@@ -69,8 +69,7 @@ namespace ocean_muduo
     // 根据poller通知的channel发生 的具体事件， 有channel负责调用具体的回调操作
     void channel::handle_event_with_guard(timestamp receive_time)
     {
-        LOG_INFO("channel handle_event revents%d\n"
-        , revents_);
+        LOG_INFO("channel handle_event revents%d\n", revents_);
         if ((revents_ & EPOLLHUP) && !(revents_ & EPOLLIN))
         {
             if (close_callback_)
