@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-07 10:40:08
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-07 11:16:51
+ * @LastEditTime: 2024-01-07 19:15:58
  * @FilePath: /c++/knowledge/c++重写muduo库/include/epollpoller.h
  * @Description: 注释信息
  */
@@ -43,12 +43,11 @@ namespace ocean_muduo
         static const int k_init_event_list_size = 16;
 
         // 填写活跃连接
-        void fill_active_channels(int num_events,channels *active_channels);
+        void fill_active_channels(int num_events,channels *active_channels) const;
 
         // 更新channel通道
         void update(int operation, channel *chanl);
 
-        //
     };
 
 } // namespace ocean_muduo
