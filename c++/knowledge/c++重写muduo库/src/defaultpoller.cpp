@@ -1,4 +1,13 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2024-01-08 08:10:21
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2024-01-08 08:10:21
+ * @FilePath: /c++/knowledge/c++重写muduo库/src/defaultpoller.cpp
+ * @Description: 注释信息
+ */
 #include "poller.h"
+#include "epollpoller.h"
 
 #include <stdlib.h>
 
@@ -15,7 +24,7 @@ namespace ocean_muduo
         else
         {
             // 生成eploll实例
-            return nullptr;
+            return new epollpoller(loop);
         }
     }
 
