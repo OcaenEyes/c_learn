@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-07 13:07:55
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-08 07:15:49
+ * @LastEditTime: 2024-01-08 13:55:40
  * @FilePath: /c++/knowledge/c++重写muduo库/include/eventloop.h
  * @Description: 注释信息
  */
@@ -75,7 +75,7 @@ namespace ocean_muduo
         std::unique_ptr<channel> wakeup_channel_;
 
         channels active_channels_;
-        channel *current_active_channel_;
+        // channel *current_active_channel_;
 
         std::atomic_bool calling_pengding_functors_;          // 标识当前loop是否有需要执行的回调操作
         std::vector<std::function<void()>> pending_functors_; // 使用vector 存储loop需要执行的所有的回调操作

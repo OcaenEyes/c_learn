@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-07 10:40:41
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-07 19:21:00
+ * @LastEditTime: 2024-01-09 08:22:05
  * @FilePath: /c++/knowledge/c++重写muduo库/src/epollpoller.cpp
  * @Description: 注释信息
  */
@@ -14,7 +14,6 @@
 #include "timestamp.h"
 
 #include <errno.h>
-#include <sys/epoll.h>
 #include <unistd.h>
 #include <strings.h>
 #include <string.h>
@@ -47,7 +46,7 @@ namespace ocean_muduo
     timestamp epollpoller::poll(int timeout_ms, channels *active_channels)
     {
         // 实际应该是用debug模式
-        LOG_INFO("func=%s => fd total cout %d \n ", __FUNCTION__, channel_map_.size());
+        LOG_INFO("func=%s => fd total cout %ld \n ", __FUNCTION__, channel_map_.size());
 
         // events_.begin() 首元素， *解引用， &再取址
         int num_events = ::epoll_wait(epollfd_, &*events_.begin(), static_cast<int>(events_.size()), timeout_ms);
@@ -156,7 +155,7 @@ namespace ocean_muduo
     void epollpoller::update(int operation, channel *chanl)
     {
         int fd = chanl->fd();
-        struct epoll_event event;
+        epoll_event event;
         bzero(&event, sizeof(event));
 
         event.events = chanl->events();

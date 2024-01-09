@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-06 23:01:58
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-07 12:02:11
+ * @LastEditTime: 2024-01-08 14:59:26
  * @FilePath: /c++/knowledge/c++重写muduo库/src/channel.cpp
  * @Description: 注释信息
  */
@@ -17,8 +17,8 @@
 namespace ocean_muduo
 {
     const int channel::k_none_event_ = 0;
-    const int channel::k_read_event_ = POLLIN | POLLPRI;
-    const int channel::k_write_event_ = POLLOUT;
+    const int channel::k_read_event_ = EPOLLIN | EPOLLPRI;
+    const int channel::k_write_event_ = EPOLLOUT;
 
     // Eventloop: ChannelList Poller
     channel::channel(eventloop *loop, int fd)
