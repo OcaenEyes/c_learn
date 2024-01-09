@@ -21,6 +21,8 @@ add_library(ocean_muduo_static STATIC ${SRC_DIR}) # 生成静态库
 set_target_properties(ocean_muduo_static PROPERTIES OUTPUT_NAME "ocean_muduo"
 )# 设置静态库输出名称
 
-# target_link_libraries(ocean_muduo pthread) # 添加链接库
+target_link_libraries(ocean_muduo pthread) # 添加链接库
 
 add_executable(ocean_muduo_prj ${SRC_DIR})
+
+target_link_libraries(ocean_muduo_prj pthread) # 添加链接库

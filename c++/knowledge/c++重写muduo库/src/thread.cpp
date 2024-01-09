@@ -1,3 +1,11 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2024-01-09 21:59:36
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2024-01-09 21:59:37
+ * @FilePath: /c++/knowledge/c++重写muduo库/src/thread.cpp
+ * @Description: 注释信息
+ */
 #include "thread.h"
 #include "currentthread.h"
 
@@ -7,7 +15,7 @@ namespace ocean_muduo
 {
 
     // 静态成员变量 需要在类外初始化
-    std::atomic_int thread::num_created_ = 0;
+    std::atomic_int thread::num_created_(0);
 
     // 声明为explicit的构造函数不能在隐式转换中使用
     thread::thread(std::function<void()> func, const std::string &name)
