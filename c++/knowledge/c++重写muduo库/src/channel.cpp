@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-06 23:01:58
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-08 14:59:26
+ * @LastEditTime: 2024-01-10 07:01:51
  * @FilePath: /c++/knowledge/c++重写muduo库/src/channel.cpp
  * @Description: 注释信息
  */
@@ -43,13 +43,13 @@ namespace ocean_muduo
     void channel::update()
     {
         // 通过channel所属的eventloop， 调用poller的相应方法，注册fd的events事件
-        // loop_->update_channel(this);
+        loop_->update_channel(this);
     }
 
     // 在channel所属的eventloop中， 把当前的channel删除掉
     void channel::remove()
     {
-        // loop_->remove_channel(this);W
+        loop_->remove_channel(this);
     }
 
     // 处理事件

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-05 15:12:46
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-05 15:28:53
+ * @LastEditTime: 2024-01-10 03:32:04
  * @FilePath: /c++/knowledge/c++重写muduo库/src/inetaddress.cpp
  * @Description: 注释信息
  */
@@ -34,7 +34,8 @@ namespace ocean_muduo
     // 有参构造
     inetaddress::inetaddress(const sockaddr_in &addr) : addr_(addr) {}
 
-    std::string inetaddress::to_ip() const {
+    std::string inetaddress::to_ip() const
+    {
         // 从addr_中读取出ip地址
         return inet_ntoa(addr_.sin_addr);
         // 或者使用inet_ntop
@@ -43,12 +44,14 @@ namespace ocean_muduo
         // return ip;
     }
 
-    std::string inetaddress::to_ip_port() const {
-         // 从addr_中读取出ip地址和port端口
+    std::string inetaddress::to_ip_port() const
+    {
+        // 从addr_中读取出ip地址和port端口
         return std::string(to_ip()) + ":" + std::to_string(to_port());
     }
 
-    uint16_t inetaddress::to_port() const {
+    uint16_t inetaddress::to_port() const
+    {
         // 从addr_中读取出port端口
         return ntohs(addr_.sin_port);
     }
@@ -56,5 +59,10 @@ namespace ocean_muduo
     const sockaddr_in *inetaddress::get_sock_addr() const
     {
         return &addr_;
+    }
+
+    void inetaddress::set_sock_addr(const sockaddr_in &addr)
+    {
+        addr_ = addr;
     }
 } // namespace ocean_muduo

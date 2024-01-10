@@ -1,3 +1,11 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2024-01-10 03:31:30
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2024-01-10 03:31:30
+ * @FilePath: /c++/knowledge/c++重写muduo库/include/inetaddress.h
+ * @Description: 注释信息
+ */
 #pragma once
 
 #include <arpa/inet.h>
@@ -27,6 +35,7 @@ namespace ocean_muduo
         uint16_t to_port() const;
 
         const sockaddr_in *get_sock_addr() const;
+        void set_sock_addr(const sockaddr_in &addr);
     };
 
 } // namespace ocean_muduo
