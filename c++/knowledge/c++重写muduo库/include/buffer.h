@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 07:36:12
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-11 00:46:34
+ * @LastEditTime: 2024-01-11 21:57:53
  * @FilePath: /c++/knowledge/c++重写muduo库/include/buffer.h
  * @Description: 注释信息
  */
@@ -64,6 +64,8 @@ namespace ocean_muduo
 
         // 从fd上读取数据
         size_t read_fd(int fd, int *save_errno);
+        // 通过fd发送数据
+        ssize_t write_fd(int fd, int *save_errno);
 
     private:
         std::vector<char> buffer_;

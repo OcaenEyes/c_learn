@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 07:36:48
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-11 08:21:53
+ * @LastEditTime: 2024-01-11 21:58:23
  * @FilePath: /c++/knowledge/c++重写muduo库/src/buffer.cpp
  * @Description: 注释信息
  */
@@ -127,6 +127,11 @@ namespace ocean_muduo
         }
 
         return n;
+    }
+
+    ssize_t buffer::write_fd(int fd, int *save_errno)
+    {
+        ssize_t n = ::write(fd,peek(),readable_bytes());
     }
 
     char *buffer::begin()

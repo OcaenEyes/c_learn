@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 07:38:47
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-11 09:39:07
+ * @LastEditTime: 2024-01-11 21:36:58
  * @FilePath: /c++/knowledge/c++重写muduo库/src/tcpconnection.cpp
  * @Description: 注释信息
  */
@@ -34,10 +34,18 @@ namespace ocean_muduo
           peer_addr_(peer_addr),
           high_water_mark_(64 * 1024 * 1024) // 64M
     {
+        // 下面给channel_设置相应的回调函数，poller给channel通知感兴趣的事件发生了， channel会回调相应的操作函数
+        channel_->set_read_callback(std::bind(&tcpconnection::handle_read, this, std::placeholders::_1));
+        channel_->set_write_callback(std::bind(&tcpconnection::handle_write, this));
+        channel_->set_error_callback(std::bind(&tcpconnection::handle_error, this));
+
+        LOG_INFO("tcpconnection::ctor[%s] as fd=%d \n", name_.c_str(), sockfd);
+        socket_->set_keep_alive(true); // 保活机制
     }
 
     tcpconnection::~tcpconnection()
     {
+        LOG_INFO("tcpconnection::dtor[%s] as fd=%d state=%d\n", name_.c_str(), channel_->fd(), state_);
     }
 
     eventloop *tcpconnection::get_loop() const
@@ -108,10 +116,32 @@ namespace ocean_muduo
 
     void tcpconnection::handle_read(timestamp receive_time)
     {
+        int saved_errno = 0;
+        ssize_t n = input_buffer_.read_fd(channel_->fd(), &saved_errno);
+        if (n > 0)
+        {
+            // 已建立连接的用户，有可读事件发生了，调用用户传入的回调操作onMessage
+            message_callback_(std::shared_from_this(), &input_buffer_, receive_time);
+        }
+        else if (n == 0)
+        {
+            handle_close();
+        }
+        else
+        {
+            errno = saved_errno;
+            LOG_ERROR("tcpconnection::handle_read errnor ,errno:%d",errno);
+            handle_error();
+        }
     }
 
     void tcpconnection::handle_write()
     {
+        if (channel_->is_writing())
+        {
+            /* code */
+        }
+        
     }
 
     void tcpconnection::handle_close()
