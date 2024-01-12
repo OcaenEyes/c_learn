@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-06 23:01:58
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-10 07:01:51
+ * @LastEditTime: 2024-01-12 07:07:03
  * @FilePath: /c++/knowledge/c++重写muduo库/src/channel.cpp
  * @Description: 注释信息
  */
@@ -30,7 +30,7 @@ namespace ocean_muduo
     {
     }
 
-    //
+    // 在tcpconnection连接建立的时候
     void channel::tie(const std::shared_ptr<void> &obj)
     {
         // 弱智能指针tie_ 观察 强智能指针obj
@@ -96,9 +96,9 @@ namespace ocean_muduo
 
         if (revents_ & EPOLLOUT)
         {
-            if (write_callback_)
+            if (write_complete_callback_)
             {
-                write_callback_();
+                write_complete_callback_();
             }
         }
     }

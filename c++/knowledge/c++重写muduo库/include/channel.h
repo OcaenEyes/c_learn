@@ -35,7 +35,7 @@ namespace ocean_muduo
         // 设置读事件回调函数对象
         void set_read_callback(const ReadEventCallback &cb) { read_callback_ = cb; }
         // 设置写事件回调函数对象
-        void set_write_callback(const EventCallback &cb) { write_callback_ = cb; }
+        void set_write_complete_callback_(const EventCallback &cb) { write_complete_callback_ = cb; }
         // 设置关闭事件回调函数对象
         void set_close_callback(const EventCallback &cb) { close_callback_ = cb; }
         // 设置错误事件回调函数对象
@@ -122,7 +122,7 @@ namespace ocean_muduo
 
         // 因为channel通道里面能 获知fd最终发生的具体事件， 所以它负责进行
         ReadEventCallback read_callback_; // 读事件回调
-        EventCallback write_callback_;    // 写事件回调
+        EventCallback write_complete_callback_;    // 写事件回调
         EventCallback close_callback_;    // 关闭事件回调
         EventCallback error_callback_;    // 错误事件回调
 

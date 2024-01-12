@@ -8,7 +8,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # 设置编译选项
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib) # 设置库文件的输出路径
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 include_directories(${PROJECT_SOURCE_DIR}/include) # 添加头文件搜索路径
 
@@ -23,6 +23,6 @@ set_target_properties(ocean_muduo_static PROPERTIES OUTPUT_NAME "ocean_muduo"
 
 target_link_libraries(ocean_muduo pthread) # 添加链接库
 
-add_executable(ocean_muduo_prj ${SRC_DIR})
+# add_executable(ocean_muduo_prj ${SRC_DIR})
 
-target_link_libraries(ocean_muduo_prj pthread) # 添加链接库
+# target_link_libraries(ocean_muduo_prj pthread) # 添加链接库

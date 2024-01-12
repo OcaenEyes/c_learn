@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-09 08:24:20
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-10 09:17:58
+ * @LastEditTime: 2024-01-12 07:57:15
  * @FilePath: /c++/knowledge/c++重写muduo库/include/tcpserver.h
  * @Description: 注释信息
  */
@@ -49,7 +49,7 @@ namespace ocean_muduo
 
         void set_message_callback(const MessageCallback &cb);
 
-        void set_write_callback(const WriteCallback &cb);
+        void set_write_complete_callback_(const WriteCompleteCallback &cb);
 
         // 设置底层 subloop的个数
         void set_thread_num(int num);
@@ -66,9 +66,9 @@ namespace ocean_muduo
         std::unique_ptr<acceptor> acceptor_;                 // 运行在mianloop， 主要任务是监听新连接事件
         std::shared_ptr<eventloop_thread_pool> thread_pool_; // one loop per thread
 
-        ConnectionCallback connection_callback_; // 有新连接时的callback
-        MessageCallback message_callback_;       // 有读写消息的时callback
-        WriteCallback write_callback_;           // 消息发送完成以后的callback
+        ConnectionCallback connection_callback_;        // 有新连接时的callback
+        MessageCallback message_callback_;              // 有读写消息的时callback
+        WriteCompleteCallback write_complete_callback_; // 消息发送完成以后的callback
 
         std::function<void(eventloop *)> thread_init_callback_; // loop线程初始化的回调
 
@@ -80,5 +80,6 @@ namespace ocean_muduo
 
         void new_connection(int sockfd, const inetaddress &peer_addr);
         void remove_connection(const TcpConnectionPtr &conn);
+        void remove_connection_in_loop(const TcpConnectionPtr &conn);
     };
 } // namespace ocean_muduo

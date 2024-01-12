@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-11 08:30:33
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-11 09:30:03
+ * @LastEditTime: 2024-01-12 02:31:06
  * @FilePath: /c++/knowledge/c++重写muduo库/include/tcpconnection.h
  * @Description: 注释信息
  */
@@ -47,7 +47,7 @@ namespace ocean_muduo
         bool get_connected() const;
 
         // 发送数据
-        void send(const void *message, int len);
+        void send(const std::string &buf);
 
         // 关闭连接
         void shutdown();
@@ -60,7 +60,7 @@ namespace ocean_muduo
 
         void set_connection_callback(const ConnectionCallback &cb);
         void set_message_callback(const MessageCallback &cb);
-        void set_write_callback(const WriteCallback &cb);
+        void set_write_complete_callback_(const WriteCompleteCallback &cb);
         void set_high_water_mark_callback(const HighWaterMarkCallback &cb);
         void set_close_callback(const CloseCallback &cb);
 
@@ -84,9 +84,9 @@ namespace ocean_muduo
         const inetaddress local_addr_;
         const inetaddress peer_addr_;
 
-        ConnectionCallback connection_callback_; // 有新连接时的callback
-        MessageCallback message_callback_;       // 有读写消息的时callback
-        WriteCallback write_callback_;           // 消息发送完成以后的callback
+        ConnectionCallback connection_callback_;        // 有新连接时的callback
+        MessageCallback message_callback_;              // 有读写消息的时callback
+        WriteCompleteCallback write_complete_callback_; // 消息发送完成以后的callback
 
         HighWaterMarkCallback high_water_mark_callback_;
         CloseCallback close_callback_;
@@ -103,6 +103,9 @@ namespace ocean_muduo
 
         void send_in_loop(const void *message, size_t len);
         void shutdown_in_loop();
+
+    public:
+        void set_state(StateE state);
     };
 
 } // namespace ocean_muduo
