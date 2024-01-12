@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 02:41:40
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-10 07:05:26
+ * @LastEditTime: 2024-01-12 22:01:52
  * @FilePath: /c++/knowledge/c++重写muduo库/src/socket.cpp
  * @Description: 注释信息
  */
@@ -54,9 +54,9 @@ namespace ocean_muduo
     int socket::accept(inetaddress *peeraddr)
     {
         sockaddr_in addr;
-        socklen_t len;
+        socklen_t len = sizeof(addr); 
         bzero(&addr, sizeof(addr));
-        int connfd = ::accept(sockfd_, (sockaddr *)&addr, &len);
+        int connfd = ::accept4(sockfd_, (sockaddr *)&addr, &len,SOCK_NONBLOCK|SOCK_CLOEXEC); // 需要设置connfd非阻塞
         if (connfd >= 0)
         {
             peeraddr->set_sock_addr(addr);
