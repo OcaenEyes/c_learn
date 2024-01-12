@@ -2,28 +2,45 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-05 03:25:27
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-12 13:10:10
+ * @LastEditTime: 2024-01-12 21:47:28
  * @FilePath: /c++/knowledge/c++重写muduo库/example/main.cpp
  * @Description: 注释信息
  */
 
-#include "tcpserver.h"
-#include "logger.h"
+#include "../output/ocean_muduo/include/tcpserver.h"
+#include "../output/ocean_muduo/include/logger.h"
 
 class oceanserver
 {
 private:
-    eventloop *loop_;
-    tcpserver server_;
+    ocean_muduo::eventloop *loop_;
+    ocean_muduo::tcpserver server_;
 
-    void
+    void on_message(const ocean_muduo::TcpConnectionPtr &conn, ocean_muduo::buffer *buf, ocean_muduo::timestamp time)
+    {
+        std::string msg = buf->retrieve_all_asstring();
+        conn->send(msg);
+        conn->shutdown(); // 写端   EPOLLHUP =》 closeCallback_
+    }
+
+    void on_connect(const ocean_muduo::TcpConnectionPtr &conn)
+    {
+        if (conn->get_connected())
+        {
+            LOG_INFO("connection up : %s", conn->get_peer_addr().to_ip_port().c_str());
+        }
+        else
+        {
+           LOG_INFO("connection down : %s", conn->get_peer_addr().to_ip_port().c_str());
+        }
+    }
 
 public:
-    oceanserver(eventloop *loop, const inetaddress &addr, const std::string &name) : server_(loop, addr, name), loop_(loop)
+    oceanserver(ocean_muduo::eventloop *loop, const ocean_muduo::inetaddress &addr, const std::string &name) : server_(loop, addr, name), loop_(loop)
     {
         // 注册回调函数
-        server_.set_connection_callback();
-        server_.set_message_callback();
+        server_.set_connection_callback(std::bind(&oceanserver::on_connect,this,std::placeholders::_1));
+        server_.set_message_callback(std::bind(&oceanserver::on_message,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3));
         server_.set_thread_num(3);
     }
     ~oceanserver() {}
@@ -36,6 +53,11 @@ public:
 
 int main()
 {
+    ocean_muduo::eventloop loop;
+    ocean_muduo::inetaddress addr(8000);
+    oceanserver server(&loop, addr, "OceanServer-01"); // Acceptor non-blocking listenfd  create bind
+    server.start();                                   // listen  loopthread  listenfd => acceptChannel => mainLoop =>
+    loop.loop();                                      // 启动mainLoop的底层Poller
 
     return 0;
 }
