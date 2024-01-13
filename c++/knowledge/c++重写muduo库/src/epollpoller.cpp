@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-07 10:40:41
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-09 08:22:05
+ * @LastEditTime: 2024-01-13 10:23:38
  * @FilePath: /c++/knowledge/c++重写muduo库/src/epollpoller.cpp
  * @Description: 注释信息
  */
@@ -32,7 +32,7 @@ namespace ocean_muduo
           epollfd_(::epoll_create1(EPOLL_CLOEXEC)),
           events_(k_init_event_list_size)
     {
-        if (epollfd_ == -1)
+        if (epollfd_ <0)
         {
             LOG_FATAL("epoll create failed,errno:%d", errno);
         }
@@ -138,6 +138,7 @@ namespace ocean_muduo
         {
             update(EPOLL_CTL_DEL, chanl);
         }
+        chanl->set_index(k_new);
     }
 
     void epollpoller::fill_active_channels(int num_events, channels *active_channels) const

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-05 03:25:27
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-12 21:47:28
+ * @LastEditTime: 2024-01-13 10:19:32
  * @FilePath: /c++/knowledge/c++重写muduo库/example/main.cpp
  * @Description: 注释信息
  */
@@ -18,6 +18,7 @@ private:
 
     void on_message(const ocean_muduo::TcpConnectionPtr &conn, ocean_muduo::buffer *buf, ocean_muduo::timestamp time)
     {
+        printf("on_message!\n");
         std::string msg = buf->retrieve_all_asstring();
         conn->send(msg);
         conn->shutdown(); // 写端   EPOLLHUP =》 closeCallback_
@@ -25,6 +26,7 @@ private:
 
     void on_connect(const ocean_muduo::TcpConnectionPtr &conn)
     {
+        printf("on_connect!\n");
         if (conn->get_connected())
         {
             LOG_INFO("connection up : %s", conn->get_peer_addr().to_ip_port().c_str());

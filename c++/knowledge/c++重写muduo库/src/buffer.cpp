@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 07:36:48
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-11 14:31:38
+ * @LastEditTime: 2024-01-13 09:35:56
  * @FilePath: /c++/knowledge/c++重写muduo库/src/buffer.cpp
  * @Description: 注释信息
  */
@@ -66,12 +66,14 @@ namespace ocean_muduo
     std::string buffer::retrieve_asstring(size_t len)
     {
         std::string result(peek(), len);
+        retrieve(len); // 上面一句把缓冲区可读的数据，已经读取出来， 对缓冲区进行复位操作
         return result;
     }
 
+    // 把on_message函数上报的Buffer数据，转成string类型的数据返回
     std::string buffer::retrieve_all_asstring()
     {
-        return retrieve_asstring(readable_bytes());
+        return retrieve_asstring(readable_bytes()); // 应用可读取的数据
     }
 
     void buffer::ensure_writable_bytes(size_t len)

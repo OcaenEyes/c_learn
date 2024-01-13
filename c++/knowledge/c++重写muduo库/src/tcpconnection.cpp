@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 07:38:47
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-12 07:55:07
+ * @LastEditTime: 2024-01-13 09:55:31
  * @FilePath: /c++/knowledge/c++重写muduo库/src/tcpconnection.cpp
  * @Description: 注释信息
  */
@@ -44,6 +44,7 @@ namespace ocean_muduo
         // 下面给channel_设置相应的回调函数，poller给channel通知感兴趣的事件发生了， channel会回调相应的操作函数
         channel_->set_read_callback(std::bind(&tcpconnection::handle_read, this, std::placeholders::_1));
         channel_->set_write_complete_callback_(std::bind(&tcpconnection::handle_write, this));
+        channel_->set_close_callback(std::bind(&tcpconnection::handle_close, this));
         channel_->set_error_callback(std::bind(&tcpconnection::handle_error, this));
 
         LOG_INFO("tcpconnection::ctor[%s] as fd=%d \n", name_.c_str(), sockfd);
@@ -58,7 +59,7 @@ namespace ocean_muduo
 
     eventloop *tcpconnection::get_loop() const
     {
-        return nullptr;
+        return loop_;
     }
 
     const std::string &tcpconnection::get_name() const
@@ -88,6 +89,7 @@ namespace ocean_muduo
         {
             if (loop_->is_in_loopthread())
             {
+                printf("send(const std::string &buf), buf is: %s", buf.c_str());
                 send_in_loop(buf.c_str(), buf.size());
             }
             else
@@ -255,6 +257,7 @@ namespace ocean_muduo
         ssize_t remaining = len;
         bool fault_err = false;
 
+        printf("send_in_loop(const void *message, size_t len), message is: %s", message);
         // 之前调用过该connection的shutdown， 不能再进行发送了
         if (state_ == k_disconnected)
         {
