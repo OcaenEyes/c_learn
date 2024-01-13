@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-11 08:30:33
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-12 02:31:06
+ * @LastEditTime: 2024-01-13 15:27:40
  * @FilePath: /c++/knowledge/c++重写muduo库/include/tcpconnection.h
  * @Description: 注释信息
  */
@@ -61,7 +61,7 @@ namespace ocean_muduo
         void set_connection_callback(const ConnectionCallback &cb);
         void set_message_callback(const MessageCallback &cb);
         void set_write_complete_callback_(const WriteCompleteCallback &cb);
-        void set_high_water_mark_callback(const HighWaterMarkCallback &cb);
+        void set_high_water_mark_callback(const HighWaterMarkCallback &cb,size_t water_mark);
         void set_close_callback(const CloseCallback &cb);
 
     private:

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-06 23:01:58
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-12 07:07:03
+ * @LastEditTime: 2024-01-13 14:58:22
  * @FilePath: /c++/knowledge/c++重写muduo库/src/channel.cpp
  * @Description: 注释信息
  */
@@ -63,6 +63,10 @@ namespace ocean_muduo
                 handle_event_with_guard(receive_time);
             }
         }
+        else
+        {
+            handle_event_with_guard(receive_time);
+        }
     }
 
     // 处理事件， 并带有保护
@@ -86,7 +90,7 @@ namespace ocean_muduo
             }
         }
 
-        if (revents_ & EPOLLIN)
+        if (revents_ & (EPOLLIN | EPOLLPRI))
         {
             if (read_callback_)
             {

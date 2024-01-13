@@ -1,3 +1,11 @@
+/*
+ * @Author: OCEAN.GZY
+ * @Date: 2024-01-13 14:36:47
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2024-01-13 14:40:32
+ * @FilePath: /c++/knowledge/c++重写muduo库/src/acceptor.cpp
+ * @Description: 注释信息
+ */
 #include "acceptor.h"
 #include "inetaddress.h"
 #include "logger.h"
@@ -11,7 +19,7 @@ namespace ocean_muduo
 {
     static int create_nonblocking()
     {
-        int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
+        int sockfd = ::socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, 0);
         if (sockfd < 0)
         {
             LOG_FATAL("%s:%s:%d listen socket create error: %d !\n", __FILE__, __FUNCTION__, __LINE__, errno);
@@ -26,7 +34,7 @@ namespace ocean_muduo
           listenning_(false)
     {
         accept_socket_.set_reuse_addr(true);
-        accept_socket_.set_reuse_port(reuse_port);
+        accept_socket_.set_reuse_port(true);
         accept_socket_.bind_address(&listen_addr);
 
         // baseloop 监听到 accept_channel_（listenfd）有事件发生时 调用handle_read 回调
@@ -41,6 +49,7 @@ namespace ocean_muduo
 
     void acceptor::set_new_connection_callback(const std::function<void(int, const inetaddress &)> &cb)
     {
+        new_connection_callback_ =cb;
     }
 
     bool acceptor::get_listenning() const
@@ -65,7 +74,7 @@ namespace ocean_muduo
         {
             if (new_connection_callback_)
             {
-                new_connection_callback_(connfd, peeraddr);
+                new_connection_callback_(connfd, peeraddr); // 轮询找到subLoop，唤醒，分发当前的新客户端的Channel
             }
             else
             {

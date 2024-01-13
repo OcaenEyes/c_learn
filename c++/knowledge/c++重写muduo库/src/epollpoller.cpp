@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-07 10:40:41
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-13 10:23:38
+ * @LastEditTime: 2024-01-13 15:16:35
  * @FilePath: /c++/knowledge/c++重写muduo库/src/epollpoller.cpp
  * @Description: 注释信息
  */
@@ -56,7 +56,7 @@ namespace ocean_muduo
         if (num_events > 0)
         {
             // 实际应该是用debug模式
-            LOG_INFO("func=%s =>  %d events happened \n ", __FUNCTION__, num_events);
+            // LOG_INFO("func=%s =>  %d events happened \n ", __FUNCTION__, num_events);
             fill_active_channels(num_events, active_channels);
 
             if (num_events == events_.size())
@@ -67,7 +67,7 @@ namespace ocean_muduo
         else if (num_events == 0)
         {
             // 实际应该是用debug模式
-            LOG_INFO("func=%s =>  timeout! \n ", __FUNCTION__);
+            // LOG_INFO("func=%s =>  timeout! \n ", __FUNCTION__);
         }
         else
         {

@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-10 07:38:47
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-13 09:55:31
+ * @LastEditTime: 2024-01-13 16:14:24
  * @FilePath: /c++/knowledge/c++重写muduo库/src/tcpconnection.cpp
  * @Description: 注释信息
  */
@@ -151,9 +151,10 @@ namespace ocean_muduo
         write_complete_callback_ = cb;
     }
     // 设置high_water_mark_callback_
-    void tcpconnection::set_high_water_mark_callback(const HighWaterMarkCallback &cb)
+    void tcpconnection::set_high_water_mark_callback(const HighWaterMarkCallback &cb, size_t water_mark)
     {
         high_water_mark_callback_ = cb;
+        high_water_mark_ = water_mark;
     }
     // 设置close_callback_
     void tcpconnection::set_close_callback(const CloseCallback &cb)
@@ -209,6 +210,7 @@ namespace ocean_muduo
             }
             else
             {
+                std::cout << "output_buffer_.write_fd ,n= " << n << "\n";
                 LOG_ERROR("tcpconnection::handle_write error\n");
             }
         }
@@ -294,7 +296,7 @@ namespace ocean_muduo
         //  说明当前这一次没有把数据全部发送出去， 剩余的数据需要保存到缓冲区当中，然后给channel 注册epollout事件， poller发现tcp的发送缓冲区有空间
         //      会通知相应的sock - channel，注册epollout事件， poller发现tcp的发送缓冲区有空间，会通知相应的sock-channel, 调用 write_callback_方法
         //      也就是，调用tcpconnection::handle_write()方法， 把发送缓冲区中的数据全部发送完成
-        if (!fault_err && reading_ > 0)
+        if (!fault_err && remaining > 0)
         {
             ssize_t old_len = output_buffer_.readable_bytes();
             if (old_len + remaining >= high_water_mark_ && old_len < high_water_mark_ && high_water_mark_callback_)
