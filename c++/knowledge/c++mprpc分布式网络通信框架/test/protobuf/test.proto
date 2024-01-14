@@ -1,0 +1,56 @@
+syntax = "proto3";  // 声明protobuf版本
+
+package fixbug; //  声明代码所在的包（对于c++而言是 namespace）
+
+enum SEX{
+    MAN=0;
+    WOMAN=1;
+}
+
+// 定义登录请求消息类型 
+message LoginRequest{
+    bytes name =1;
+    bytes pwd =2;
+}
+
+message LoginResponse{
+    Response res=1;
+}
+
+// 定义注册请求消息类型
+message RegRequest{
+    bytes name=1;
+    bytes pdw =2;
+    int32 age=3;
+    SEX sex=4;
+    bytes phone=5;
+}
+
+message RegResponse{
+    Response res=1;
+}
+
+
+message User{
+    bytes name=1;
+    uint32 age=2;
+    SEX sex=3;
+}
+
+// 定义获取好友列表-请求消息类型
+message GetFriendListReq{
+    uint32 userid=1;
+}
+
+// 定义获取好友列表-响应消息类型
+message GetFriendListRes{
+    Response res=1;
+    repeated User friendlist=2; // 列表类型
+}
+
+// 定义响应消息类型
+message Response{
+    int32 errcode=1;
+    bytes errmsg=2;
+    bool success=3;
+}
