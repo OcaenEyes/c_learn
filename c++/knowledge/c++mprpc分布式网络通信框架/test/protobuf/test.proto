@@ -11,6 +11,7 @@ enum SEX{
 message LoginRequest{
     bytes name =1;
     bytes pwd =2;
+    // map<ints32,string> ttts=3;
 }
 
 message LoginResponse{
@@ -53,4 +54,11 @@ message Response{
     int32 errcode=1;
     bytes errmsg=2;
     bool success=3;
+}
+
+
+// 在protobuf里面，怎么定义描述rpc方法的类型：  service
+service UserServiceRpc{
+    rpc Login(LoginRequest) returns(LoginResponse);
+    rpc GetFriendList(GetFriendListReq) returns(GetFriendListRes);
 }
