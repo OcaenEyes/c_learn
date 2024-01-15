@@ -2,7 +2,7 @@ syntax= "proto3";
 
 package ocean;
 
-option cc_generic_services = true;
+option cc_generic_services = true; // 配置后才会处理生成service
 
 message ResultCode{
     int32 errcode=1;

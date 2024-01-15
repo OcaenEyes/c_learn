@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 16:57:33
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-14 17:22:58
+ * @LastEditTime: 2024-01-14 12:51:40
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/example/callee/userservice.cc
  * @Description: 注释信息
  */
@@ -10,6 +10,8 @@
 #include <string>
 
 #include "../user.pb.h"
+#include "ocean_mprpc_application.h"
+#include "rpc_provider.h"
 
 /**
  * @brief UserService原本是一个本地服务，提供了两个进程内的本地方法， Login和GetFriendList
