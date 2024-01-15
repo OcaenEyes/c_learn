@@ -2,13 +2,13 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:48:16
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 03:13:20
+ * @LastEditTime: 2024-01-15 09:34:29
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/include/rpc_provider.h
  * @Description: 注释信息
  */
 #pragma once
 
-#include <memory>
+#include <unordered_map>
 #include <google/protobuf/service.h>
 
 #include "muduo/net/TcpServer.h"
@@ -35,6 +35,15 @@ public:
 private:
     // 组合EventLoop
     muduo::net::EventLoop m_eventloop;
+
+    // service服务类型信息
+    struct ServiceInfo
+    {
+        google::protobuf::Service *m_service;                                                     // 保存服务对象
+        std::unordered_map<std::string, const google::protobuf::MethodDescriptor *> m_method_map; // 保存服务方法
+    };
+
+    std::unordered_map<std::string, ServiceInfo> m_service_map; // 保存注册成功的服务对象，及其服务方法的所有信息
 
     // 新的socket连接回调
     void onConnection(const muduo::net::TcpConnectionPtr &);
