@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:57:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 03:00:56
+ * @LastEditTime: 2024-01-15 08:00:37
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/ocean_mprpc_application.cc
  * @Description: 注释信息
  */
@@ -38,8 +38,7 @@ void OCEANMprpcApplication::Init(int argc, char **argv)
     int c = 0;
     std::string config_file;
 
-
-    /** 
+    /**
      * 一、简介
             getopt() 方法是用来分析命令行参数的，该方法由 Unix 标准库提供，包含在 <unistd.h> 头文件中。
 
@@ -83,10 +82,10 @@ void OCEANMprpcApplication::Init(int argc, char **argv)
     // rpcserver_ip 、 rpcserver_port 、zookeeper_ip  、 zookeeper_port
     m_config.LoadConfigFile(config_file.c_str());
 
-    std::cout << "rpcserver_ip: " << m_config.Load("rpcserverip") << "\n";
-    std::cout << "rpcserver_port: " << m_config.Load("rpcserverport") << "\n";
-    std::cout << "zookeeper_ip: " << m_config.Load("zookeeperip") << "\n";
-    std::cout << "zookeeper_port: " << m_config.Load("zookeeperport") << "\n";
+    // std::cout << "rpcserver_ip: " << m_config.Load("rpcserverip") << "\n";
+    // std::cout << "rpcserver_port: " << m_config.Load("rpcserverport") << "\n";
+    // std::cout << "zookeeper_ip: " << m_config.Load("zookeeperip") << "\n";
+    // std::cout << "zookeeper_port: " << m_config.Load("zookeeperport") << "\n";
 }
 
 OCEANMprpcApplication &OCEANMprpcApplication::GetInstance()

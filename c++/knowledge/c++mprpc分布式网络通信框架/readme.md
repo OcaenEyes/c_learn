@@ -1,3 +1,11 @@
+<!--
+ * @Author: OCEAN.GZY
+ * @Date: 2024-01-15 08:11:04
+ * @LastEditors: OCEAN.GZY
+ * @LastEditTime: 2024-01-15 08:13:38
+ * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/readme.md
+ * @Description: 注释信息
+-->
 
 # mprpc分布式网络通信框架
 
@@ -20,3 +28,19 @@
 ## RPC通信原理
 RPC（Remote Procedure Call Protocol）远程过程调用协议。
 
+
+
+```
+class UserService: public UserServiceRpc
+{
+    login <=== 本地方法
+    login <===== 重写protobuf提供的virtual虚函数
+    {
+        1.从LoginRequest获取参数的值
+        2.调用本地方法login，并获取返回值
+        3.用上面 的返回值填写LoginResponse
+        4.一个回调，把LoginResponse序列化发送给rpc client
+    }
+}
+
+```

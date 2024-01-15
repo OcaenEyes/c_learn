@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:57:27
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 03:13:50
+ * @LastEditTime: 2024-01-15 08:02:34
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/rpc_provider.cc
  * @Description: 注释信息
  */
@@ -39,6 +39,12 @@ void RpcProvider::Run()
 
     // 设置muduo库的线程数量
     tcpserver.setThreadNum(3);
+
+    std::cout << "RpcProvider run at ip: " << ip << " port: " << port << "\n";
+
+    // 启动网络服务
+    tcpserver.start();
+    m_eventloop.loop();
 }
 
 void RpcProvider::onConnection(const muduo::net::TcpConnectionPtr &conn)

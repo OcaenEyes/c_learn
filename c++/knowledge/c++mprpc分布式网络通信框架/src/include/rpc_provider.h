@@ -25,6 +25,9 @@ public:
     RpcProvider(/* args */);
     ~RpcProvider();
     // 这里是框架提供给外部使用，可以发布rpc方法的函数接口
+    /**
+     * 需要生成一张表，记录服务对象，及其发布的所有的服务方法
+     */
     void NotifyService(google::protobuf::Service *servcie);
     // 启动rpc服务节点，开始提供rpc远程调用服务
     void Run();
