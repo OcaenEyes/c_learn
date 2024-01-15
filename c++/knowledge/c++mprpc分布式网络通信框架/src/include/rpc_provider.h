@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:48:16
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 09:34:29
+ * @LastEditTime: 2024-01-15 22:19:48
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/include/rpc_provider.h
  * @Description: 注释信息
  */
@@ -49,4 +49,7 @@ private:
     void onConnection(const muduo::net::TcpConnectionPtr &);
     // 已建立连接用户的读写事件回调
     void onMessage(const muduo::net::TcpConnectionPtr &, muduo::net::Buffer *, muduo::Timestamp);
+
+    // Closure的回调操作，用于序列化rpc的响应和网络发送
+    void SendRpcResponse(const muduo::net::TcpConnectionPtr &, google::protobuf::Message *);
 };
