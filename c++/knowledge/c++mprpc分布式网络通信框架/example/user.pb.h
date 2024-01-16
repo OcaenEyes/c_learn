@@ -31,6 +31,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/service.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "rescode.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_user_2eproto
@@ -45,187 +46,32 @@ struct TableStruct_user_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_user_2eproto;
-namespace ocean {
+namespace ocean_mprpc {
 class LoginRequest;
 struct LoginRequestDefaultTypeInternal;
 extern LoginRequestDefaultTypeInternal _LoginRequest_default_instance_;
 class LoginResponse;
 struct LoginResponseDefaultTypeInternal;
 extern LoginResponseDefaultTypeInternal _LoginResponse_default_instance_;
-class ResultCode;
-struct ResultCodeDefaultTypeInternal;
-extern ResultCodeDefaultTypeInternal _ResultCode_default_instance_;
-}  // namespace ocean
+class RegisterRequest;
+struct RegisterRequestDefaultTypeInternal;
+extern RegisterRequestDefaultTypeInternal _RegisterRequest_default_instance_;
+class RegisterResponse;
+struct RegisterResponseDefaultTypeInternal;
+extern RegisterResponseDefaultTypeInternal _RegisterResponse_default_instance_;
+}  // namespace ocean_mprpc
 PROTOBUF_NAMESPACE_OPEN
-template<> ::ocean::LoginRequest* Arena::CreateMaybeMessage<::ocean::LoginRequest>(Arena*);
-template<> ::ocean::LoginResponse* Arena::CreateMaybeMessage<::ocean::LoginResponse>(Arena*);
-template<> ::ocean::ResultCode* Arena::CreateMaybeMessage<::ocean::ResultCode>(Arena*);
+template<> ::ocean_mprpc::LoginRequest* Arena::CreateMaybeMessage<::ocean_mprpc::LoginRequest>(Arena*);
+template<> ::ocean_mprpc::LoginResponse* Arena::CreateMaybeMessage<::ocean_mprpc::LoginResponse>(Arena*);
+template<> ::ocean_mprpc::RegisterRequest* Arena::CreateMaybeMessage<::ocean_mprpc::RegisterRequest>(Arena*);
+template<> ::ocean_mprpc::RegisterResponse* Arena::CreateMaybeMessage<::ocean_mprpc::RegisterResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
-namespace ocean {
+namespace ocean_mprpc {
 
 // ===================================================================
 
-class ResultCode final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean.ResultCode) */ {
- public:
-  inline ResultCode() : ResultCode(nullptr) {}
-  ~ResultCode() override;
-  explicit PROTOBUF_CONSTEXPR ResultCode(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  ResultCode(const ResultCode& from);
-  ResultCode(ResultCode&& from) noexcept
-    : ResultCode() {
-    *this = ::std::move(from);
-  }
-
-  inline ResultCode& operator=(const ResultCode& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ResultCode& operator=(ResultCode&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ResultCode& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ResultCode* internal_default_instance() {
-    return reinterpret_cast<const ResultCode*>(
-               &_ResultCode_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(ResultCode& a, ResultCode& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ResultCode* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ResultCode* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  ResultCode* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<ResultCode>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const ResultCode& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom(const ResultCode& from);
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ResultCode* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ocean.ResultCode";
-  }
-  protected:
-  explicit ResultCode(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kErrmsgFieldNumber = 2,
-    kErrcodeFieldNumber = 1,
-  };
-  // bytes errmsg = 2;
-  void clear_errmsg();
-  const std::string& errmsg() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_errmsg(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_errmsg();
-  PROTOBUF_NODISCARD std::string* release_errmsg();
-  void set_allocated_errmsg(std::string* errmsg);
-  private:
-  const std::string& _internal_errmsg() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_errmsg(const std::string& value);
-  std::string* _internal_mutable_errmsg();
-  public:
-
-  // int32 errcode = 1;
-  void clear_errcode();
-  int32_t errcode() const;
-  void set_errcode(int32_t value);
-  private:
-  int32_t _internal_errcode() const;
-  void _internal_set_errcode(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:ocean.ResultCode)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr errmsg_;
-  int32_t errcode_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_user_2eproto;
-};
-// -------------------------------------------------------------------
-
 class LoginRequest final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean.LoginRequest) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean_mprpc.LoginRequest) */ {
  public:
   inline LoginRequest() : LoginRequest(nullptr) {}
   ~LoginRequest() override;
@@ -272,7 +118,7 @@ class LoginRequest final :
                &_LoginRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   friend void swap(LoginRequest& a, LoginRequest& b) {
     a.Swap(&b);
@@ -326,7 +172,7 @@ class LoginRequest final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ocean.LoginRequest";
+    return "ocean_mprpc.LoginRequest";
   }
   protected:
   explicit LoginRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -374,7 +220,7 @@ class LoginRequest final :
   std::string* _internal_mutable_pwd();
   public:
 
-  // @@protoc_insertion_point(class_scope:ocean.LoginRequest)
+  // @@protoc_insertion_point(class_scope:ocean_mprpc.LoginRequest)
  private:
   class _Internal;
 
@@ -389,7 +235,7 @@ class LoginRequest final :
 // -------------------------------------------------------------------
 
 class LoginResponse final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean.LoginResponse) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean_mprpc.LoginResponse) */ {
  public:
   inline LoginResponse() : LoginResponse(nullptr) {}
   ~LoginResponse() override;
@@ -436,7 +282,7 @@ class LoginResponse final :
                &_LoginResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    1;
 
   friend void swap(LoginResponse& a, LoginResponse& b) {
     a.Swap(&b);
@@ -490,7 +336,7 @@ class LoginResponse final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ocean.LoginResponse";
+    return "ocean_mprpc.LoginResponse";
   }
   protected:
   explicit LoginResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -510,23 +356,23 @@ class LoginResponse final :
     kResFieldNumber = 1,
     kSuccessFieldNumber = 2,
   };
-  // .ocean.ResultCode res = 1;
+  // .ocean_mprpc.ResultCode res = 1;
   bool has_res() const;
   private:
   bool _internal_has_res() const;
   public:
   void clear_res();
-  const ::ocean::ResultCode& res() const;
-  PROTOBUF_NODISCARD ::ocean::ResultCode* release_res();
-  ::ocean::ResultCode* mutable_res();
-  void set_allocated_res(::ocean::ResultCode* res);
+  const ::ocean_mprpc::ResultCode& res() const;
+  PROTOBUF_NODISCARD ::ocean_mprpc::ResultCode* release_res();
+  ::ocean_mprpc::ResultCode* mutable_res();
+  void set_allocated_res(::ocean_mprpc::ResultCode* res);
   private:
-  const ::ocean::ResultCode& _internal_res() const;
-  ::ocean::ResultCode* _internal_mutable_res();
+  const ::ocean_mprpc::ResultCode& _internal_res() const;
+  ::ocean_mprpc::ResultCode* _internal_mutable_res();
   public:
   void unsafe_arena_set_allocated_res(
-      ::ocean::ResultCode* res);
-  ::ocean::ResultCode* unsafe_arena_release_res();
+      ::ocean_mprpc::ResultCode* res);
+  ::ocean_mprpc::ResultCode* unsafe_arena_release_res();
 
   // bool success = 2;
   void clear_success();
@@ -537,14 +383,352 @@ class LoginResponse final :
   void _internal_set_success(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:ocean.LoginResponse)
+  // @@protoc_insertion_point(class_scope:ocean_mprpc.LoginResponse)
  private:
   class _Internal;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::ocean::ResultCode* res_;
+  ::ocean_mprpc::ResultCode* res_;
+  bool success_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_user_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RegisterRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean_mprpc.RegisterRequest) */ {
+ public:
+  inline RegisterRequest() : RegisterRequest(nullptr) {}
+  ~RegisterRequest() override;
+  explicit PROTOBUF_CONSTEXPR RegisterRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RegisterRequest(const RegisterRequest& from);
+  RegisterRequest(RegisterRequest&& from) noexcept
+    : RegisterRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline RegisterRequest& operator=(const RegisterRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RegisterRequest& operator=(RegisterRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RegisterRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RegisterRequest* internal_default_instance() {
+    return reinterpret_cast<const RegisterRequest*>(
+               &_RegisterRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(RegisterRequest& a, RegisterRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RegisterRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RegisterRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RegisterRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RegisterRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RegisterRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const RegisterRequest& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RegisterRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ocean_mprpc.RegisterRequest";
+  }
+  protected:
+  explicit RegisterRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kPwdFieldNumber = 3,
+    kIdFieldNumber = 1,
+  };
+  // bytes name = 2;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // bytes pwd = 3;
+  void clear_pwd();
+  const std::string& pwd() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_pwd(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_pwd();
+  PROTOBUF_NODISCARD std::string* release_pwd();
+  void set_allocated_pwd(std::string* pwd);
+  private:
+  const std::string& _internal_pwd() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_pwd(const std::string& value);
+  std::string* _internal_mutable_pwd();
+  public:
+
+  // uint32 id = 1;
+  void clear_id();
+  uint32_t id() const;
+  void set_id(uint32_t value);
+  private:
+  uint32_t _internal_id() const;
+  void _internal_set_id(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ocean_mprpc.RegisterRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr pwd_;
+  uint32_t id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_user_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RegisterResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ocean_mprpc.RegisterResponse) */ {
+ public:
+  inline RegisterResponse() : RegisterResponse(nullptr) {}
+  ~RegisterResponse() override;
+  explicit PROTOBUF_CONSTEXPR RegisterResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  RegisterResponse(const RegisterResponse& from);
+  RegisterResponse(RegisterResponse&& from) noexcept
+    : RegisterResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline RegisterResponse& operator=(const RegisterResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RegisterResponse& operator=(RegisterResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const RegisterResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const RegisterResponse* internal_default_instance() {
+    return reinterpret_cast<const RegisterResponse*>(
+               &_RegisterResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(RegisterResponse& a, RegisterResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RegisterResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(RegisterResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  RegisterResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<RegisterResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const RegisterResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom(const RegisterResponse& from);
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message* to, const ::PROTOBUF_NAMESPACE_ID::Message& from);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RegisterResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ocean_mprpc.RegisterResponse";
+  }
+  protected:
+  explicit RegisterResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kResFieldNumber = 1,
+    kSuccessFieldNumber = 2,
+  };
+  // .ocean_mprpc.ResultCode res = 1;
+  bool has_res() const;
+  private:
+  bool _internal_has_res() const;
+  public:
+  void clear_res();
+  const ::ocean_mprpc::ResultCode& res() const;
+  PROTOBUF_NODISCARD ::ocean_mprpc::ResultCode* release_res();
+  ::ocean_mprpc::ResultCode* mutable_res();
+  void set_allocated_res(::ocean_mprpc::ResultCode* res);
+  private:
+  const ::ocean_mprpc::ResultCode& _internal_res() const;
+  ::ocean_mprpc::ResultCode* _internal_mutable_res();
+  public:
+  void unsafe_arena_set_allocated_res(
+      ::ocean_mprpc::ResultCode* res);
+  ::ocean_mprpc::ResultCode* unsafe_arena_release_res();
+
+  // bool success = 2;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ocean_mprpc.RegisterResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::ocean_mprpc::ResultCode* res_;
   bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_user_2eproto;
@@ -565,8 +749,12 @@ class UserServiceRpc : public ::PROTOBUF_NAMESPACE_ID::Service {
   static const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* descriptor();
 
   virtual void Login(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
-                       const ::ocean::LoginRequest* request,
-                       ::ocean::LoginResponse* response,
+                       const ::ocean_mprpc::LoginRequest* request,
+                       ::ocean_mprpc::LoginResponse* response,
+                       ::google::protobuf::Closure* done);
+  virtual void Register(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::ocean_mprpc::RegisterRequest* request,
+                       ::ocean_mprpc::RegisterResponse* response,
                        ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
@@ -598,8 +786,12 @@ class UserServiceRpc_Stub : public UserServiceRpc {
   // implements UserServiceRpc ------------------------------------------
 
   void Login(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
-                       const ::ocean::LoginRequest* request,
-                       ::ocean::LoginResponse* response,
+                       const ::ocean_mprpc::LoginRequest* request,
+                       ::ocean_mprpc::LoginResponse* response,
+                       ::google::protobuf::Closure* done);
+  void Register(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::ocean_mprpc::RegisterRequest* request,
+                       ::ocean_mprpc::RegisterResponse* response,
                        ::google::protobuf::Closure* done);
  private:
   ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel_;
@@ -617,80 +809,6 @@ class UserServiceRpc_Stub : public UserServiceRpc {
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ResultCode
-
-// int32 errcode = 1;
-inline void ResultCode::clear_errcode() {
-  errcode_ = 0;
-}
-inline int32_t ResultCode::_internal_errcode() const {
-  return errcode_;
-}
-inline int32_t ResultCode::errcode() const {
-  // @@protoc_insertion_point(field_get:ocean.ResultCode.errcode)
-  return _internal_errcode();
-}
-inline void ResultCode::_internal_set_errcode(int32_t value) {
-  
-  errcode_ = value;
-}
-inline void ResultCode::set_errcode(int32_t value) {
-  _internal_set_errcode(value);
-  // @@protoc_insertion_point(field_set:ocean.ResultCode.errcode)
-}
-
-// bytes errmsg = 2;
-inline void ResultCode::clear_errmsg() {
-  errmsg_.ClearToEmpty();
-}
-inline const std::string& ResultCode::errmsg() const {
-  // @@protoc_insertion_point(field_get:ocean.ResultCode.errmsg)
-  return _internal_errmsg();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ResultCode::set_errmsg(ArgT0&& arg0, ArgT... args) {
- 
- errmsg_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:ocean.ResultCode.errmsg)
-}
-inline std::string* ResultCode::mutable_errmsg() {
-  std::string* _s = _internal_mutable_errmsg();
-  // @@protoc_insertion_point(field_mutable:ocean.ResultCode.errmsg)
-  return _s;
-}
-inline const std::string& ResultCode::_internal_errmsg() const {
-  return errmsg_.Get();
-}
-inline void ResultCode::_internal_set_errmsg(const std::string& value) {
-  
-  errmsg_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ResultCode::_internal_mutable_errmsg() {
-  
-  return errmsg_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ResultCode::release_errmsg() {
-  // @@protoc_insertion_point(field_release:ocean.ResultCode.errmsg)
-  return errmsg_.Release();
-}
-inline void ResultCode::set_allocated_errmsg(std::string* errmsg) {
-  if (errmsg != nullptr) {
-    
-  } else {
-    
-  }
-  errmsg_.SetAllocated(errmsg, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (errmsg_.IsDefault()) {
-    errmsg_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:ocean.ResultCode.errmsg)
-}
-
-// -------------------------------------------------------------------
-
 // LoginRequest
 
 // bytes name = 1;
@@ -698,7 +816,7 @@ inline void LoginRequest::clear_name() {
   name_.ClearToEmpty();
 }
 inline const std::string& LoginRequest::name() const {
-  // @@protoc_insertion_point(field_get:ocean.LoginRequest.name)
+  // @@protoc_insertion_point(field_get:ocean_mprpc.LoginRequest.name)
   return _internal_name();
 }
 template <typename ArgT0, typename... ArgT>
@@ -706,11 +824,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void LoginRequest::set_name(ArgT0&& arg0, ArgT... args) {
  
  name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:ocean.LoginRequest.name)
+  // @@protoc_insertion_point(field_set:ocean_mprpc.LoginRequest.name)
 }
 inline std::string* LoginRequest::mutable_name() {
   std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:ocean.LoginRequest.name)
+  // @@protoc_insertion_point(field_mutable:ocean_mprpc.LoginRequest.name)
   return _s;
 }
 inline const std::string& LoginRequest::_internal_name() const {
@@ -725,7 +843,7 @@ inline std::string* LoginRequest::_internal_mutable_name() {
   return name_.Mutable(GetArenaForAllocation());
 }
 inline std::string* LoginRequest::release_name() {
-  // @@protoc_insertion_point(field_release:ocean.LoginRequest.name)
+  // @@protoc_insertion_point(field_release:ocean_mprpc.LoginRequest.name)
   return name_.Release();
 }
 inline void LoginRequest::set_allocated_name(std::string* name) {
@@ -740,7 +858,7 @@ inline void LoginRequest::set_allocated_name(std::string* name) {
     name_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:ocean.LoginRequest.name)
+  // @@protoc_insertion_point(field_set_allocated:ocean_mprpc.LoginRequest.name)
 }
 
 // bytes pwd = 2;
@@ -748,7 +866,7 @@ inline void LoginRequest::clear_pwd() {
   pwd_.ClearToEmpty();
 }
 inline const std::string& LoginRequest::pwd() const {
-  // @@protoc_insertion_point(field_get:ocean.LoginRequest.pwd)
+  // @@protoc_insertion_point(field_get:ocean_mprpc.LoginRequest.pwd)
   return _internal_pwd();
 }
 template <typename ArgT0, typename... ArgT>
@@ -756,11 +874,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void LoginRequest::set_pwd(ArgT0&& arg0, ArgT... args) {
  
  pwd_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:ocean.LoginRequest.pwd)
+  // @@protoc_insertion_point(field_set:ocean_mprpc.LoginRequest.pwd)
 }
 inline std::string* LoginRequest::mutable_pwd() {
   std::string* _s = _internal_mutable_pwd();
-  // @@protoc_insertion_point(field_mutable:ocean.LoginRequest.pwd)
+  // @@protoc_insertion_point(field_mutable:ocean_mprpc.LoginRequest.pwd)
   return _s;
 }
 inline const std::string& LoginRequest::_internal_pwd() const {
@@ -775,7 +893,7 @@ inline std::string* LoginRequest::_internal_mutable_pwd() {
   return pwd_.Mutable(GetArenaForAllocation());
 }
 inline std::string* LoginRequest::release_pwd() {
-  // @@protoc_insertion_point(field_release:ocean.LoginRequest.pwd)
+  // @@protoc_insertion_point(field_release:ocean_mprpc.LoginRequest.pwd)
   return pwd_.Release();
 }
 inline void LoginRequest::set_allocated_pwd(std::string* pwd) {
@@ -790,37 +908,31 @@ inline void LoginRequest::set_allocated_pwd(std::string* pwd) {
     pwd_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:ocean.LoginRequest.pwd)
+  // @@protoc_insertion_point(field_set_allocated:ocean_mprpc.LoginRequest.pwd)
 }
 
 // -------------------------------------------------------------------
 
 // LoginResponse
 
-// .ocean.ResultCode res = 1;
+// .ocean_mprpc.ResultCode res = 1;
 inline bool LoginResponse::_internal_has_res() const {
   return this != internal_default_instance() && res_ != nullptr;
 }
 inline bool LoginResponse::has_res() const {
   return _internal_has_res();
 }
-inline void LoginResponse::clear_res() {
-  if (GetArenaForAllocation() == nullptr && res_ != nullptr) {
-    delete res_;
-  }
-  res_ = nullptr;
+inline const ::ocean_mprpc::ResultCode& LoginResponse::_internal_res() const {
+  const ::ocean_mprpc::ResultCode* p = res_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ocean_mprpc::ResultCode&>(
+      ::ocean_mprpc::_ResultCode_default_instance_);
 }
-inline const ::ocean::ResultCode& LoginResponse::_internal_res() const {
-  const ::ocean::ResultCode* p = res_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ocean::ResultCode&>(
-      ::ocean::_ResultCode_default_instance_);
-}
-inline const ::ocean::ResultCode& LoginResponse::res() const {
-  // @@protoc_insertion_point(field_get:ocean.LoginResponse.res)
+inline const ::ocean_mprpc::ResultCode& LoginResponse::res() const {
+  // @@protoc_insertion_point(field_get:ocean_mprpc.LoginResponse.res)
   return _internal_res();
 }
 inline void LoginResponse::unsafe_arena_set_allocated_res(
-    ::ocean::ResultCode* res) {
+    ::ocean_mprpc::ResultCode* res) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(res_);
   }
@@ -830,11 +942,11 @@ inline void LoginResponse::unsafe_arena_set_allocated_res(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ocean.LoginResponse.res)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ocean_mprpc.LoginResponse.res)
 }
-inline ::ocean::ResultCode* LoginResponse::release_res() {
+inline ::ocean_mprpc::ResultCode* LoginResponse::release_res() {
   
-  ::ocean::ResultCode* temp = res_;
+  ::ocean_mprpc::ResultCode* temp = res_;
   res_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
@@ -847,34 +959,35 @@ inline ::ocean::ResultCode* LoginResponse::release_res() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::ocean::ResultCode* LoginResponse::unsafe_arena_release_res() {
-  // @@protoc_insertion_point(field_release:ocean.LoginResponse.res)
+inline ::ocean_mprpc::ResultCode* LoginResponse::unsafe_arena_release_res() {
+  // @@protoc_insertion_point(field_release:ocean_mprpc.LoginResponse.res)
   
-  ::ocean::ResultCode* temp = res_;
+  ::ocean_mprpc::ResultCode* temp = res_;
   res_ = nullptr;
   return temp;
 }
-inline ::ocean::ResultCode* LoginResponse::_internal_mutable_res() {
+inline ::ocean_mprpc::ResultCode* LoginResponse::_internal_mutable_res() {
   
   if (res_ == nullptr) {
-    auto* p = CreateMaybeMessage<::ocean::ResultCode>(GetArenaForAllocation());
+    auto* p = CreateMaybeMessage<::ocean_mprpc::ResultCode>(GetArenaForAllocation());
     res_ = p;
   }
   return res_;
 }
-inline ::ocean::ResultCode* LoginResponse::mutable_res() {
-  ::ocean::ResultCode* _msg = _internal_mutable_res();
-  // @@protoc_insertion_point(field_mutable:ocean.LoginResponse.res)
+inline ::ocean_mprpc::ResultCode* LoginResponse::mutable_res() {
+  ::ocean_mprpc::ResultCode* _msg = _internal_mutable_res();
+  // @@protoc_insertion_point(field_mutable:ocean_mprpc.LoginResponse.res)
   return _msg;
 }
-inline void LoginResponse::set_allocated_res(::ocean::ResultCode* res) {
+inline void LoginResponse::set_allocated_res(::ocean_mprpc::ResultCode* res) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
-    delete res_;
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(res_);
   }
   if (res) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(res);
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(res));
     if (message_arena != submessage_arena) {
       res = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
           message_arena, res, submessage_arena);
@@ -884,7 +997,7 @@ inline void LoginResponse::set_allocated_res(::ocean::ResultCode* res) {
     
   }
   res_ = res;
-  // @@protoc_insertion_point(field_set_allocated:ocean.LoginResponse.res)
+  // @@protoc_insertion_point(field_set_allocated:ocean_mprpc.LoginResponse.res)
 }
 
 // bool success = 2;
@@ -895,7 +1008,7 @@ inline bool LoginResponse::_internal_success() const {
   return success_;
 }
 inline bool LoginResponse::success() const {
-  // @@protoc_insertion_point(field_get:ocean.LoginResponse.success)
+  // @@protoc_insertion_point(field_get:ocean_mprpc.LoginResponse.success)
   return _internal_success();
 }
 inline void LoginResponse::_internal_set_success(bool value) {
@@ -904,7 +1017,240 @@ inline void LoginResponse::_internal_set_success(bool value) {
 }
 inline void LoginResponse::set_success(bool value) {
   _internal_set_success(value);
-  // @@protoc_insertion_point(field_set:ocean.LoginResponse.success)
+  // @@protoc_insertion_point(field_set:ocean_mprpc.LoginResponse.success)
+}
+
+// -------------------------------------------------------------------
+
+// RegisterRequest
+
+// uint32 id = 1;
+inline void RegisterRequest::clear_id() {
+  id_ = 0u;
+}
+inline uint32_t RegisterRequest::_internal_id() const {
+  return id_;
+}
+inline uint32_t RegisterRequest::id() const {
+  // @@protoc_insertion_point(field_get:ocean_mprpc.RegisterRequest.id)
+  return _internal_id();
+}
+inline void RegisterRequest::_internal_set_id(uint32_t value) {
+  
+  id_ = value;
+}
+inline void RegisterRequest::set_id(uint32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:ocean_mprpc.RegisterRequest.id)
+}
+
+// bytes name = 2;
+inline void RegisterRequest::clear_name() {
+  name_.ClearToEmpty();
+}
+inline const std::string& RegisterRequest::name() const {
+  // @@protoc_insertion_point(field_get:ocean_mprpc.RegisterRequest.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RegisterRequest::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ name_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ocean_mprpc.RegisterRequest.name)
+}
+inline std::string* RegisterRequest::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:ocean_mprpc.RegisterRequest.name)
+  return _s;
+}
+inline const std::string& RegisterRequest::_internal_name() const {
+  return name_.Get();
+}
+inline void RegisterRequest::_internal_set_name(const std::string& value) {
+  
+  name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RegisterRequest::_internal_mutable_name() {
+  
+  return name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RegisterRequest::release_name() {
+  // @@protoc_insertion_point(field_release:ocean_mprpc.RegisterRequest.name)
+  return name_.Release();
+}
+inline void RegisterRequest::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (name_.IsDefault()) {
+    name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ocean_mprpc.RegisterRequest.name)
+}
+
+// bytes pwd = 3;
+inline void RegisterRequest::clear_pwd() {
+  pwd_.ClearToEmpty();
+}
+inline const std::string& RegisterRequest::pwd() const {
+  // @@protoc_insertion_point(field_get:ocean_mprpc.RegisterRequest.pwd)
+  return _internal_pwd();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void RegisterRequest::set_pwd(ArgT0&& arg0, ArgT... args) {
+ 
+ pwd_.SetBytes(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:ocean_mprpc.RegisterRequest.pwd)
+}
+inline std::string* RegisterRequest::mutable_pwd() {
+  std::string* _s = _internal_mutable_pwd();
+  // @@protoc_insertion_point(field_mutable:ocean_mprpc.RegisterRequest.pwd)
+  return _s;
+}
+inline const std::string& RegisterRequest::_internal_pwd() const {
+  return pwd_.Get();
+}
+inline void RegisterRequest::_internal_set_pwd(const std::string& value) {
+  
+  pwd_.Set(value, GetArenaForAllocation());
+}
+inline std::string* RegisterRequest::_internal_mutable_pwd() {
+  
+  return pwd_.Mutable(GetArenaForAllocation());
+}
+inline std::string* RegisterRequest::release_pwd() {
+  // @@protoc_insertion_point(field_release:ocean_mprpc.RegisterRequest.pwd)
+  return pwd_.Release();
+}
+inline void RegisterRequest::set_allocated_pwd(std::string* pwd) {
+  if (pwd != nullptr) {
+    
+  } else {
+    
+  }
+  pwd_.SetAllocated(pwd, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (pwd_.IsDefault()) {
+    pwd_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ocean_mprpc.RegisterRequest.pwd)
+}
+
+// -------------------------------------------------------------------
+
+// RegisterResponse
+
+// .ocean_mprpc.ResultCode res = 1;
+inline bool RegisterResponse::_internal_has_res() const {
+  return this != internal_default_instance() && res_ != nullptr;
+}
+inline bool RegisterResponse::has_res() const {
+  return _internal_has_res();
+}
+inline const ::ocean_mprpc::ResultCode& RegisterResponse::_internal_res() const {
+  const ::ocean_mprpc::ResultCode* p = res_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ocean_mprpc::ResultCode&>(
+      ::ocean_mprpc::_ResultCode_default_instance_);
+}
+inline const ::ocean_mprpc::ResultCode& RegisterResponse::res() const {
+  // @@protoc_insertion_point(field_get:ocean_mprpc.RegisterResponse.res)
+  return _internal_res();
+}
+inline void RegisterResponse::unsafe_arena_set_allocated_res(
+    ::ocean_mprpc::ResultCode* res) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(res_);
+  }
+  res_ = res;
+  if (res) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ocean_mprpc.RegisterResponse.res)
+}
+inline ::ocean_mprpc::ResultCode* RegisterResponse::release_res() {
+  
+  ::ocean_mprpc::ResultCode* temp = res_;
+  res_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::ocean_mprpc::ResultCode* RegisterResponse::unsafe_arena_release_res() {
+  // @@protoc_insertion_point(field_release:ocean_mprpc.RegisterResponse.res)
+  
+  ::ocean_mprpc::ResultCode* temp = res_;
+  res_ = nullptr;
+  return temp;
+}
+inline ::ocean_mprpc::ResultCode* RegisterResponse::_internal_mutable_res() {
+  
+  if (res_ == nullptr) {
+    auto* p = CreateMaybeMessage<::ocean_mprpc::ResultCode>(GetArenaForAllocation());
+    res_ = p;
+  }
+  return res_;
+}
+inline ::ocean_mprpc::ResultCode* RegisterResponse::mutable_res() {
+  ::ocean_mprpc::ResultCode* _msg = _internal_mutable_res();
+  // @@protoc_insertion_point(field_mutable:ocean_mprpc.RegisterResponse.res)
+  return _msg;
+}
+inline void RegisterResponse::set_allocated_res(::ocean_mprpc::ResultCode* res) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(res_);
+  }
+  if (res) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(res));
+    if (message_arena != submessage_arena) {
+      res = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, res, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  res_ = res;
+  // @@protoc_insertion_point(field_set_allocated:ocean_mprpc.RegisterResponse.res)
+}
+
+// bool success = 2;
+inline void RegisterResponse::clear_success() {
+  success_ = false;
+}
+inline bool RegisterResponse::_internal_success() const {
+  return success_;
+}
+inline bool RegisterResponse::success() const {
+  // @@protoc_insertion_point(field_get:ocean_mprpc.RegisterResponse.success)
+  return _internal_success();
+}
+inline void RegisterResponse::_internal_set_success(bool value) {
+  
+  success_ = value;
+}
+inline void RegisterResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:ocean_mprpc.RegisterResponse.success)
 }
 
 #ifdef __GNUC__
@@ -914,10 +1260,12 @@ inline void LoginResponse::set_success(bool value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace ocean
+}  // namespace ocean_mprpc
 
 // @@protoc_insertion_point(global_scope)
 

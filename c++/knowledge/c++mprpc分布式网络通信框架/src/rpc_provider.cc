@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:57:27
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 22:13:25
+ * @LastEditTime: 2024-01-16 03:44:17
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/rpc_provider.cc
  * @Description: 注释信息
  */
@@ -134,6 +134,7 @@ void RpcProvider::onMessage(const muduo::net::TcpConnectionPtr &conn, muduo::net
 
     // 打印调式信息
     std::cout << "===========================================================\n";
+    std::cout << "RpcProvider::onMessage\n";
     std::cout << "header_size: " << header_size << "\n";
     std::cout << "rpc_header_str: " << rpc_header_str << "\n";
     std::cout << "service_name: " << service_name << "\n";
