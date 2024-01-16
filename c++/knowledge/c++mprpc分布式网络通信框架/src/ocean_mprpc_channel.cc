@@ -2,12 +2,13 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-15 15:01:52
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-16 07:10:48
+ * @LastEditTime: 2024-01-16 14:41:36
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/ocean_mprpc_channel.cc
  * @Description: 注释信息
  */
 #include "ocean_mprpc_channel.h"
 #include "ocean_mprpc_application.h"
+#include "ocean_mprpc_controller.h"
 #include "rpcheader.pb.h"
 
 #include <string>
@@ -43,7 +44,8 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     }
     else
     {
-        std::cout << "serialize request error!\n";
+        // std::cout << "serialize request error!\n";
+        controller->SetFailed("serialize request error!");
         return;
     }
 
@@ -61,7 +63,8 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     }
     else
     {
-        std::cout << "serialize rpc_header to rpc_header_str error!\n";
+        // std::cout << "serialize rpc_header to rpc_header_str error!\n";
+        controller->SetFailed("serialize rpc_header to rpc_header_str error!");
         return;
     }
 
@@ -86,7 +89,10 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     int clientfd = socket(AF_INET, SOCK_STREAM, 0);
     if (clientfd == -1)
     {
-        std::cout << "create client socket error: " << errno << "\n";
+        char errtxt[512] = {0};
+        sprintf(errtxt, "create client socket error: %d", errno);
+        // std::cout << "create client socket error: " << errno << "\n";
+        controller->SetFailed(errtxt);
         exit(EXIT_FAILURE);
     }
 
@@ -102,14 +108,20 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     // 发起连接rpc服务节点
     if (connect(clientfd, (sockaddr *)&server_addr, sizeof(server_addr)) == -1)
     {
-        std::cout << "connet error: " << errno << "\n";
+        char errtxt[512] = {0};
+        sprintf(errtxt, "connet error: %d", errno);
+        // std::cout << "connet error: " << errno << "\n";
+        controller->SetFailed(errtxt);
         exit(EXIT_FAILURE);
     }
 
     // 发送rpc服务请求
     if (send(clientfd, send_rpc_str.c_str(), send_rpc_str.size(), 0) == -1)
     {
-        std::cout << "send error: " << errno << "\n";
+        char errtxt[512] = {0};
+        sprintf(errtxt, "send error: %d", errno);
+        // std::cout << "send error: " << errno << "\n";
+        controller->SetFailed(errtxt);
         close(clientfd);
     }
 
@@ -118,16 +130,22 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     int recv_size = 0;
     if ((recv_size = recv(clientfd, recv_buf, 1024, 0)) == -1)
     {
-        std::cout << "recv error: " << errno << "\n";
+        char errtxt[512] = {0};
+        sprintf(errtxt, "recv error: %d", errno);
+        // std::cout << "recv error: " << errno << "\n";
+        controller->SetFailed(errtxt);
         close(clientfd);
         return;
     }
 
     // std::string response_str(recv_buf, 0, recv_size); // 由于recv_buf 在处理的过程中，遇到0就结束，导致异常 放弃该转换方法
     // if (!response->ParseFromString(response_str)) // 解析response_str
-    if(!response->ParseFromArray(recv_buf,recv_size))
+    if (!response->ParseFromArray(recv_buf, recv_size))
     {
-        std::cout << "response parse response_str error: " << errno << "\n";
+        char errtxt[512] = {0};
+        // std::cout << "response parse response_str error: " << errno << "\n";
+        sprintf(errtxt, "response parse response_str error: %d", errno);
+        controller->SetFailed(errtxt);
         close(clientfd);
         return;
     }
