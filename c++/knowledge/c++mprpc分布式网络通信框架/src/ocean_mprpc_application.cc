@@ -2,11 +2,12 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:57:10
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 08:00:37
+ * @LastEditTime: 2024-01-17 06:28:35
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/ocean_mprpc_application.cc
  * @Description: 注释信息
  */
 #include "ocean_mprpc_application.h"
+#include "ocean_logger.h"
 
 #include <iostream>
 #include <unistd.h>
@@ -17,6 +18,7 @@ OCEANMprpcConfig OCEANMprpcApplication::m_config;
 void ShowArgsHelp()
 {
     std::cout << "format: command -i <configfile>\n";
+    LOG_ERROR("format: command -i <configfile>");
 }
 
 OCEANMprpcApplication::OCEANMprpcApplication()
@@ -66,10 +68,12 @@ void OCEANMprpcApplication::Init(int argc, char **argv)
             break;
         case '?':
             std::cout << "invalid args! \n";
+            LOG_ERROR("invalid args!");
             ShowArgsHelp();
             exit(EXIT_FAILURE);
         case ':':
             std::cout << "invalid args! \n";
+            LOG_ERROR("invalid args!");
             ShowArgsHelp();
             exit(EXIT_FAILURE);
 

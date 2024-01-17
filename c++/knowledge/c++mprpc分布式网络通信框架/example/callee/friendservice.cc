@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-16 08:50:39
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-16 08:51:49
+ * @LastEditTime: 2024-01-17 06:01:24
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/example/callee/friendservice.cc
  * @Description: 注释信息
  */
@@ -13,6 +13,7 @@
 #include "../rescode.pb.h"
 #include "ocean_mprpc_application.h"
 #include "rpc_provider.h"
+#include "ocean_logger.h"
 
 class FriendService : public ocean_mprpc::FriendServiceRpc
 {
@@ -58,6 +59,8 @@ int main(int argc, char **argv)
     // 常规本进程调用
     // UserService us;
     // us.Login("xxx","xxx");
+    LOG_INFO("first log message!");
+    LOG_ERROR("%s:%s:%d", __FILE__, __FUNCTION__, __LINE__);
 
     // 调用RPC框架的初始化操作
     OCEANMprpcApplication::Init(argc, argv);

@@ -2,11 +2,12 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 14:27:51
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 02:43:34
+ * @LastEditTime: 2024-01-17 06:30:07
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/ocean_mprpc_config.cpp
  * @Description: 注释信息
  */
 #include "ocean_mprpc_config.h"
+#include "ocean_logger.h"
 
 #include <iostream>
 
@@ -24,6 +25,7 @@ void OCEANMprpcConfig::LoadConfigFile(const char *config_file)
     if (pf == nullptr)
     {
         std::cout << config_file << "config_file is not exist! \n";
+        LOG_ERROR("%s config_file is not exist!", config_file);
         exit(EXIT_FAILURE);
     }
 
@@ -59,7 +61,7 @@ void OCEANMprpcConfig::LoadConfigFile(const char *config_file)
         int endidx = src_buf.find('\n', idx);
         value = src_buf.substr(idx + 1, endidx - idx - 1);
         Trim(value);
-        
+
         m_config_map.insert({key, value});
     }
 }

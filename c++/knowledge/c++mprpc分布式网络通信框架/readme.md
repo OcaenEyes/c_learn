@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-15 08:11:04
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-15 08:13:38
+ * @LastEditTime: 2024-01-17 09:45:13
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/readme.md
  * @Description: 注释信息
 -->
@@ -29,7 +29,6 @@
 RPC（Remote Procedure Call Protocol）远程过程调用协议。
 
 
-
 ```
 class UserService: public UserServiceRpc
 {
@@ -42,5 +41,19 @@ class UserService: public UserServiceRpc
         4.一个回调，把LoginResponse序列化发送给rpc client
     }
 }
+
+```
+
+## zookeeper
+
+zk客户端常用命令 ls、get、create、set、delete
+
+```
+   头文件： /usr/bin/mkdir -p '/usr/local/include/zookeeper'
+    /usr/bin/install -c -m 644 include/zookeeper.h include/zookeeper_version.h include/zookeeper_log.h include/proto.h include/recordio.h generated/zookeeper.jute.h '/usr/local/include/zookeeper'
+
+   库文件： Libraries have been installed in: /usr/local/lib
+
+
 
 ```

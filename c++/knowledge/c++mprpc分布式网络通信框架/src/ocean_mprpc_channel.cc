@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-15 15:01:52
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-16 14:41:36
+ * @LastEditTime: 2024-01-17 06:29:50
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/ocean_mprpc_channel.cc
  * @Description: 注释信息
  */
@@ -74,16 +74,16 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     send_rpc_str += rpc_header_str;
     send_rpc_str += args_str;
 
-    // 打印调式信息
-    std::cout << "===========================================================\n";
-    std::cout << "OCEANMprpcChannel::CallMethod\n";
-    std::cout << "header_size: " << header_size << "\n";
-    std::cout << "rpc_header_str: " << rpc_header_str << "\n";
-    std::cout << "service_name: " << service_name << "\n";
-    std::cout << "method_name: " << method_name << "\n";
-    std::cout << "args_str: " << args_str << "\n";
-    std::cout << "send_rpc_str: " << send_rpc_str << "\n";
-    std::cout << "===========================================================\n";
+    // // 打印调式信息
+    // std::cout << "===========================================================\n";
+    // std::cout << "OCEANMprpcChannel::CallMethod\n";
+    // std::cout << "header_size: " << header_size << "\n";
+    // std::cout << "rpc_header_str: " << rpc_header_str << "\n";
+    // std::cout << "service_name: " << service_name << "\n";
+    // std::cout << "method_name: " << method_name << "\n";
+    // std::cout << "args_str: " << args_str << "\n";
+    // std::cout << "send_rpc_str: " << send_rpc_str << "\n";
+    // std::cout << "===========================================================\n";
 
     // 使用tcp编程， 完成rpc方法的调用
     int clientfd = socket(AF_INET, SOCK_STREAM, 0);
