@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-17 11:37:40
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-17 21:45:54
+ * @LastEditTime: 2024-01-17 15:43:42
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/zookeeper_util.cc
  * @Description: 注释信息
  */
@@ -106,6 +106,7 @@ std::string ZkClient::GetData(const char *path)
     }
     else
     {
+        std::cout << "get znode from path: " << path << " buf: " << buf << "success\n";
         return buf;
     }
 }

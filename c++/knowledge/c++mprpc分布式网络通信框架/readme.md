@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-15 08:11:04
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-17 09:45:13
+ * @LastEditTime: 2024-01-17 14:27:25
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/readme.md
  * @Description: 注释信息
 -->
@@ -53,6 +53,9 @@ zk客户端常用命令 ls、get、create、set、delete
     /usr/bin/install -c -m 644 include/zookeeper.h include/zookeeper_version.h include/zookeeper_log.h include/proto.h include/recordio.h generated/zookeeper.jute.h '/usr/local/include/zookeeper'
 
    库文件： Libraries have been installed in: /usr/local/lib
+
+   sudo sh -c "echo '/usr/local/lib' >> /etc/ld.so.conf"
+   ldconfig
 
 
 

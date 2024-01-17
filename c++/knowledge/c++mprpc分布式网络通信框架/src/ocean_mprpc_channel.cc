@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-15 15:01:52
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-17 06:29:50
+ * @LastEditTime: 2024-01-17 15:45:30
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/ocean_mprpc_channel.cc
  * @Description: 注释信息
  */
@@ -10,6 +10,7 @@
 #include "ocean_mprpc_application.h"
 #include "ocean_mprpc_controller.h"
 #include "rpcheader.pb.h"
+#include "zookeeper_util.h"
 
 #include <string>
 #include <sys/socket.h>
@@ -97,8 +98,34 @@ void OCEANMprpcChannel::CallMethod(const google::protobuf::MethodDescriptor *met
     }
 
     // 读取配置文件rpcserver的信息
-    std::string ip = OCEANMprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
-    uint16_t port = atoi(OCEANMprpcApplication::GetInstance().GetConfig().Load("rpcserverport").c_str());
+    // std::string ip = OCEANMprpcApplication::GetInstance().GetConfig().Load("rpcserverip");
+    // uint16_t port = atoi(OCEANMprpcApplication::GetInstance().GetConfig().Load("rpcserverport").c_str());
+
+    ZkClient zkCli;
+    zkCli.Start();
+
+    // /UserServiceRpc/Login
+    std::string method_path = "/" + service_name + "/" + method_name;
+    // 127.0.0.1:8000
+    std::string host_data = zkCli.GetData(method_path.c_str());
+
+    std::cout << "host_data: " << host_data << "\n";
+
+    if (host_data == "")
+    {
+        controller->SetFailed(method_path + " is not exist!");
+        return;
+    }
+
+    int idx = host_data.find(":");
+    if (idx == -1)
+    {
+        controller->SetFailed(method_path + " addres is invalid!");
+        return;
+    }
+
+    std::string ip = host_data.substr(0, idx);
+    uint16_t port = atoi(host_data.substr(idx + 1, host_data.size() - idx).c_str());
 
     sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
