@@ -12,4 +12,4 @@ message(${MUDUOBASE})
 
 aux_source_directory(. SRC_LIST)
 add_library(ocean_mprpc SHARED ${SRC_LIST})
-target_link_libraries(ocean_mprpc ${MUDUONET} ${MUDUOBASE})
+target_link_libraries(ocean_mprpc ${MUDUONET} ${MUDUOBASE} pthread zookeeper_mt)

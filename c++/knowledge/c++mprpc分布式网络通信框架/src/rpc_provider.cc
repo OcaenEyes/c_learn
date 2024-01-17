@@ -2,7 +2,7 @@
  * @Author: OCEAN.GZY
  * @Date: 2024-01-14 12:57:27
  * @LastEditors: OCEAN.GZY
- * @LastEditTime: 2024-01-17 06:33:57
+ * @LastEditTime: 2024-01-17 22:08:51
  * @FilePath: /c++/knowledge/c++mprpc分布式网络通信框架/src/rpc_provider.cc
  * @Description: 注释信息
  */
@@ -10,6 +10,7 @@
 #include "ocean_mprpc_application.h"
 #include "rpcheader.pb.h"
 #include "ocean_logger.h"
+#include "zookeeper_util.h"
 
 #include <functional>
 #include <google/protobuf/descriptor.h>
@@ -75,6 +76,27 @@ void RpcProvider::Run()
 
     // 设置muduo库的线程数量
     tcpserver.setThreadNum(3);
+
+    // 把当前rpc节点上要发布的服务全部注册到zk上面， 让rpc client可以从zk上发现服务
+    ZkClient zkCli;
+    zkCli.Start();
+    // service_name 为永久性节点， method_name为临时性节点
+    for (auto &&i : m_service_map)
+    {
+        // service_name
+        std::string service_path = "/" + i.first;
+        zkCli.Create(service_path.c_str(), nullptr, 0); // state=0 表示永久性节点
+        for (auto &&j : i.second.m_method_map)
+        {
+            //  /service_name/method_name
+            std::string method_path = service_path + "/" + j.first;
+            char method_path_data[128] = {0};
+            sprintf(method_path_data, "%s:%d", ip.c_str(), port);
+
+            // ZOO_EPHEMERAL 表示临时节点
+            zkCli.Create(method_path.c_str(), method_path_data, strlen(method_path_data), ZOO_EPHEMERAL);
+        }
+    }
 
     // std::cout << "RpcProvider run at ip: " << ip << " port: " << port << "\n";
     LOG_INFO("RpcProvider run at ip: %s port: %d", ip.c_str(), port);
